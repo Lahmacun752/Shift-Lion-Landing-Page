@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://shift-lion-landing-page.vercel.app/sitemap.xml
+Sitemap: https://shiftlion.app/sitemap.xml
