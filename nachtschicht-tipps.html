@@ -63,7 +63,7 @@ body {
   margin: 0;
   font-family: Inter, system-ui, sans-serif;
   background: #020617;
-  color: var(--text);
+  color: #0f172a;
 }
 
 img {
@@ -78,14 +78,7 @@ img {
   min-height: 100vh;
   overflow-x: hidden;
 
-  background:
-    linear-gradient(
-      180deg,
-      #000000 0%,
-      #0f172a 38%,
-      #e2e8f0 38%,
-      #e2e8f0 100%
-    );
+background: #e2e8f0;
 
   box-shadow: 0 0 40px rgba(15, 23, 42, .18);
 }
@@ -103,18 +96,19 @@ img {
       border-bottom-right-radius: 32px;
     }
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 18px;
-    }
+ .topbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 18px;
+}
 
-    .brand-logo {
-      height: 120px;
-      width: auto;
-      display: block;
-    }
+  .brand-logo {
+  height: 120px;
+  max-width: 100%;
+  width: auto;
+  display: block;
+}
 
     .pill {
       font-size: 12px;
@@ -131,6 +125,7 @@ img {
       line-height: 1;
       margin: 0 0 14px;
       letter-spacing: -0.05em;
+        overflow-wrap: break-word;
     }
 
     .lead {
@@ -246,9 +241,7 @@ img {
           class="brand-logo"
         />
 
-        <div class="pill">
-          Nachtschicht Tipps
-        </div>
+      
 
       </div>
 
@@ -463,13 +456,14 @@ img {
         Schichten, freie Tage und deinen Alltag besser zu organisieren.
       </p>
 
-      <a
-        href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro"
-        class="btn"
-        target="_blank"
-      >
-     Shift Lion im Play Store herunterladen
-      </a>
+    <a
+  href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro"
+  class="btn"
+  target="_blank"
+  rel="noopener noreferrer"
+>
+  Shift Lion im Play Store herunterladen
+</a>
 
     </section>
 
