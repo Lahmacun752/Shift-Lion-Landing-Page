@@ -55,37 +55,50 @@
       --gold: #d4a017;
     }
 
-    * {
-      box-sizing: border-box;
-    }
+  * {
+  box-sizing: border-box;
+}
 
-    html {
-      scroll-behavior: smooth;
-    }
+html {
+  scroll-behavior: smooth;
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+}
 
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, sans-serif;
-      background: #e2e8f0;
-      color: var(--text);
-    }
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: #020617;
+  color: var(--text);
+}
 
-    .app {
-      max-width: 480px;
-      margin: 0 auto;
-      min-height: 100vh;
+img {
+  max-width: 100%;
+  height: auto;
+}
 
-      background:
-        linear-gradient(
-          180deg,
-          #000000 0%,
-          #0f172a 38%,
-          #e2e8f0 38%,
-          #e2e8f0 100%
-        );
+.app {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  overflow-x: hidden;
 
-      box-shadow: 0 0 40px rgba(15, 23, 42, .18);
-    }
+  background:
+    linear-gradient(
+      180deg,
+      #000000 0%,
+      #0f172a 38%,
+      #e2e8f0 38%,
+      #e2e8f0 100%
+    );
+
+  box-shadow: 0 0 40px rgba(15, 23, 42, .18);
+}
 
   .hero {
   color: white;
