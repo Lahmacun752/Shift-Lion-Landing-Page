@@ -105,26 +105,27 @@ img {
   padding: 20px 18px 10px;
 }
 
-  .topbar {
+.topbar {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  margin-bottom: 10px;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 12px;
 }
 
-  .brand {
+.brand {
   display: flex;
+  justify-content: center;
   align-items: center;
-  padding-top: 10px;
+  width: 100%;
 }
 
 .brand-logo {
-  height: 150px;
+  height: 140px;
+  max-width: 100%;
   width: auto;
   display: block;
   object-fit: contain;
 }
-
     .pill {
       font-size: 12px;
       padding: 7px 10px;
@@ -512,23 +513,21 @@ img {
 
   <main class="app">
 
-    <section class="hero">
+   <section class="hero">
 
-      <div class="topbar">
+  <div class="topbar">
+    <div class="brand">
+      <img
+        src="Shift-Lion-Logo-groß.png"
+        alt="Shift Lion Logo"
+        class="brand-logo"
+      />
+    </div>
+  </div>
 
-        <div class="brand">
-          <img
-       src="Shift-Lion-Logo-groß.png"
-            alt="Shift Lion Logo"
-            class="brand-logo"
-          />
-        </div>
-
-     
-
-      <h1>
-        Wann habt ihr endlich gemeinsam frei?
-      </h1>
+  <h1>
+    Wann habt ihr endlich gemeinsam frei?
+  </h1>
 
       <p class="lead">
         Vergleiche zwei Schichtrhythmen und finde sofort gemeinsame freie Tage.
