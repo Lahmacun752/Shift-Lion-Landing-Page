@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    {
+      "source": "/(.*)",
+      "has": [{"type": "host", "value": "shift-lion-landing-page.vercel.app"}],
+      "destination": "https://shiftlion.app/$1",
+      "permanent": true
+    }
+  ]
+}
