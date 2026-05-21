@@ -44,22 +44,41 @@
 />
 
   <style>
-    * { box-sizing: border-box; }
+ * {
+  box-sizing: border-box;
+}
 
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, sans-serif;
-      background: #e2e8f0;
-      color: #0f172a;
-    }
+html {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  scroll-behavior: smooth;
+}
 
-    .app {
-      max-width: 480px;
-      margin: 0 auto;
-      min-height: 100vh;
-      background: #e2e8f0;
-      box-shadow: 0 0 40px rgba(15, 23, 42, .18);
-    }
+body {
+  width: 100%;
+  max-width: 100%;
+  overflow-x: hidden;
+  margin: 0;
+  font-family: Inter, system-ui, sans-serif;
+  background: #020617;
+  color: #0f172a;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+.app {
+  width: 100%;
+  max-width: 480px;
+  margin: 0 auto;
+  min-height: 100vh;
+  background: #e2e8f0;
+  box-shadow: 0 0 40px rgba(15,23,42,.18);
+  overflow-x: hidden;
+}
 
     .hero {
       background: #020617;
@@ -69,34 +88,27 @@
       border-bottom-right-radius: 32px;
     }
 
-    .topbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: flex-start;
-      margin-bottom: 18px;
-    }
+ .topbar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 18px;
+}
+ .brand-logo {
+  height: 120px;
+  max-width: 100%;
+  width: auto;
+  display: block;
+}
 
-    .brand-logo {
-      height: 120px;
-      width: auto;
-      display: block;
-    }
-
-    .pill {
-      font-size: 12px;
-      padding: 7px 10px;
-      border-radius: 999px;
-      background: rgba(255,255,255,.10);
-      border: 1px solid rgba(255,255,255,.16);
-      color: white;
-      white-space: nowrap;
-    }
+ 
 
     h1 {
       font-size: 36px;
       line-height: 1;
       margin: 0 0 14px;
       letter-spacing: -0.05em;
+       letter-spacing: -0.05em;
     }
 
     .lead {
@@ -426,14 +438,14 @@
         Früh-, Spät-, Nacht- und freie Tage übersichtlich zu planen.
       </p>
 
-     <a
+   <a
   href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro"
   class="btn"
   target="_blank"
   rel="noopener noreferrer"
 >
-       Shift Lion im Play Store herunterladen
-      </a>
+  Shift Lion im Play Store herunterladen
+</a>
 
     </section>
 
