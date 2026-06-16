@@ -1,0 +1,1161 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>
+    Shift Lion – Find shared days off
+  </title>
+
+  <meta
+    name="description"
+    content="Compare shift rotations and find shared days off with Shift Lion. A modern shift planner for early shifts, late shifts, night shifts and rotating schedules."
+  />
+
+  <meta
+    property="og:title"
+    content="Shift Lion – Modern Shift Planner"
+  />
+
+  <meta
+    property="og:description"
+    content="Compare shifts, find shared days off and organize your shift work life with Shift Lion."
+  />
+
+  <meta
+    property="og:image"
+    content="https://shiftlion.app/kalender.jpg"
+  />
+
+  <meta
+    property="og:type"
+    content="website"
+  />
+
+  <meta
+    property="og:url"
+    content="https://shiftlion.app/en/"
+  />
+
+  <link rel="icon" href="../favicon.png" />
+
+  <link
+    rel="canonical"
+    href="https://shiftlion.app/en/"
+  />
+
+  <link rel="alternate" hreflang="de" href="https://shiftlion.app/" />
+  <link rel="alternate" hreflang="en" href="https://shiftlion.app/en/" />
+  <link rel="alternate" hreflang="x-default" href="https://shiftlion.app/en/" />
+
+  <style>
+    :root {
+      --dark: #06101f;
+      --card: #ffffff;
+      --soft: #f1f5f9;
+      --text: #0f172a;
+      --muted: #64748b;
+      --green: #10b981;
+      --gold: #d4a017;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      scroll-behavior: smooth;
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+    }
+
+    body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: #020617;
+      color: var(--text);
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      overflow-x: hidden;
+
+      background:
+        linear-gradient(
+          180deg,
+          #000000 0%,
+          #0f172a 38%,
+          #e2e8f0 38%,
+          #e2e8f0 100%
+        );
+
+      box-shadow: 0 0 40px rgba(15, 23, 42, .18);
+    }
+
+    .hero {
+      color: white;
+      padding: 20px 18px 10px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 12px;
+      position: relative;
+    }
+
+    .language-switch {
+      position: absolute;
+      top: 0;
+      right: 0;
+      display: flex;
+      gap: 6px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .language-switch a {
+      color: white;
+      text-decoration: none;
+      padding: 6px 8px;
+      border-radius: 999px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.14);
+    }
+
+    .language-switch a.active {
+      background: white;
+      color: black;
+    }
+
+    .brand {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+    }
+
+    .brand-logo {
+      height: 140px;
+      max-width: 100%;
+      width: auto;
+      display: block;
+      object-fit: contain;
+    }
+
+    h1 {
+      font-size: 38px;
+      line-height: .98;
+      margin: 0 0 14px;
+      letter-spacing: -0.055em;
+    }
+
+    .lead {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 16.5px;
+      line-height: 1.55;
+    }
+
+    .hero-actions {
+      display: grid;
+      gap: 10px;
+      margin-top: 20px;
+    }
+
+    .btn {
+      appearance: none;
+      border: 0;
+      border-radius: 18px;
+      padding: 15px 16px;
+      font-size: 16px;
+      font-weight: 900;
+      text-align: center;
+      text-decoration: none;
+      cursor: pointer;
+      width: 100%;
+      display: block;
+    }
+
+    .btn-primary {
+      background: white;
+      color: black;
+    }
+
+    .btn-outline {
+      background: rgba(255,255,255,.08);
+      color: white;
+      border: 1px solid rgba(255,255,255,.18);
+    }
+
+    .btn-soft {
+      background: #eef2ff;
+      color: #1e3a8a;
+    }
+
+    .quick-stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .quick-stat {
+      border-radius: 18px;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.08);
+      padding: 12px 8px;
+      text-align: center;
+      font-size: 12px;
+      color: #dbeafe;
+    }
+
+    .quick-stat b {
+      display: block;
+      margin-top: 4px;
+      color: white;
+    }
+
+    .preview-card {
+      margin: 20px 18px 0;
+      background: white;
+      border-radius: 30px;
+      overflow: hidden;
+      box-shadow: 0 20px 50px rgba(15,23,42,.25);
+    }
+
+    .phone-top {
+      background: #f8fafc;
+      padding: 12px;
+      display: flex;
+      justify-content: center;
+    }
+
+    .speaker {
+      width: 82px;
+      height: 7px;
+      border-radius: 999px;
+      background: #cbd5e1;
+    }
+
+    .preview-body {
+      padding: 18px;
+    }
+
+    .preview-head {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      margin-bottom: 14px;
+    }
+
+    .tiny {
+      color: var(--muted);
+      font-size: 12px;
+      font-weight: 700;
+    }
+
+    .preview-head h2 {
+      margin: 2px 0 0;
+      font-size: 22px;
+      letter-spacing: -0.03em;
+    }
+
+    .count {
+      background: #ecfdf5;
+      color: #047857;
+      min-width: 94px;
+      border-radius: 20px;
+      padding: 10px 12px;
+      text-align: center;
+    }
+
+    .count strong {
+      font-size: 30px;
+      line-height: 1;
+      display: block;
+    }
+
+    .count span {
+      font-size: 11px;
+      font-weight: 800;
+    }
+
+    .weekdays,
+    .calendar {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+      gap: 5px;
+      text-align: center;
+    }
+
+    .weekdays div {
+      font-size: 11px;
+      color: #94a3b8;
+      font-weight: 900;
+    }
+
+    .date {
+      aspect-ratio: 1;
+      display: grid;
+      place-items: center;
+      background: #f1f5f9;
+      border-radius: 11px;
+      font-size: 13px;
+      font-weight: 900;
+      color: #475569;
+    }
+
+    .date.free {
+      background: var(--green);
+      color: white;
+      box-shadow: 0 6px 16px rgba(16,185,129,.25);
+    }
+
+    .section {
+      padding: 18px;
+    }
+
+    .panel {
+      background: #f8fafc;
+      border-radius: 28px;
+      padding: 18px;
+      box-shadow: 0 12px 28px rgba(15,23,42,.08);
+    }
+
+    .section-title {
+      margin: 0 0 4px;
+      font-size: 28px;
+      line-height: 1.05;
+      letter-spacing: -0.045em;
+    }
+
+    .section-copy {
+      margin: 0 0 14px;
+      color: var(--muted);
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .person-card {
+      background: white;
+      border-radius: 24px;
+      padding: 16px;
+      margin-top: 12px;
+      box-shadow: 0 8px 24px rgba(15,23,42,.055);
+    }
+
+    .person-card h3 {
+      margin: 0 0 12px;
+      font-size: 20px;
+      letter-spacing: -0.025em;
+    }
+
+    label {
+      display: block;
+      color: #334155;
+      font-size: 13px;
+      font-weight: 900;
+      margin: 12px 0 7px;
+    }
+
+    input,
+    select {
+      width: 100%;
+      border: 1px solid #e2e8f0;
+      background: white;
+      border-radius: 15px;
+      padding: 12px;
+      font: inherit;
+      font-size: 15px;
+      outline: none;
+    }
+
+    .cycle {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 8px;
+    }
+
+    .row-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+      margin-top: 10px;
+    }
+
+    .small-btn {
+      border: 1px solid #e2e8f0;
+      background: white;
+      border-radius: 15px;
+      padding: 11px 10px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .result-panel {
+      background: white;
+      border-radius: 24px;
+      padding: 16px;
+      margin-top: 14px;
+      box-shadow: 0 8px 24px rgba(15,23,42,.055);
+    }
+
+    .result-top {
+      display: grid;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+
+    .month-buttons {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 8px;
+    }
+
+    .free-list {
+      display: grid;
+      gap: 8px;
+      background: #f1f5f9;
+      border-radius: 20px;
+      padding: 10px;
+    }
+
+    .free-item {
+      background: white;
+      border-radius: 15px;
+      padding: 12px;
+      font-size: 14px;
+      font-weight: 900;
+      color: #334155;
+    }
+
+    .cta {
+      margin: 18px;
+      background: #020617;
+      border-radius: 28px;
+      padding: 20px;
+      color: white;
+      box-shadow: 0 18px 42px rgba(15,23,42,.22);
+    }
+
+    .cta h3 {
+      margin: 0 0 8px;
+      font-size: 23px;
+      line-height: 1.1;
+      letter-spacing: -0.03em;
+    }
+
+    .cta p {
+      color: #cbd5e1;
+      margin: 0 0 14px;
+      line-height: 1.55;
+      font-size: 15px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .nav a {
+      color: #0f172a;
+      text-decoration: none;
+      font-weight: 800;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(15,23,42,.06);
+      border: 1px solid rgba(15,23,42,.10);
+    }
+
+    .feature-grid {
+      display: grid;
+      gap: 12px;
+      margin-top: 18px;
+    }
+
+    .feature-card {
+      background: white;
+      border-radius: 22px;
+      padding: 18px;
+      box-shadow: 0 8px 24px rgba(15,23,42,.06);
+    }
+
+    .feature-card h3 {
+      margin: 10px 0 8px;
+      font-size: 20px;
+      letter-spacing: -0.02em;
+    }
+
+    .feature-card p {
+      margin: 0;
+      color: #64748b;
+      line-height: 1.55;
+      font-size: 14px;
+    }
+
+    .feature-icon {
+      font-size: 28px;
+    }
+
+    .screenshot-grid {
+      display: grid;
+      gap: 14px;
+      margin-top: 18px;
+    }
+
+    .screenshot-grid img {
+      width: 100%;
+      border-radius: 24px;
+      display: block;
+      box-shadow: 0 10px 28px rgba(15,23,42,.14);
+    }
+  </style>
+</head>
+
+<body>
+
+  <main class="app">
+
+    <section class="hero">
+
+      <div class="topbar">
+
+        <div class="language-switch">
+          <a href="/">DE</a>
+          <a href="/en/" class="active">EN</a>
+        </div>
+
+        <div class="brand">
+          <img
+            src="../Shift-Lion-Logo-groß.png"
+            alt="Shift Lion Logo"
+            class="brand-logo"
+          />
+        </div>
+
+      </div>
+
+      <h1>
+        When are you finally off together?
+      </h1>
+
+      <p class="lead">
+        Compare two shift rotations and instantly find shared days off.
+      </p>
+
+      <div class="hero-actions">
+
+        <a href="#tool" class="btn btn-primary">
+          Try it for free
+        </a>
+
+        <a
+          href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro"
+          target="_blank"
+          rel="noopener"
+          class="btn btn-primary"
+        >
+          Download Shift Lion on Google Play
+        </a>
+
+      </div>
+
+      <div class="quick-stats">
+        <div class="quick-stat">👥<b>2 groups</b></div>
+        <div class="quick-stat">📅<b>Month</b></div>
+        <div class="quick-stat">✅<b>Instant</b></div>
+      </div>
+
+    </section>
+
+    <section class="section">
+      <div class="panel">
+
+        <h2 class="section-title">
+          What is Shift Lion?
+        </h2>
+
+        <p class="section-copy">
+          Shift Lion is a modern shift planner for people working early shifts,
+          late shifts, night shifts and rotating schedules. The app helps you plan
+          your shifts clearly, recognize free days faster and organize your daily
+          life around shift work.
+        </p>
+
+        <div class="nav">
+          <a href="#features">📅 Explore the features</a>
+          <a href="#tool">👥 Try the shared days off demo</a>
+        </div>
+
+      </div>
+    </section>
+
+    <section class="preview-card">
+
+      <div class="phone-top">
+        <div class="speaker"></div>
+      </div>
+
+      <div class="preview-body">
+
+        <div class="preview-head">
+          <div>
+            <div class="tiny">Demo result</div>
+            <h2 id="phoneMonth">May 2026</h2>
+          </div>
+
+          <div class="count">
+            <strong id="phoneCount">0</strong>
+            <span>shared days off</span>
+          </div>
+        </div>
+
+        <div class="weekdays">
+          <div>Mon</div>
+          <div>Tue</div>
+          <div>Wed</div>
+          <div>Thu</div>
+          <div>Fri</div>
+          <div>Sat</div>
+          <div>Sun</div>
+        </div>
+
+        <div class="calendar" id="phoneCalendar"></div>
+
+      </div>
+    </section>
+
+    <section class="section" id="features">
+
+      <div class="panel">
+
+        <h2 class="section-title">
+          Why Shift Lion?
+        </h2>
+
+        <p class="section-copy">
+          Built for real shift workers. Simple, modern and designed for changing
+          working hours.
+        </p>
+
+        <div class="feature-grid">
+
+          <div class="feature-card">
+            <div class="feature-icon">👥</div>
+            <h3>Multiple shift groups</h3>
+            <p>
+              Manage different shift groups and keep several shift rotations
+              clearly organized.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🔁</div>
+            <h3>Compare shifts</h3>
+            <p>
+              Find shared days off with family, friends or colleagues faster.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📊</div>
+            <h3>Analyze your shift plan</h3>
+            <p>
+              Recognize patterns, working hours and days off in a clear
+              statistics view.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">📄</div>
+            <h3>PDF & Excel export</h3>
+            <p>
+              Export your shift plan as a clear PDF or Excel file.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🔐</div>
+            <h3>Local backup</h3>
+            <p>
+              Your data stays with you. Save and restore your backup locally.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">💶</div>
+            <h3>Income overview</h3>
+            <p>
+              Keep a better overview of working hours, bonuses and estimated net income.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="section" id="tool">
+
+      <div class="panel">
+
+        <h2 class="section-title">
+          Compare shifts
+        </h2>
+
+        <p class="section-copy">
+          Enter two simple rotations. “Off” is automatically recognized as a
+          shared free day.
+        </p>
+
+        <div class="person-card">
+
+          <h3>Person A</h3>
+
+          <label>Start date</label>
+          <input id="startA" type="date" />
+
+          <label>Rotation</label>
+
+          <div class="cycle" id="cycleA"></div>
+
+          <div class="row-actions">
+            <button class="small-btn" onclick="addDay('A')">+ Day</button>
+            <button class="small-btn" onclick="removeDay('A')">− Day</button>
+          </div>
+
+        </div>
+
+        <div class="person-card">
+
+          <h3>Person B</h3>
+
+          <label>Start date</label>
+          <input id="startB" type="date" />
+
+          <label>Rotation</label>
+
+          <div class="cycle" id="cycleB"></div>
+
+          <div class="row-actions">
+            <button class="small-btn" onclick="addDay('B')">+ Day</button>
+            <button class="small-btn" onclick="removeDay('B')">− Day</button>
+          </div>
+
+        </div>
+
+        <div class="result-panel">
+
+          <div class="result-top">
+
+            <div>
+              <div class="tiny">Result</div>
+              <h3 id="monthLabel">May 2026</h3>
+            </div>
+
+            <div class="month-buttons">
+              <button class="small-btn" onclick="changeMonth(-1)">← Month</button>
+              <button class="small-btn" onclick="changeMonth(1)">Month →</button>
+            </div>
+
+            <button class="btn btn-soft" onclick="resetDemo()">
+              Reset demo
+            </button>
+
+          </div>
+
+          <div class="free-list" id="freeList"></div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="section">
+
+      <div class="panel">
+
+        <h2 class="section-title">
+          Built for real shift work
+        </h2>
+
+        <p class="section-copy">
+          Shift work affects more than your job. It affects your family, your
+          free time, your sleep and your planning. Shift Lion helps you keep
+          everything in one clear place.
+        </p>
+
+        <div class="feature-grid">
+
+          <div class="feature-card">
+            <div class="feature-icon">🌙</div>
+            <h3>For night shifts</h3>
+            <p>
+              Keep track of night shifts, recovery days and changing schedules.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🌴</div>
+            <h3>Vacation & days off</h3>
+            <p>
+              Plan vacation, free days and appointments around your shift routine.
+            </p>
+          </div>
+
+          <div class="feature-card">
+            <div class="feature-icon">🔒</div>
+            <h3>Private by design</h3>
+            <p>
+              No account, no ads and no cloud requirement. Your data stays local.
+            </p>
+          </div>
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="section">
+
+      <div class="panel">
+
+        <h2 class="section-title">
+          A look inside Shift Lion
+        </h2>
+
+        <p class="section-copy">
+          Designed for real shift workers. Modern, clear and built around your
+          everyday life.
+        </p>
+
+        <div class="screenshot-grid">
+
+          <img src="../kalender.jpg" alt="Shift Lion calendar">
+          <img src="../schichtvergleich.png" alt="Shift Lion shift comparison">
+          <img src="../statistik.jpg" alt="Shift Lion statistics">
+          <img src="../lohnrechner.png" alt="Shift Lion income calculator">
+          <img src="../backup.png" alt="Shift Lion backup">
+
+        </div>
+
+      </div>
+
+    </section>
+
+    <section class="cta">
+
+      <h3>
+        Plan your shifts with less chaos.
+      </h3>
+
+      <p>
+        The web demo shows the idea instantly. In the app, you can save,
+        organize and compare your shift plans permanently.
+      </p>
+
+      <a
+        href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro"
+        target="_blank"
+        rel="noopener"
+        class="btn btn-primary"
+      >
+        Download Shift Lion on Google Play
+      </a>
+
+    </section>
+
+  </main>
+
+  <script>
+    const options = [
+      ['E', 'Early'],
+      ['L', 'Late'],
+      ['N', 'Night'],
+      ['X', 'Off']
+    ];
+
+    const defaultA = ['E','E','L','L','N','N','X','X'];
+    const defaultB = ['L','L','N','N','X','X','E','E'];
+
+    let cycleA = [...defaultA];
+    let cycleB = [...defaultB];
+    let monthOffset = 0;
+
+    const today = new Date();
+
+    const dateInput = d =>
+      new Date(d.getTime() - d.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 10);
+
+    document.getElementById('startA').value = dateInput(today);
+    document.getElementById('startB').value = dateInput(today);
+
+    function renderCycle(which) {
+
+      const target = document.getElementById('cycle' + which);
+
+      const cycle =
+        which === 'A'
+          ? cycleA
+          : cycleB;
+
+      target.innerHTML = '';
+
+      cycle.forEach((value, index) => {
+
+        const select = document.createElement('select');
+
+        options.forEach(([v, label]) => {
+
+          const option = document.createElement('option');
+
+          option.value = v;
+          option.textContent =
+            (index + 1) + '. ' + label;
+
+          select.appendChild(option);
+        });
+
+        select.value = value;
+
+        select.onchange = e => {
+          cycle[index] = e.target.value;
+          calculate();
+        };
+
+        target.appendChild(select);
+      });
+    }
+
+    function addDay(which) {
+
+      if (which === 'A') {
+        cycleA.push('X');
+      } else {
+        cycleB.push('X');
+      }
+
+      renderCycle(which);
+      calculate();
+    }
+
+    function removeDay(which) {
+
+      const cycle =
+        which === 'A'
+          ? cycleA
+          : cycleB;
+
+      if (cycle.length > 2) {
+        cycle.pop();
+      }
+
+      renderCycle(which);
+      calculate();
+    }
+
+    function cycleValue(cycle, startValue, date) {
+
+      const start =
+        new Date(startValue + 'T00:00:00');
+
+      const current =
+        new Date(date);
+
+      start.setHours(0, 0, 0, 0);
+      current.setHours(0, 0, 0, 0);
+
+      const diff =
+        Math.floor((current - start) / 86400000);
+
+      const index =
+        ((diff % cycle.length) + cycle.length)
+        % cycle.length;
+
+      return cycle[index];
+    }
+
+    function monthDates() {
+
+      const now = new Date();
+
+      const base =
+        new Date(
+          now.getFullYear(),
+          now.getMonth() + monthOffset,
+          1
+        );
+
+      const days =
+        new Date(
+          base.getFullYear(),
+          base.getMonth() + 1,
+          0
+        ).getDate();
+
+      return Array.from(
+        { length: days },
+        (_, i) =>
+          new Date(
+            base.getFullYear(),
+            base.getMonth(),
+            i + 1
+          )
+      );
+    }
+
+    function formatDate(d) {
+
+      return new Intl.DateTimeFormat(
+        'en-US',
+        {
+          weekday: 'short',
+          month: 'short',
+          day: '2-digit',
+          year: 'numeric'
+        }
+      ).format(d);
+    }
+
+    function calculate() {
+
+      const dates = monthDates();
+
+      const startA =
+        document.getElementById('startA').value;
+
+      const startB =
+        document.getElementById('startB').value;
+
+      const shared = dates.filter(d =>
+        cycleValue(cycleA, startA, d) === 'X'
+        &&
+        cycleValue(cycleB, startB, d) === 'X'
+      );
+
+      const month =
+        new Intl.DateTimeFormat(
+          'en-US',
+          {
+            month: 'long',
+            year: 'numeric'
+          }
+        ).format(dates[0]);
+
+      document.getElementById('monthLabel').textContent = month;
+      document.getElementById('phoneMonth').textContent = month;
+      document.getElementById('phoneCount').textContent = shared.length;
+
+      const list =
+        document.getElementById('freeList');
+
+      list.innerHTML =
+        shared.length
+          ? ''
+          : '<div class="free-item">No shared days off found.</div>';
+
+      shared.forEach(d => {
+
+        const item =
+          document.createElement('div');
+
+        item.className = 'free-item';
+
+        item.textContent =
+          '✅ ' + formatDate(d);
+
+        list.appendChild(item);
+      });
+
+      const cal =
+        document.getElementById('phoneCalendar');
+
+      cal.innerHTML = '';
+
+      const empties =
+        (dates[0].getDay() + 6) % 7;
+
+      for (let i = 0; i < empties; i++) {
+        cal.appendChild(document.createElement('div'));
+      }
+
+      dates.forEach(d => {
+
+        const div =
+          document.createElement('div');
+
+        const isShared =
+          shared.some(
+            s => s.toDateString() === d.toDateString()
+          );
+
+        div.className =
+          'date' + (isShared ? ' free' : '');
+
+        div.textContent = d.getDate();
+
+        cal.appendChild(div);
+      });
+    }
+
+    function changeMonth(delta) {
+      monthOffset += delta;
+      calculate();
+    }
+
+    function resetDemo() {
+
+      cycleA = [...defaultA];
+      cycleB = [...defaultB];
+
+      monthOffset = 0;
+
+      document.getElementById('startA').value = dateInput(today);
+      document.getElementById('startB').value = dateInput(today);
+
+      renderCycle('A');
+      renderCycle('B');
+
+      calculate();
+    }
+
+    document.getElementById('startA')
+      .addEventListener('change', calculate);
+
+    document.getElementById('startB')
+      .addEventListener('change', calculate);
+
+    renderCycle('A');
+    renderCycle('B');
+
+    calculate();
+  </script>
+
+</body>
+</html>
