@@ -49,6 +49,10 @@
   href="https://shiftlion.app/"
 />
 
+<link rel="alternate" hreflang="de" href="https://shiftlion.app/" />
+<link rel="alternate" hreflang="en" href="https://shiftlion.app/en/" />
+<link rel="alternate" hreflang="x-default" href="https://shiftlion.app/en/" />
+
 <style>
     :root {
       --dark: #06101f;
@@ -115,6 +119,31 @@ img {
   justify-content: center;
   align-items: center;
   margin-bottom: 12px;
+  position: relative;
+}
+
+.language-switch {
+  position: absolute;
+  top: 0;
+  right: 0;
+  display: flex;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 900;
+}
+
+.language-switch a {
+  color: white;
+  text-decoration: none;
+  padding: 6px 8px;
+  border-radius: 999px;
+  background: rgba(255,255,255,.08);
+  border: 1px solid rgba(255,255,255,.14);
+}
+
+.language-switch a.active {
+  background: white;
+  color: black;
 }
 
 .brand {
@@ -529,15 +558,22 @@ img {
 
    <section class="hero">
 
-  <div class="topbar">
-    <div class="brand">
-      <img
-        src="Shift-Lion-Logo-groß.png"
-        alt="Shift Lion Logo"
-        class="brand-logo"
-      />
-    </div>
+<div class="topbar">
+
+  <div class="language-switch">
+    <a href="/" class="active">DE</a>
+    <a href="/en/">EN</a>
   </div>
+
+  <div class="brand">
+    <img
+      src="Shift-Lion-Logo-groß.png"
+      alt="Shift Lion Logo"
+      class="brand-logo"
+    />
+  </div>
+
+</div>
 
   <h1>
     Wann habt ihr endlich gemeinsam frei?
