@@ -66,6 +66,12 @@
       "label": "🧠 Schichtarbeit & Stress",
       "sitemap": true
     }
+
+    {
+  "href": "/schichtplaner-online.html",
+  "label": "🗓️ Schichtplaner Online",
+  "sitemap": true
+}
   ],
   "extra_sitemap": [
     "/en/"
