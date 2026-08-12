@@ -8,7 +8,7 @@
 
   <meta
     name="description"
-    content="Kostenloser Schichtplaner online: Startdatum und Schichtrhythmus eingeben und sofort deinen persönlichen Schichtplan als Monatskalender erstellen."
+    content="Kostenloser Schichtplaner online: Startdatum und Schichtrhythmus eingeben und sofort Monats- oder Jahresplan mit Früh-, Spät-, Nacht- und freien Tagen erstellen."
   />
 
   <link
@@ -23,7 +23,7 @@
   />
   <meta
     property="og:description"
-    content="Erstelle kostenlos deinen persönlichen Schichtplan mit Früh-, Spät-, Nacht- und freien Tagen."
+    content="Erstelle kostenlos deinen persönlichen Schichtplan als Monats- oder Jahreskalender."
   />
   <meta
     property="og:url"
@@ -49,9 +49,12 @@
       "price": "0",
       "priceCurrency": "EUR"
     },
-    "description": "Kostenloser Online-Schichtplaner zum Erstellen eines persönlichen Schichtplans."
+    "description": "Kostenloser Online-Schichtplaner zum Erstellen eines persönlichen Monats- und Jahresplans."
   }
   </script>
+
+  <!-- PDF-Erstellung direkt im Browser -->
+  <script src="https://unpkg.com/jspdf@latest/dist/jspdf.umd.min.js"></script>
 
   <style>
     * {
@@ -196,7 +199,8 @@
       background: white;
     }
 
-    .rhythm-actions {
+    .rhythm-actions,
+    .year-actions {
       display: grid;
       grid-template-columns: 1fr 1fr;
       gap: 10px;
@@ -220,6 +224,28 @@
       border-radius: 18px;
       background: #020617;
       color: white;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .download-btn {
+      width: 100%;
+      padding: 14px;
+      border: 0;
+      border-radius: 16px;
+      background: #020617;
+      color: white;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .print-btn {
+      width: 100%;
+      padding: 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      background: white;
+      color: #0f172a;
       font-weight: 900;
       cursor: pointer;
     }
@@ -269,7 +295,6 @@
     }
 
     .day {
-      position: relative;
       min-height: 68px;
       padding: 6px 4px;
       border-right: 1px solid #e2e8f0;
@@ -344,6 +369,88 @@
       color: #64748b;
     }
 
+    /*
+      Jahresplan
+    */
+
+    #yearPanel {
+      display: none;
+    }
+
+    .year-heading {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+      margin-bottom: 15px;
+    }
+
+    .year-heading h2 {
+      margin: 0;
+    }
+
+    .year-grid {
+      display: grid;
+      gap: 16px;
+    }
+
+    .year-month {
+      overflow: hidden;
+      border: 1px solid #e2e8f0;
+      border-radius: 20px;
+      background: white;
+    }
+
+    .year-month-title {
+      padding: 11px;
+      text-align: center;
+      font-weight: 900;
+      background: #020617;
+      color: white;
+    }
+
+    .mini-weekdays,
+    .mini-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+    }
+
+    .mini-weekday {
+      padding: 6px 1px;
+      background: #e2e8f0;
+      text-align: center;
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .mini-day {
+      min-height: 48px;
+      padding: 4px 2px;
+      border-right: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+      background: white;
+    }
+
+    .mini-day.empty {
+      background: #f8fafc;
+    }
+
+    .mini-number {
+      display: block;
+      margin-bottom: 3px;
+      font-size: 9px;
+      font-weight: 900;
+    }
+
+    .mini-shift {
+      display: block;
+      padding: 3px 1px;
+      border-radius: 6px;
+      text-align: center;
+      font-size: 8px;
+      font-weight: 900;
+    }
+
     .cta {
       margin: 18px;
       padding: 22px;
@@ -399,11 +506,26 @@
       .shift-badge {
         font-size: 9px;
       }
+
+      .mini-day {
+        min-height: 44px;
+      }
+
+      .mini-shift {
+        font-size: 7px;
+      }
+    }
+
+    @media (min-width: 720px) {
+      .year-grid {
+        grid-template-columns: 1fr 1fr;
+      }
     }
   </style>
 </head>
 
 <body>
+
 <main class="app">
 
   <section class="hero">
@@ -420,8 +542,8 @@
 
     <p class="lead">
       Erstelle kostenlos deinen persönlichen Schichtplan.
-      Startdatum und Schichtrhythmus eingeben – der Monatskalender
-      wird direkt im Browser berechnet.
+      Startdatum und Schichtrhythmus eingeben – Monats- und Jahresplan
+      werden direkt im Browser berechnet.
     </p>
 
     <nav class="nav">
@@ -466,9 +588,13 @@
 
       <span class="form-label">Dein Schichtrhythmus</span>
 
-      <div id="rhythmGrid" class="rhythm-grid"></div>
+      <div
+        id="rhythmGrid"
+        class="rhythm-grid"
+      ></div>
 
       <div class="rhythm-actions">
+
         <button
           class="secondary-btn"
           type="button"
@@ -484,6 +610,7 @@
         >
           − Tag
         </button>
+
       </div>
 
       <button
@@ -495,11 +622,13 @@
       </button>
 
       <p class="tool-note">
-        Deine Eingaben bleiben in deinem Browser. Für die Erstellung
-        des Kalenders ist kein Konto erforderlich.
+        Deine Eingaben bleiben in deinem Browser.
+        Es ist kein Konto erforderlich.
       </p>
 
     </div>
+
+    <!-- Monatsplan -->
 
     <div class="panel" id="calendarPanel">
 
@@ -511,7 +640,6 @@
           type="button"
           class="month-button"
           id="previousMonth"
-          aria-label="Vorheriger Monat"
         >
           ←
         </button>
@@ -525,7 +653,6 @@
           type="button"
           class="month-button"
           id="nextMonth"
-          aria-label="Nächster Monat"
         >
           →
         </button>
@@ -558,7 +685,56 @@
         <span class="legend-item shift-frei">Frei</span>
       </div>
 
+      <button
+        type="button"
+        class="primary-btn"
+        id="createYearPlan"
+      >
+        Jahresplan erstellen
+      </button>
+
     </div>
+
+    <!-- Jahresplan -->
+
+    <div class="panel" id="yearPanel">
+
+      <div class="year-heading">
+        <h2 id="yearTitle">Jahresplan</h2>
+      </div>
+
+      <p>
+        Dein kompletter Schichtplan für das ausgewählte Jahr.
+      </p>
+
+      <div
+        id="yearGrid"
+        class="year-grid"
+      ></div>
+
+      <div class="year-actions">
+
+        <button
+          type="button"
+          class="download-btn"
+          id="downloadPdf"
+        >
+          Jahresplan als PDF herunterladen
+        </button>
+
+        <button
+          type="button"
+          class="print-btn"
+          id="printYear"
+        >
+          Drucken
+        </button>
+
+      </div>
+
+    </div>
+
+    <!-- SEO-Inhalt -->
 
     <div class="panel">
 
@@ -572,8 +748,23 @@
 
       <p>
         Besonders bei Früh-, Spät- und Nachtschichten kann ein
-        automatisch berechneter Schichtkalender dabei helfen,
-        freie Tage und kommende Dienste schneller zu erkennen.
+        automatisch berechneter Schichtkalender helfen,
+        kommende Dienste und freie Tage schneller zu erkennen.
+      </p>
+
+    </div>
+
+    <div class="panel">
+
+      <h2>Monats- oder Jahresplan erstellen</h2>
+
+      <p>
+        Du kannst deinen Schichtplan zunächst für einzelne Monate ansehen
+        und anschließend einen vollständigen Jahresplan erzeugen.
+      </p>
+
+      <p>
+        Der Jahresplan kann direkt als PDF gespeichert oder ausgedruckt werden.
       </p>
 
     </div>
@@ -593,11 +784,6 @@
         <li>individuelle Rhythmen mit unterschiedlich vielen Tagen</li>
       </ul>
 
-      <p>
-        Mit den Buttons <strong>+ Tag</strong> und <strong>− Tag</strong>
-        kannst du die Länge deines Rhythmus verändern.
-      </p>
-
     </div>
 
     <div class="panel">
@@ -616,24 +802,6 @@
       >
         👥 Gemeinsame freie Tage finden →
       </a>
-
-    </div>
-
-    <div class="panel">
-
-      <h2>Vom Online-Schichtplan zur Schichtplan App</h2>
-
-      <p>
-        Der kostenlose Online-Schichtplaner eignet sich für eine schnelle
-        Berechnung deines Rhythmus.
-      </p>
-
-      <p>
-        Wenn du deinen Schichtplan dauerhaft auf deinem Smartphone
-        verwalten möchtest, bietet Shift Lion zusätzliche Funktionen wie
-        Urlaub, Termine, mehrere Schichtgruppen, Statistiken,
-        Schichtvergleich sowie Lohn- und Zuschlagsberechnungen.
-      </p>
 
     </div>
 
@@ -660,7 +828,12 @@
 </main>
 
 <script>
-  const options = ["Früh", "Spät", "Nacht", "Frei"];
+  const options = [
+    "Früh",
+    "Spät",
+    "Nacht",
+    "Frei"
+  ];
 
   let rhythm = [
     "Früh",
@@ -676,20 +849,50 @@
   let displayDate = new Date();
   displayDate.setDate(1);
 
-  const rhythmGrid = document.getElementById("rhythmGrid");
-  const calendarGrid = document.getElementById("calendarGrid");
-  const monthTitle = document.getElementById("monthTitle");
-  const startDateInput = document.getElementById("startDate");
+  let activeYear = displayDate.getFullYear();
+
+  const rhythmGrid =
+    document.getElementById("rhythmGrid");
+
+  const calendarGrid =
+    document.getElementById("calendarGrid");
+
+  const monthTitle =
+    document.getElementById("monthTitle");
+
+  const startDateInput =
+    document.getElementById("startDate");
+
+  const yearPanel =
+    document.getElementById("yearPanel");
+
+  const yearGrid =
+    document.getElementById("yearGrid");
+
+  const yearTitle =
+    document.getElementById("yearTitle");
+
+  const createYearPlanButton =
+    document.getElementById("createYearPlan");
 
   function formatInputDate(date) {
+
     const y = date.getFullYear();
-    const m = String(date.getMonth() + 1).padStart(2, "0");
-    const d = String(date.getDate()).padStart(2, "0");
+
+    const m =
+      String(date.getMonth() + 1)
+        .padStart(2, "0");
+
+    const d =
+      String(date.getDate())
+        .padStart(2, "0");
 
     return `${y}-${m}-${d}`;
+
   }
 
-  startDateInput.value = formatInputDate(new Date());
+  startDateInput.value =
+    formatInputDate(new Date());
 
   function renderRhythm() {
 
@@ -697,19 +900,20 @@
 
     rhythm.forEach((shift, index) => {
 
-      const select = document.createElement("select");
+      const select =
+        document.createElement("select");
+
       select.className = "shift-select";
-      select.setAttribute(
-        "aria-label",
-        `Schicht an Tag ${index + 1}`
-      );
 
       options.forEach(option => {
 
-        const element = document.createElement("option");
+        const element =
+          document.createElement("option");
 
         element.value = option;
-        element.textContent = `${index + 1}. ${option}`;
+
+        element.textContent =
+          `${index + 1}. ${option}`;
 
         if (option === shift) {
           element.selected = true;
@@ -719,10 +923,17 @@
 
       });
 
-      select.addEventListener("change", event => {
-        rhythm[index] = event.target.value;
-        renderCalendar();
-      });
+      select.addEventListener(
+        "change",
+        event => {
+
+          rhythm[index] =
+            event.target.value;
+
+          renderCalendar();
+
+        }
+      );
 
       rhythmGrid.appendChild(select);
 
@@ -732,50 +943,74 @@
 
   function daysBetween(start, target) {
 
-    const oneDay = 24 * 60 * 60 * 1000;
+    const oneDay =
+      24 * 60 * 60 * 1000;
 
-    const startUTC = Date.UTC(
-      start.getFullYear(),
-      start.getMonth(),
-      start.getDate()
+    const startUTC =
+      Date.UTC(
+        start.getFullYear(),
+        start.getMonth(),
+        start.getDate()
+      );
+
+    const targetUTC =
+      Date.UTC(
+        target.getFullYear(),
+        target.getMonth(),
+        target.getDate()
+      );
+
+    return Math.floor(
+      (targetUTC - startUTC) / oneDay
     );
-
-    const targetUTC = Date.UTC(
-      target.getFullYear(),
-      target.getMonth(),
-      target.getDate()
-    );
-
-    return Math.floor((targetUTC - startUTC) / oneDay);
 
   }
 
   function positiveModulo(number, divisor) {
-    return ((number % divisor) + divisor) % divisor;
+
+    return (
+      (number % divisor) + divisor
+    ) % divisor;
+
   }
 
-  function getShiftForDate(date) {
+  function getStartDate() {
 
-    const startValue = startDateInput.value;
+    const value =
+      startDateInput.value;
 
-    if (!startValue || rhythm.length === 0) {
+    if (!value) {
       return null;
     }
 
-    const parts = startValue.split("-");
+    const parts =
+      value.split("-");
 
-    const start = new Date(
+    return new Date(
       Number(parts[0]),
       Number(parts[1]) - 1,
       Number(parts[2])
     );
 
-    const difference = daysBetween(start, date);
+  }
 
-    const rhythmIndex = positiveModulo(
-      difference,
-      rhythm.length
-    );
+  function getShiftForDate(date) {
+
+    const start =
+      getStartDate();
+
+    if (!start || rhythm.length === 0) {
+      return null;
+    }
+
+    const difference =
+      daysBetween(start, date);
+
+    const rhythmIndex =
+      positiveModulo(
+        difference,
+        rhythm.length
+      );
 
     return rhythm[rhythmIndex];
 
@@ -807,46 +1042,77 @@
 
     calendarGrid.innerHTML = "";
 
-    const year = displayDate.getFullYear();
-    const month = displayDate.getMonth();
+    const year =
+      displayDate.getFullYear();
 
-    const formatter = new Intl.DateTimeFormat(
-      "de-DE",
-      {
-        month: "long",
-        year: "numeric"
-      }
-    );
+    const month =
+      displayDate.getMonth();
+
+    activeYear = year;
+
+    createYearPlanButton.textContent =
+      `Jahresplan ${year} erstellen`;
+
+    const formatter =
+      new Intl.DateTimeFormat(
+        "de-DE",
+        {
+          month: "long",
+          year: "numeric"
+        }
+      );
 
     monthTitle.textContent =
       formatter.format(displayDate);
 
-    const firstDay = new Date(year, month, 1);
+    const firstDay =
+      new Date(year, month, 1);
 
-    let weekday = firstDay.getDay();
+    let weekday =
+      firstDay.getDay();
 
     if (weekday === 0) {
       weekday = 7;
     }
 
-    const emptyBefore = weekday - 1;
+    const emptyBefore =
+      weekday - 1;
 
-    for (let i = 0; i < emptyBefore; i++) {
+    for (
+      let i = 0;
+      i < emptyBefore;
+      i++
+    ) {
 
-      const empty = document.createElement("div");
-      empty.className = "day empty";
+      const empty =
+        document.createElement("div");
+
+      empty.className =
+        "day empty";
 
       calendarGrid.appendChild(empty);
 
     }
 
     const daysInMonth =
-      new Date(year, month + 1, 0).getDate();
+      new Date(
+        year,
+        month + 1,
+        0
+      ).getDate();
 
-    for (let dayNumber = 1; dayNumber <= daysInMonth; dayNumber++) {
+    for (
+      let dayNumber = 1;
+      dayNumber <= daysInMonth;
+      dayNumber++
+    ) {
 
       const date =
-        new Date(year, month, dayNumber);
+        new Date(
+          year,
+          month,
+          dayNumber
+        );
 
       const shift =
         getShiftForDate(date);
@@ -859,8 +1125,11 @@
       const number =
         document.createElement("span");
 
-      number.className = "day-number";
-      number.textContent = dayNumber;
+      number.className =
+        "day-number";
+
+      number.textContent =
+        dayNumber;
 
       cell.appendChild(number);
 
@@ -872,7 +1141,8 @@
         badge.className =
           `shift-badge ${getShiftClass(shift)}`;
 
-        badge.textContent = shift;
+        badge.textContent =
+          shift;
 
         cell.appendChild(badge);
 
@@ -884,92 +1154,741 @@
 
   }
 
-  document
-    .getElementById("addDay")
-    .addEventListener("click", () => {
+  function createMiniMonth(year, month) {
 
-      if (rhythm.length >= 31) {
-        return;
-      }
+    const wrapper =
+      document.createElement("div");
 
-      rhythm.push("Frei");
+    wrapper.className =
+      "year-month";
 
-      renderRhythm();
-      renderCalendar();
+    const title =
+      document.createElement("div");
+
+    title.className =
+      "year-month-title";
+
+    title.textContent =
+      new Intl.DateTimeFormat(
+        "de-DE",
+        {
+          month: "long",
+          year: "numeric"
+        }
+      ).format(
+        new Date(year, month, 1)
+      );
+
+    wrapper.appendChild(title);
+
+    const weekdays =
+      document.createElement("div");
+
+    weekdays.className =
+      "mini-weekdays";
+
+    [
+      "Mo",
+      "Di",
+      "Mi",
+      "Do",
+      "Fr",
+      "Sa",
+      "So"
+    ].forEach(day => {
+
+      const element =
+        document.createElement("div");
+
+      element.className =
+        "mini-weekday";
+
+      element.textContent =
+        day;
+
+      weekdays.appendChild(element);
 
     });
+
+    wrapper.appendChild(weekdays);
+
+    const grid =
+      document.createElement("div");
+
+    grid.className =
+      "mini-grid";
+
+    const first =
+      new Date(year, month, 1);
+
+    let weekday =
+      first.getDay();
+
+    if (weekday === 0) {
+      weekday = 7;
+    }
+
+    for (
+      let i = 1;
+      i < weekday;
+      i++
+    ) {
+
+      const empty =
+        document.createElement("div");
+
+      empty.className =
+        "mini-day empty";
+
+      grid.appendChild(empty);
+
+    }
+
+    const numberOfDays =
+      new Date(
+        year,
+        month + 1,
+        0
+      ).getDate();
+
+    for (
+      let day = 1;
+      day <= numberOfDays;
+      day++
+    ) {
+
+      const date =
+        new Date(
+          year,
+          month,
+          day
+        );
+
+      const shift =
+        getShiftForDate(date);
+
+      const cell =
+        document.createElement("div");
+
+      cell.className =
+        "mini-day";
+
+      const number =
+        document.createElement("span");
+
+      number.className =
+        "mini-number";
+
+      number.textContent =
+        day;
+
+      cell.appendChild(number);
+
+      const badge =
+        document.createElement("span");
+
+      badge.className =
+        `mini-shift ${getShiftClass(shift)}`;
+
+      badge.textContent =
+        shift || "";
+
+      cell.appendChild(badge);
+
+      grid.appendChild(cell);
+
+    }
+
+    wrapper.appendChild(grid);
+
+    return wrapper;
+
+  }
+
+  function renderYearPlan() {
+
+    yearGrid.innerHTML = "";
+
+    yearTitle.textContent =
+      `Jahresplan ${activeYear}`;
+
+    for (
+      let month = 0;
+      month < 12;
+      month++
+    ) {
+
+      yearGrid.appendChild(
+        createMiniMonth(
+          activeYear,
+          month
+        )
+      );
+
+    }
+
+    yearPanel.style.display =
+      "block";
+
+  }
+
+  /*
+    PDF
+    Ein PDF mit 4 Monaten pro Seite.
+    Insgesamt 3 Seiten für ein Jahr.
+  */
+
+  function downloadYearPdf() {
+
+    if (
+      !window.jspdf ||
+      !window.jspdf.jsPDF
+    ) {
+
+      alert(
+        "Der PDF-Generator konnte nicht geladen werden."
+      );
+
+      return;
+    }
+
+    const { jsPDF } =
+      window.jspdf;
+
+    const doc =
+      new jsPDF({
+        orientation: "landscape",
+        unit: "mm",
+        format: "a4"
+      });
+
+    const pageWidth = 297;
+    const pageHeight = 210;
+
+    const margin = 10;
+    const gap = 7;
+
+    const boxWidth =
+      (pageWidth - margin * 2 - gap) / 2;
+
+    const boxHeight =
+      (pageHeight - margin * 2 - gap) / 2;
+
+    const monthNames = [
+      "Januar",
+      "Februar",
+      "März",
+      "April",
+      "Mai",
+      "Juni",
+      "Juli",
+      "August",
+      "September",
+      "Oktober",
+      "November",
+      "Dezember"
+    ];
+
+    const weekdays = [
+      "Mo",
+      "Di",
+      "Mi",
+      "Do",
+      "Fr",
+      "Sa",
+      "So"
+    ];
+
+    function drawMonth(
+      month,
+      x,
+      y
+    ) {
+
+      doc.setDrawColor(180);
+      doc.rect(
+        x,
+        y,
+        boxWidth,
+        boxHeight
+      );
+
+      doc.setFont(
+        "helvetica",
+        "bold"
+      );
+
+      doc.setFontSize(11);
+
+      doc.text(
+        `${monthNames[month]} ${activeYear}`,
+        x + boxWidth / 2,
+        y + 7,
+        {
+          align: "center"
+        }
+      );
+
+      const calendarTop =
+        y + 12;
+
+      const innerWidth =
+        boxWidth - 4;
+
+      const cellWidth =
+        innerWidth / 7;
+
+      const rowHeight =
+        10;
+
+      doc.setFontSize(6);
+
+      weekdays.forEach(
+        (weekday, index) => {
+
+          doc.text(
+            weekday,
+            x + 2 +
+            index * cellWidth +
+            cellWidth / 2,
+            calendarTop + 4,
+            {
+              align: "center"
+            }
+          );
+
+        }
+      );
+
+      const first =
+        new Date(
+          activeYear,
+          month,
+          1
+        );
+
+      let firstWeekday =
+        first.getDay();
+
+      if (firstWeekday === 0) {
+        firstWeekday = 7;
+      }
+
+      const numberOfDays =
+        new Date(
+          activeYear,
+          month + 1,
+          0
+        ).getDate();
+
+      for (
+        let day = 1;
+        day <= numberOfDays;
+        day++
+      ) {
+
+        const position =
+          firstWeekday - 1 +
+          day - 1;
+
+        const column =
+          position % 7;
+
+        const row =
+          Math.floor(
+            position / 7
+          );
+
+        const cellX =
+          x + 2 +
+          column * cellWidth;
+
+        const cellY =
+          calendarTop + 7 +
+          row * rowHeight;
+
+        doc.setDrawColor(220);
+
+        doc.rect(
+          cellX,
+          cellY,
+          cellWidth,
+          rowHeight
+        );
+
+        doc.setFont(
+          "helvetica",
+          "bold"
+        );
+
+        doc.setFontSize(5.5);
+
+        doc.text(
+          String(day),
+          cellX + 1,
+          cellY + 3
+        );
+
+        const date =
+          new Date(
+            activeYear,
+            month,
+            day
+          );
+
+        const shift =
+          getShiftForDate(date);
+
+        doc.setFont(
+          "helvetica",
+          "normal"
+        );
+
+        doc.setFontSize(5.5);
+
+        doc.text(
+          shift || "",
+          cellX + cellWidth / 2,
+          cellY + 7,
+          {
+            align: "center"
+          }
+        );
+
+      }
+
+    }
+
+    for (
+      let month = 0;
+      month < 12;
+      month++
+    ) {
+
+      if (
+        month > 0 &&
+        month % 4 === 0
+      ) {
+
+        doc.addPage(
+          "a4",
+          "landscape"
+        );
+
+      }
+
+      const localIndex =
+        month % 4;
+
+      const column =
+        localIndex % 2;
+
+      const row =
+        Math.floor(
+          localIndex / 2
+        );
+
+      const x =
+        margin +
+        column *
+        (boxWidth + gap);
+
+      const y =
+        margin +
+        row *
+        (boxHeight + gap);
+
+      drawMonth(
+        month,
+        x,
+        y
+      );
+
+    }
+
+    doc.save(
+      `schichtplan-${activeYear}.pdf`
+    );
+
+  }
+
+  function printYearPlan() {
+
+    const printWindow =
+      window.open(
+        "",
+        "_blank"
+      );
+
+    if (!printWindow) {
+
+      alert(
+        "Das Druckfenster konnte nicht geöffnet werden."
+      );
+
+      return;
+    }
+
+    const content =
+      yearGrid.innerHTML;
+
+    printWindow.document.write(`
+      <!DOCTYPE html>
+      <html lang="de">
+      <head>
+        <meta charset="UTF-8">
+        <title>Schichtplan ${activeYear}</title>
+
+        <style>
+          * {
+            box-sizing: border-box;
+          }
+
+          body {
+            margin: 20px;
+            font-family: Arial, sans-serif;
+            color: #111;
+          }
+
+          h1 {
+            text-align: center;
+          }
+
+          .year-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+          }
+
+          .year-month {
+            page-break-inside: avoid;
+            border: 1px solid #aaa;
+          }
+
+          .year-month-title {
+            background: #111;
+            color: white;
+            text-align: center;
+            font-weight: bold;
+            padding: 8px;
+          }
+
+          .mini-weekdays,
+          .mini-grid {
+            display: grid;
+            grid-template-columns: repeat(7, 1fr);
+          }
+
+          .mini-weekday {
+            text-align: center;
+            font-size: 10px;
+            font-weight: bold;
+            padding: 4px;
+            background: #eee;
+          }
+
+          .mini-day {
+            min-height: 45px;
+            border: 1px solid #ddd;
+            padding: 3px;
+          }
+
+          .mini-day.empty {
+            background: #fafafa;
+          }
+
+          .mini-number {
+            display: block;
+            font-size: 9px;
+            font-weight: bold;
+          }
+
+          .mini-shift {
+            display: block;
+            text-align: center;
+            font-size: 9px;
+            margin-top: 4px;
+          }
+
+          @media print {
+
+            body {
+              margin: 8mm;
+            }
+
+          }
+        </style>
+      </head>
+
+      <body>
+
+        <h1>Schichtplan ${activeYear}</h1>
+
+        <div class="year-grid">
+          ${content}
+        </div>
+
+      </body>
+      </html>
+    `);
+
+    printWindow.document.close();
+
+    printWindow.focus();
+
+    setTimeout(
+      () => {
+        printWindow.print();
+      },
+      300
+    );
+
+  }
+
+  document
+    .getElementById("addDay")
+    .addEventListener(
+      "click",
+      () => {
+
+        if (
+          rhythm.length >= 31
+        ) {
+          return;
+        }
+
+        rhythm.push("Frei");
+
+        renderRhythm();
+        renderCalendar();
+
+      }
+    );
 
   document
     .getElementById("removeDay")
-    .addEventListener("click", () => {
+    .addEventListener(
+      "click",
+      () => {
 
-      if (rhythm.length <= 1) {
-        return;
+        if (
+          rhythm.length <= 1
+        ) {
+          return;
+        }
+
+        rhythm.pop();
+
+        renderRhythm();
+        renderCalendar();
+
       }
-
-      rhythm.pop();
-
-      renderRhythm();
-      renderCalendar();
-
-    });
+    );
 
   document
     .getElementById("createPlan")
-    .addEventListener("click", () => {
+    .addEventListener(
+      "click",
+      () => {
 
-      const value = startDateInput.value;
+        const value =
+          startDateInput.value;
 
-      if (!value) {
-        return;
+        if (!value) {
+          return;
+        }
+
+        const parts =
+          value.split("-");
+
+        displayDate =
+          new Date(
+            Number(parts[0]),
+            Number(parts[1]) - 1,
+            1
+          );
+
+        renderCalendar();
+
+        document
+          .getElementById(
+            "calendarPanel"
+          )
+          .scrollIntoView({
+            behavior: "smooth"
+          });
+
       }
-
-      const parts = value.split("-");
-
-      displayDate = new Date(
-        Number(parts[0]),
-        Number(parts[1]) - 1,
-        1
-      );
-
-      renderCalendar();
-
-      document
-        .getElementById("calendarPanel")
-        .scrollIntoView({
-          behavior: "smooth"
-        });
-
-    });
+    );
 
   document
     .getElementById("previousMonth")
-    .addEventListener("click", () => {
+    .addEventListener(
+      "click",
+      () => {
 
-      displayDate.setMonth(
-        displayDate.getMonth() - 1
-      );
+        displayDate.setMonth(
+          displayDate.getMonth() - 1
+        );
 
-      renderCalendar();
+        renderCalendar();
 
-    });
+      }
+    );
 
   document
     .getElementById("nextMonth")
-    .addEventListener("click", () => {
+    .addEventListener(
+      "click",
+      () => {
 
-      displayDate.setMonth(
-        displayDate.getMonth() + 1
-      );
+        displayDate.setMonth(
+          displayDate.getMonth() + 1
+        );
 
-      renderCalendar();
+        renderCalendar();
 
-    });
+      }
+    );
 
-  startDateInput.addEventListener(
-    "change",
-    renderCalendar
-  );
+  document
+    .getElementById("createYearPlan")
+    .addEventListener(
+      "click",
+      () => {
+
+        activeYear =
+          displayDate.getFullYear();
+
+        renderYearPlan();
+
+        yearPanel
+          .scrollIntoView({
+            behavior: "smooth"
+          });
+
+      }
+    );
+
+  document
+    .getElementById("downloadPdf")
+    .addEventListener(
+      "click",
+      downloadYearPdf
+    );
+
+  document
+    .getElementById("printYear")
+    .addEventListener(
+      "click",
+      printYearPlan
+    );
+
+  startDateInput
+    .addEventListener(
+      "change",
+      renderCalendar
+    );
 
   renderRhythm();
   renderCalendar();
