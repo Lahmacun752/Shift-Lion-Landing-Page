@@ -1,0 +1,987 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Schichtzulagen Rechner – Zuschläge online berechnen | Shift Lion</title>
+
+  <meta
+    name="description"
+    content="Kostenloser Schichtzulagen Rechner: Berechne Nacht-, Sonntags- und Feiertagszuschläge anhand deines Stundenlohns und deiner eigenen Zuschlagssätze."
+  />
+
+  <link
+    rel="canonical"
+    href="https://shiftlion.app/schichtzulagen-rechner.html"
+  />
+
+  <meta property="og:type" content="website" />
+
+  <meta
+    property="og:title"
+    content="Schichtzulagen Rechner – Zuschläge kostenlos berechnen"
+  />
+
+  <meta
+    property="og:description"
+    content="Berechne deinen Grundlohn und Zuschläge für Nacht-, Sonn- und Feiertagsarbeit direkt online."
+  />
+
+  <meta
+    property="og:url"
+    content="https://shiftlion.app/schichtzulagen-rechner.html"
+  />
+
+  <meta
+    property="og:image"
+    content="https://shiftlion.app/lohnrechner.png"
+  />
+
+  <link rel="icon" href="/favicon.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Shift Lion Schichtzulagen Rechner",
+    "url": "https://shiftlion.app/schichtzulagen-rechner.html",
+    "applicationCategory": "FinanceApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    },
+    "description": "Kostenloser Online-Rechner für Schichtzulagen und Zuschläge."
+  }
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      margin: 0;
+      width: 100%;
+      background: #020617;
+      font-family: Inter, system-ui, sans-serif;
+      color: #0f172a;
+    }
+
+    input,
+    button {
+      font: inherit;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 520px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #e2e8f0;
+      box-shadow: 0 0 40px rgba(15, 23, 42, .2);
+    }
+
+    .hero {
+      background: #020617;
+      color: white;
+      padding: 24px 18px 28px;
+      border-bottom-left-radius: 32px;
+      border-bottom-right-radius: 32px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .brand-logo {
+      height: 115px;
+      width: auto;
+      display: block;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: 36px;
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .lead {
+      margin: 0;
+      color: #cbd5e1;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .nav a {
+      padding: 10px 12px;
+      border-radius: 14px;
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+
+    .section {
+      padding: 18px;
+    }
+
+    .panel {
+      background: white;
+      padding: 20px;
+      margin-bottom: 16px;
+      border-radius: 28px;
+      box-shadow: 0 12px 28px rgba(15,23,42,.08);
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 26px;
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 19px;
+    }
+
+    p {
+      color: #475569;
+      line-height: 1.6;
+    }
+
+    .field {
+      margin-top: 17px;
+    }
+
+    .field label {
+      display: block;
+      margin-bottom: 7px;
+      font-weight: 900;
+    }
+
+    .field-note {
+      display: block;
+      margin-top: 5px;
+      color: #64748b;
+      font-size: 12px;
+      line-height: 1.4;
+    }
+
+    .input-wrap {
+      position: relative;
+    }
+
+    .input-wrap input {
+      width: 100%;
+      padding: 14px 50px 14px 14px;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      background: white;
+      color: #0f172a;
+    }
+
+    .suffix {
+      position: absolute;
+      top: 50%;
+      right: 15px;
+      transform: translateY(-50%);
+      color: #64748b;
+      font-weight: 800;
+      pointer-events: none;
+    }
+
+    .rate-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .primary-btn {
+      width: 100%;
+      margin-top: 20px;
+      padding: 15px;
+      border: 0;
+      border-radius: 18px;
+      background: #020617;
+      color: white;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .secondary-btn {
+      width: 100%;
+      margin-top: 10px;
+      padding: 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      background: white;
+      color: #0f172a;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .result {
+      display: none;
+    }
+
+    .result-row {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      padding: 12px 0;
+      border-bottom: 1px solid #e2e8f0;
+    }
+
+    .result-label {
+      color: #475569;
+      font-weight: 700;
+    }
+
+    .result-value {
+      text-align: right;
+      font-weight: 900;
+      color: #0f172a;
+    }
+
+    .result-total {
+      margin-top: 16px;
+      padding: 18px;
+      border-radius: 20px;
+      background: #020617;
+      color: white;
+    }
+
+    .result-total span {
+      display: block;
+      color: #cbd5e1;
+      font-size: 13px;
+      font-weight: 700;
+    }
+
+    .result-total strong {
+      display: block;
+      margin-top: 4px;
+      font-size: 30px;
+    }
+
+    .warning {
+      margin-top: 15px;
+      padding: 14px;
+      border-radius: 16px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #64748b;
+      font-size: 13px;
+      line-height: 1.55;
+    }
+
+    .example {
+      padding: 14px;
+      margin-top: 12px;
+      border-radius: 16px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+
+    .example strong {
+      color: #0f172a;
+    }
+
+    ul {
+      padding-left: 22px;
+      color: #475569;
+      line-height: 1.8;
+    }
+
+    .link-card {
+      display: block;
+      margin-top: 12px;
+      padding: 16px;
+      border-radius: 18px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+      color: #0f172a;
+      text-decoration: none;
+      font-weight: 900;
+    }
+
+    .cta {
+      margin: 18px;
+      padding: 22px;
+      border-radius: 28px;
+      background: #020617;
+      color: white;
+    }
+
+    .cta h2 {
+      color: white;
+    }
+
+    .cta p {
+      color: #cbd5e1;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      margin-top: 17px;
+      padding: 15px;
+      border-radius: 18px;
+      background: white;
+      color: black;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 900;
+    }
+  </style>
+</head>
+
+<body>
+
+<main class="app">
+
+  <section class="hero">
+
+    <div class="topbar">
+      <img
+        src="/Shift-Lion-Logo-groß.png"
+        alt="Shift Lion Logo"
+        class="brand-logo"
+      />
+    </div>
+
+    <h1>Schichtzulagen Rechner</h1>
+
+    <p class="lead">
+      Berechne kostenlos deinen Grundlohn sowie Nacht-, Sonntags- und
+      Feiertagszuschläge anhand deiner eigenen Arbeitszeiten und Zuschlagssätze.
+    </p>
+
+    <nav class="nav">
+  <a href="/">🏠 Startseite</a>
+  <a href="/schichtplaner.html">📅 Schichtplaner App</a>
+  <a href="/dienstplan-app.html">📋 Dienstplan App</a>
+  <a href="/fruehschicht-tipps.html">🌅 Frühschicht Tipps</a>
+  <a href="/spaetschicht-tipps.html">🌇 Spätschicht Tipps</a>
+  <a href="/nachtschicht-tipps.html">🌙 Nachtschicht Tipps</a>
+  <a href="/schichtarbeit-schlaf.html">😴 Schichtarbeit &amp; Schlaf</a>
+  <a href="/schichtarbeit-fitness.html">💪 Schichtarbeit &amp; Fitness</a>
+  <a href="/schichtarbeit-ernaehrung.html">🍎 Schichtarbeit &amp; Ernährung</a>
+  <a href="/schichtarbeit-alltag.html">📌 Schichtarbeit &amp; Alltag</a>
+  <a href="/schichtarbeit-familie.html">👨‍👩‍👧 Schichtarbeit &amp; Familie</a>
+  <a href="/schichtarbeit-beziehung.html">❤️ Schichtarbeit &amp; Beziehung</a>
+  <a href="/schichtarbeit-stress.html">🧠 Schichtarbeit &amp; Stress</a>
+  <a href="/schichtplaner-online.html">🗓️ Schichtplaner Online</a>
+  <a href="/schichtzulagen-rechner.html">💶 Schichtzulagen Rechner</a>
+</nav>
+
+  </section>
+
+  <section class="section">
+
+    <div class="panel">
+
+      <h2>Schichtzulagen online berechnen</h2>
+
+      <p>
+        Gib deinen Stundenlohn, deine Gesamtarbeitszeit und die Stunden
+        mit Zuschlägen ein. Die Prozentsätze kannst du an deinen
+        Arbeits- oder Tarifvertrag anpassen.
+      </p>
+
+      <div class="field">
+        <label for="hourlyWage">Stundenlohn</label>
+
+        <div class="input-wrap">
+          <input
+            id="hourlyWage"
+            type="number"
+            min="0"
+            step="0.01"
+            value="20"
+          />
+          <span class="suffix">€</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label for="totalHours">Gesamte Arbeitsstunden</label>
+
+        <div class="input-wrap">
+          <input
+            id="totalHours"
+            type="number"
+            min="0"
+            step="0.25"
+            value="160"
+          />
+          <span class="suffix">Std.</span>
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Nachtarbeit</label>
+
+        <div class="rate-grid">
+
+          <div class="input-wrap">
+            <input
+              id="nightHours"
+              type="number"
+              min="0"
+              step="0.25"
+              value="0"
+              aria-label="Nachtstunden"
+            />
+            <span class="suffix">Std.</span>
+          </div>
+
+          <div class="input-wrap">
+            <input
+              id="nightRate"
+              type="number"
+              min="0"
+              step="0.1"
+              value="25"
+              aria-label="Nachtzuschlag in Prozent"
+            />
+            <span class="suffix">%</span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Sonntagsarbeit</label>
+
+        <div class="rate-grid">
+
+          <div class="input-wrap">
+            <input
+              id="sundayHours"
+              type="number"
+              min="0"
+              step="0.25"
+              value="0"
+              aria-label="Sonntagsstunden"
+            />
+            <span class="suffix">Std.</span>
+          </div>
+
+          <div class="input-wrap">
+            <input
+              id="sundayRate"
+              type="number"
+              min="0"
+              step="0.1"
+              value="50"
+              aria-label="Sonntagszuschlag in Prozent"
+            />
+            <span class="suffix">%</span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Feiertagsarbeit</label>
+
+        <div class="rate-grid">
+
+          <div class="input-wrap">
+            <input
+              id="holidayHours"
+              type="number"
+              min="0"
+              step="0.25"
+              value="0"
+              aria-label="Feiertagsstunden"
+            />
+            <span class="suffix">Std.</span>
+          </div>
+
+          <div class="input-wrap">
+            <input
+              id="holidayRate"
+              type="number"
+              min="0"
+              step="0.1"
+              value="100"
+              aria-label="Feiertagszuschlag in Prozent"
+            />
+            <span class="suffix">%</span>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="field">
+        <label>Weitere Zulage</label>
+
+        <div class="rate-grid">
+
+          <div class="input-wrap">
+            <input
+              id="otherHours"
+              type="number"
+              min="0"
+              step="0.25"
+              value="0"
+              aria-label="Stunden mit weiterer Zulage"
+            />
+            <span class="suffix">Std.</span>
+          </div>
+
+          <div class="input-wrap">
+            <input
+              id="otherRate"
+              type="number"
+              min="0"
+              step="0.1"
+              value="0"
+              aria-label="Weitere Zulage in Prozent"
+            />
+            <span class="suffix">%</span>
+          </div>
+
+        </div>
+
+        <span class="field-note">
+          Zum Beispiel für eine individuell vereinbarte Schicht- oder Spätzulage.
+        </span>
+      </div>
+
+      <div class="field">
+        <label for="flatAllowance">Feste zusätzliche Zulage</label>
+
+        <div class="input-wrap">
+          <input
+            id="flatAllowance"
+            type="number"
+            min="0"
+            step="0.01"
+            value="0"
+          />
+          <span class="suffix">€</span>
+        </div>
+
+        <span class="field-note">
+          Optional für monatliche oder pauschale Zulagen.
+        </span>
+      </div>
+
+      <button
+        type="button"
+        class="primary-btn"
+        id="calculate"
+      >
+        Schichtzulagen berechnen
+      </button>
+
+      <button
+        type="button"
+        class="secondary-btn"
+        id="resetCalculator"
+      >
+        Rechner zurücksetzen
+      </button>
+
+      <div class="warning">
+        Die voreingestellten Prozentsätze sind nur Beispielwerte.
+        Welche Zuschläge tatsächlich gelten, hängt unter anderem von
+        Arbeitsvertrag, Tarifvertrag, Arbeitszeit und individuellen Regelungen ab.
+      </div>
+
+    </div>
+
+    <div
+      class="panel result"
+      id="resultPanel"
+    >
+
+      <h2>Deine Berechnung</h2>
+
+      <div class="result-row">
+        <span class="result-label">Grundlohn</span>
+        <span class="result-value" id="baseResult">0,00 €</span>
+      </div>
+
+      <div class="result-row">
+        <span class="result-label">Nachtzuschlag</span>
+        <span class="result-value" id="nightResult">0,00 €</span>
+      </div>
+
+      <div class="result-row">
+        <span class="result-label">Sonntagszuschlag</span>
+        <span class="result-value" id="sundayResult">0,00 €</span>
+      </div>
+
+      <div class="result-row">
+        <span class="result-label">Feiertagszuschlag</span>
+        <span class="result-value" id="holidayResult">0,00 €</span>
+      </div>
+
+      <div class="result-row">
+        <span class="result-label">Weitere prozentuale Zulage</span>
+        <span class="result-value" id="otherResult">0,00 €</span>
+      </div>
+
+      <div class="result-row">
+        <span class="result-label">Feste Zulage</span>
+        <span class="result-value" id="flatResult">0,00 €</span>
+      </div>
+
+      <div class="result-row">
+        <span class="result-label">Zuschläge insgesamt</span>
+        <span class="result-value" id="allowanceResult">0,00 €</span>
+      </div>
+
+      <div class="result-total">
+        <span>Brutto inklusive eingegebener Zuschläge</span>
+        <strong id="totalResult">0,00 €</strong>
+      </div>
+
+      <div class="warning">
+        Stunden können sich überschneiden. Wenn beispielsweise dieselbe Stunde
+        sowohl als Nacht- als auch als Sonntagsstunde eingetragen wird, werden
+        beide eingegebenen Zuschläge berücksichtigt. Ob Zuschläge tatsächlich
+        nebeneinander gezahlt werden, richtet sich nach den für dich geltenden Regelungen.
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <h2>Wie funktioniert der Schichtzulagen Rechner?</h2>
+
+      <p>
+        Zunächst wird dein Grundlohn aus Stundenlohn und gesamten
+        Arbeitsstunden berechnet.
+      </p>
+
+      <div class="example">
+        <strong>Beispiel:</strong>
+        160 Stunden × 20 € Stundenlohn = 3.200 € Grundlohn.
+      </div>
+
+      <p>
+        Für jede Zuschlagsart multipliziert der Rechner anschließend
+        Stundenlohn, entsprechende Stunden und deinen eingegebenen Prozentsatz.
+      </p>
+
+      <div class="example">
+        <strong>Beispiel Nachtzuschlag:</strong>
+        40 Nachtstunden × 20 € × 25 % = 200 € Nachtzuschlag.
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <h2>Warum gibt es keine festen Zuschlagssätze?</h2>
+
+      <p>
+        Schichtzulagen können je nach Arbeitgeber, Tarifvertrag,
+        Arbeitsvertrag, Branche und konkreter Arbeitszeit unterschiedlich sein.
+      </p>
+
+      <p>
+        Deshalb kannst du die Prozentsätze in diesem Rechner selbst eingeben.
+        So lässt sich das Tool beispielsweise mit deinen persönlichen
+        Vertragswerten verwenden, ohne pauschal einen bestimmten Tarif
+        vorauszusetzen.
+      </p>
+
+    </div>
+
+    <div class="panel">
+
+      <h2>Brutto-Netto-Rechner mit Schichtzulagen?</h2>
+
+      <p>
+        Dieser Rechner konzentriert sich bewusst auf deinen Bruttolohn
+        inklusive der eingegebenen Schichtzulagen.
+      </p>
+
+      <p>
+        Ein tatsächlicher Nettolohn hängt zusätzlich von zahlreichen
+        persönlichen Faktoren ab. Dazu können beispielsweise Steuermerkmale,
+        Sozialversicherung und die steuerliche Behandlung einzelner
+        Zuschläge gehören.
+      </p>
+
+      <p>
+        Deshalb wird hier kein pauschaler Nettobetrag ausgegeben,
+        der möglicherweise eine falsche Genauigkeit vermittelt.
+      </p>
+
+    </div>
+
+    <div class="panel">
+
+      <h2>Schichten direkt online planen</h2>
+
+      <p>
+        Wenn du neben deinen Zuschlägen auch deinen Schichtrhythmus
+        berechnen möchtest, kannst du unseren kostenlosen Online-Schichtplaner nutzen.
+      </p>
+
+      <a
+        href="/schichtplaner-online.html"
+        class="link-card"
+      >
+        🗓️ Schichtplaner online öffnen →
+      </a>
+
+    </div>
+
+  </section>
+
+  <section class="cta">
+
+    <h2>Schichten und Lohn zusammen im Blick</h2>
+
+    <p>
+      Mit Shift Lion kannst du deinen Schichtplan auf Android verwalten
+      und deine voraussichtliche Vergütung anhand deiner Schichten
+      übersichtlicher verfolgen.
+    </p>
+
+    <a
+      href="/download/android/"
+      class="btn"
+    >
+      Shift Lion für Android herunterladen
+    </a>
+
+  </section>
+
+</main>
+
+<script>
+  function numberValue(id) {
+    const value = Number(
+      document.getElementById(id).value
+    );
+
+    if (!Number.isFinite(value) || value < 0) {
+      return 0;
+    }
+
+    return value;
+  }
+
+  function euro(value) {
+    return new Intl.NumberFormat(
+      "de-DE",
+      {
+        style: "currency",
+        currency: "EUR"
+      }
+    ).format(value);
+  }
+
+  function allowance(
+    hourlyWage,
+    hours,
+    rate
+  ) {
+    return (
+      hourlyWage *
+      hours *
+      (rate / 100)
+    );
+  }
+
+  function calculate() {
+
+    const hourlyWage =
+      numberValue("hourlyWage");
+
+    const totalHours =
+      numberValue("totalHours");
+
+    const nightHours =
+      numberValue("nightHours");
+
+    const nightRate =
+      numberValue("nightRate");
+
+    const sundayHours =
+      numberValue("sundayHours");
+
+    const sundayRate =
+      numberValue("sundayRate");
+
+    const holidayHours =
+      numberValue("holidayHours");
+
+    const holidayRate =
+      numberValue("holidayRate");
+
+    const otherHours =
+      numberValue("otherHours");
+
+    const otherRate =
+      numberValue("otherRate");
+
+    const flatAllowance =
+      numberValue("flatAllowance");
+
+    const base =
+      hourlyWage *
+      totalHours;
+
+    const night =
+      allowance(
+        hourlyWage,
+        nightHours,
+        nightRate
+      );
+
+    const sunday =
+      allowance(
+        hourlyWage,
+        sundayHours,
+        sundayRate
+      );
+
+    const holiday =
+      allowance(
+        hourlyWage,
+        holidayHours,
+        holidayRate
+      );
+
+    const other =
+      allowance(
+        hourlyWage,
+        otherHours,
+        otherRate
+      );
+
+    const allAllowances =
+      night +
+      sunday +
+      holiday +
+      other +
+      flatAllowance;
+
+    const total =
+      base +
+      allAllowances;
+
+    document
+      .getElementById("baseResult")
+      .textContent =
+        euro(base);
+
+    document
+      .getElementById("nightResult")
+      .textContent =
+        euro(night);
+
+    document
+      .getElementById("sundayResult")
+      .textContent =
+        euro(sunday);
+
+    document
+      .getElementById("holidayResult")
+      .textContent =
+        euro(holiday);
+
+    document
+      .getElementById("otherResult")
+      .textContent =
+        euro(other);
+
+    document
+      .getElementById("flatResult")
+      .textContent =
+        euro(flatAllowance);
+
+    document
+      .getElementById("allowanceResult")
+      .textContent =
+        euro(allAllowances);
+
+    document
+      .getElementById("totalResult")
+      .textContent =
+        euro(total);
+
+    const resultPanel =
+      document.getElementById("resultPanel");
+
+    resultPanel.style.display =
+      "block";
+
+    resultPanel.scrollIntoView({
+      behavior: "smooth",
+      block: "start"
+    });
+
+  }
+
+  function resetCalculator() {
+
+    document.getElementById("hourlyWage").value = 20;
+    document.getElementById("totalHours").value = 160;
+
+    document.getElementById("nightHours").value = 0;
+    document.getElementById("nightRate").value = 25;
+
+    document.getElementById("sundayHours").value = 0;
+    document.getElementById("sundayRate").value = 50;
+
+    document.getElementById("holidayHours").value = 0;
+    document.getElementById("holidayRate").value = 100;
+
+    document.getElementById("otherHours").value = 0;
+    document.getElementById("otherRate").value = 0;
+
+    document.getElementById("flatAllowance").value = 0;
+
+    document.getElementById("resultPanel").style.display = "none";
+
+  }
+
+  document
+    .getElementById("calculate")
+    .addEventListener(
+      "click",
+      calculate
+    );
+
+  document
+    .getElementById("resetCalculator")
+    .addEventListener(
+      "click",
+      resetCalculator
+    );
+</script>
+
+</body>
+</html>

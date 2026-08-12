@@ -71,6 +71,12 @@
   "href": "/schichtplaner-online.html",
   "label": "🗓️ Schichtplaner Online",
   "sitemap": true
+},
+
+{
+  "href": "/schichtzulagen-rechner.html",
+  "label": "💶 Schichtzulagen Rechner",
+  "sitemap": true
 }
   ],
   "extra_sitemap": [
