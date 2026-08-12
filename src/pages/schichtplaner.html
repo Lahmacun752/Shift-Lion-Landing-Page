@@ -1,0 +1,525 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Schichtplaner App für Schichtarbeiter | Shift Lion</title>
+
+  <meta
+    name="description"
+    content="Schichtplaner App für Früh-, Spät- und Nachtschicht: Plane Schichten, freie Tage, Urlaub, Termine und Arbeitszeiten übersichtlich mit Shift Lion."
+  />
+
+  <meta
+    property="og:title"
+    content="Schichtplaner App für Schichtarbeiter | Shift Lion"
+  />
+
+  <meta
+    property="og:description"
+    content="Plane Früh-, Spät- und Nachtschichten, freie Tage, Urlaub und Termine mit der Shift Lion Schichtplaner App."
+  />
+
+  <meta
+    property="og:image"
+    content="https://shiftlion.app/kalender.jpg"
+  />
+
+  <meta
+    property="og:type"
+    content="website"
+  />
+
+  <meta
+    property="og:url"
+    content="https://shiftlion.app/schichtplaner.html"
+  />
+
+  <link rel="icon" href="favicon.png" />
+
+  <link
+    rel="canonical"
+    href="https://shiftlion.app/schichtplaner.html"
+  />
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: #020617;
+      color: #0f172a;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #e2e8f0;
+      box-shadow: 0 0 40px rgba(15, 23, 42, .18);
+      overflow-x: hidden;
+    }
+
+    .hero {
+      background: #020617;
+      color: white;
+      padding: 24px 18px 28px;
+      border-bottom-left-radius: 32px;
+      border-bottom-right-radius: 32px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .brand-logo {
+      height: 120px;
+      width: auto;
+      display: block;
+    }
+
+    h1 {
+      font-size: 36px;
+      line-height: 1;
+      margin: 0 0 14px;
+      letter-spacing: -0.05em;
+      overflow-wrap: break-word;
+    }
+
+    .lead {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      margin-top: 18px;
+      padding: 15px 16px;
+      border-radius: 18px;
+      background: white;
+      color: black;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 900;
+    }
+
+    .section {
+      padding: 18px;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 28px;
+      padding: 20px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, .08);
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 26px;
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+      color: #0f172a;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      color: #0f172a;
+    }
+
+    p {
+      color: #475569;
+      line-height: 1.6;
+      font-size: 15.5px;
+    }
+
+    ul {
+      padding-left: 20px;
+      color: #334155;
+      line-height: 1.7;
+      font-weight: 700;
+    }
+
+    .feature-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .feature {
+      background: #f8fafc;
+      border-radius: 20px;
+      padding: 15px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .feature p {
+      margin-bottom: 0;
+    }
+
+    .cta {
+      margin: 18px;
+      background: #020617;
+      border-radius: 28px;
+      padding: 22px;
+      color: white;
+    }
+
+    .cta h2 {
+      color: white;
+    }
+
+    .cta p {
+      color: #cbd5e1;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .12);
+    }
+
+    .highlight {
+      font-weight: 800;
+      color: #0f172a;
+    }
+
+    .small-note {
+      font-size: 13px;
+      color: #64748b;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+
+    <section class="hero">
+      <div class="topbar">
+        <img
+          src="Shift-Lion-Logo-groß.png"
+          alt="Shift Lion Logo"
+          class="brand-logo"
+        />
+      </div>
+
+      <h1>Schichtplaner App für Früh-, Spät- und Nachtschicht</h1>
+
+      <p class="lead">
+        Plane deinen persönlichen Schichtplan übersichtlich, verwalte freie Tage,
+        Urlaub und Termine und behalte auch bei wechselnden Arbeitszeiten den Überblick.
+      </p>
+
+      <a
+        href="/download/android/"
+        class="btn"
+      >
+        Shift Lion für Android herunterladen
+      </a>
+
+      {{NAV_DE}}
+    </section>
+
+    <section class="section">
+
+      <div class="panel">
+        <h2>Was ist ein Schichtplaner?</h2>
+
+        <p>
+          Ein Schichtplaner hilft Schichtarbeitern dabei, Frühschichten,
+          Spätschichten, Nachtschichten und freie Tage übersichtlich zu organisieren.
+          Gerade bei regelmäßig wechselnden Arbeitszeiten kann ein digitaler
+          Schichtkalender deutlich übersichtlicher sein als ein Papierkalender
+          oder eine selbst erstellte Excel-Tabelle.
+        </p>
+
+        <p>
+          Mit einer Schichtplan App kannst du deinen persönlichen Schichtrhythmus
+          speichern und deinen Arbeitsalltag langfristig planen.
+        </p>
+      </div>
+
+      <div class="panel">
+        <h2>Was bietet die Shift Lion Schichtplan App?</h2>
+
+        <div class="feature-grid">
+
+          <div class="feature">
+            <h3>Früh-, Spät- und Nachtschichten planen</h3>
+            <p>
+              Hinterlege unterschiedliche Schichtarten mit eigenen Namen,
+              Kürzeln, Farben und Arbeitszeiten.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Eigene Schichtrhythmen verwalten</h3>
+            <p>
+              Plane wiederkehrende Schichtfolgen und lege individuelle
+              Startdaten für deine Schichtrotation fest.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Mehrere Schichtgruppen parallel</h3>
+            <p>
+              Verwalte mehrere Schichtgruppen und behalte unterschiedliche
+              Schichtsysteme gleichzeitig im Blick.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Freie Tage und Urlaub verwalten</h3>
+            <p>
+              Ergänze Urlaub, freie Tage und Abweichungen direkt in deinem
+              persönlichen Schichtkalender.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Termine organisieren</h3>
+            <p>
+              Ergänze private oder berufliche Termine und wiederkehrende Ereignisse
+              direkt neben deinem Dienstplan.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Schichtpläne vergleichen</h3>
+            <p>
+              Vergleiche verschiedene Schichtgruppen und erkenne schneller,
+              wann du mit Partnern, Freunden oder Kollegen gemeinsam frei hast.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Statistiken für Monat und Jahr</h3>
+            <p>
+              Sieh dir an, wie sich Früh-, Spät-, Nacht- und andere Schichten
+              über deinen Monat oder dein Jahr verteilen.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Lohn und Zuschläge einschätzen</h3>
+            <p>
+              Nutze die integrierte Lohnberechnung, um deinen voraussichtlichen
+              Verdienst anhand deiner Schichten und Einstellungen besser einzuschätzen.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Kalender exportieren</h3>
+            <p>
+              Exportiere deinen Schichtplan als iCal-Datei und nutze ihn
+              beispielsweise in Google Kalender oder anderen Kalender-Apps.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Offline und ohne Konto</h3>
+            <p>
+              Shift Lion funktioniert ohne verpflichtende Registrierung
+              und kann als persönlicher Schichtplaner lokal genutzt werden.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Für welche Schichtsysteme eignet sich Shift Lion?</h2>
+
+        <p>
+          Shift Lion eignet sich für verschiedene Modelle der Schichtarbeit.
+          Dazu gehören klassische Systeme mit Frühschicht, Spätschicht und
+          Nachtschicht ebenso wie individuelle oder regelmäßig rotierende
+          Schichtrhythmen.
+        </p>
+
+        <ul>
+          <li>Frühschicht</li>
+          <li>Spätschicht</li>
+          <li>Nachtschicht</li>
+          <li>Wechselschicht</li>
+          <li>eigene Schichtfolgen</li>
+          <li>individuelle Arbeitszeiten</li>
+          <li>mehrere Schichtgruppen</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2>Für wen eignet sich die Schichtplaner App?</h2>
+
+        <p>
+          Shift Lion richtet sich an Menschen, die selbst im Schichtdienst arbeiten
+          und ihren persönlichen Dienstplan übersichtlich organisieren möchten.
+        </p>
+
+        <p>
+          Dazu gehören zum Beispiel Beschäftigte in:
+        </p>
+
+        <ul>
+          <li>Pflege und Krankenhaus</li>
+          <li>Rettungsdienst und Feuerwehr</li>
+          <li>Industrie und Produktion</li>
+          <li>Logistik und Lager</li>
+          <li>Polizei und Sicherheitsdienst</li>
+          <li>weiteren Berufen mit wechselnden Arbeitszeiten</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2>Schichtplaner statt Unternehmens-Dienstplan-Software</h2>
+
+        <p>
+          Shift Lion ist keine komplexe Personalplanungssoftware für Arbeitgeber.
+          Der Schwerpunkt liegt auf dem einzelnen Schichtarbeiter und seinem
+          persönlichen Alltag.
+        </p>
+
+        <p>
+          Wenn dein Arbeitgeber deinen Dienstplan bereits erstellt hat,
+          kannst du deine eigenen Schichten in Shift Lion organisieren und
+          dadurch freie Tage, Termine, Statistiken und weitere Informationen
+          übersichtlicher verwalten.
+        </p>
+      </div>
+
+      <div class="panel">
+        <h2>Vorteile eines digitalen Schichtkalenders</h2>
+
+        <ul>
+          <li>Schichten übersichtlich an einem Ort verwalten</li>
+          <li>freie Tage schneller erkennen</li>
+          <li>wechselnde Schichtrhythmen leichter nachvollziehen</li>
+          <li>Urlaub und Termine gemeinsam mit dem Schichtplan betrachten</li>
+          <li>mehrere Schichtgruppen vergleichen</li>
+          <li>Arbeitszeiten und Schichtarten auswerten</li>
+          <li>weniger Abhängigkeit von Papierkalendern oder Excel-Tabellen</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2>Häufige Fragen zur Schichtplaner App</h2>
+
+        <h3>Ist Shift Lion ein Dienstplaner?</h3>
+        <p>
+          Shift Lion ist ein persönlicher Schichtplaner für Schichtarbeiter.
+          Die App ist nicht dafür gedacht, als Arbeitgeber komplette
+          Mitarbeiter-Dienstpläne für ein Unternehmen zu erstellen.
+        </p>
+
+        <h3>Kann ich Früh-, Spät- und Nachtschichten planen?</h3>
+        <p>
+          Ja. Shift Lion unterstützt verschiedene Schichtarten und ermöglicht
+          eigene Schichtnamen, Arbeitszeiten und Schichtrhythmen.
+        </p>
+
+        <h3>Kann ich mehrere Schichtpläne verwalten?</h3>
+        <p>
+          Ja. Mehrere Schichtgruppen können parallel angelegt und miteinander
+          verglichen werden.
+        </p>
+
+        <h3>Kann ich gemeinsame freie Tage finden?</h3>
+        <p>
+          Ja. Durch den Vergleich verschiedener Schichtgruppen kannst du schneller
+          erkennen, wann unterschiedliche Schichtrhythmen gleichzeitig frei haben.
+        </p>
+
+        <h3>Gibt es eine Lohnberechnung?</h3>
+        <p>
+          Shift Lion bietet eine Lohn- und Nettolohn-Orientierung auf Basis
+          deiner hinterlegten Schichten und Einstellungen. Die Ergebnisse dienen
+          nur zur Orientierung und ersetzen keine professionelle Lohnabrechnung
+          oder steuerliche Beratung.
+        </p>
+
+        <h3>Funktioniert Shift Lion auch offline?</h3>
+        <p>
+          Ja. Der persönliche Schichtplan kann ohne verpflichtendes Benutzerkonto
+          lokal auf dem Gerät genutzt werden.
+        </p>
+      </div>
+
+      <div class="panel">
+        <h2>Schichtplaner für Android</h2>
+
+        <p>
+          Shift Lion ist aktuell für Android verfügbar. Die App kann über
+          Google Play heruntergeladen werden.
+        </p>
+
+        <a
+          href="/download/android/"
+          class="btn"
+        >
+          Shift Lion für Android herunterladen
+        </a>
+
+        <p class="small-note">
+          Die Verfügbarkeit und einzelne Funktionen können sich mit zukünftigen
+          App-Versionen ändern.
+        </p>
+      </div>
+
+    </section>
+
+    <section class="cta">
+      <h2>Dein Schichtplan. Deine freien Tage. Dein Überblick.</h2>
+
+      <p>
+        Organisiere deine Schichten mit Shift Lion und behalte Früh-, Spät-,
+        Nachtschichten, freie Tage, Termine und deinen Schichtalltag besser im Blick.
+      </p>
+
+      <a
+        href="/download/android/"
+        class="btn"
+      >
+        Shift Lion für Android herunterladen
+      </a>
+    </section>
+
+  </main>
+</body>
+</html>

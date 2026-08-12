@@ -1,0 +1,73 @@
+{
+  "site_url": "https://shiftlion.app",
+  "navigation_de": [
+    {
+      "href": "/",
+      "label": "🏠 Startseite",
+      "sitemap": true
+    },
+    {
+      "href": "/schichtplaner.html",
+      "label": "📅 Schichtplaner App",
+      "sitemap": true
+    },
+    {
+      "href": "/dienstplan-app.html",
+      "label": "📋 Dienstplan App",
+      "sitemap": true
+    },
+    {
+      "href": "/fruehschicht-tipps.html",
+      "label": "🌅 Frühschicht Tipps",
+      "sitemap": true
+    },
+    {
+      "href": "/spaetschicht-tipps.html",
+      "label": "🌇 Spätschicht Tipps",
+      "sitemap": true
+    },
+    {
+      "href": "/nachtschicht-tipps.html",
+      "label": "🌙 Nachtschicht Tipps",
+      "sitemap": true
+    },
+    {
+      "href": "/schichtarbeit-schlaf.html",
+      "label": "😴 Schichtarbeit & Schlaf",
+      "sitemap": true
+    },
+    {
+      "href": "/schichtarbeit-fitness.html",
+      "label": "💪 Schichtarbeit & Fitness",
+      "sitemap": true
+    },
+    {
+      "href": "/schichtarbeit-ernaehrung.html",
+      "label": "🍎 Schichtarbeit & Ernährung",
+      "sitemap": true
+    },
+    {
+      "href": "/schichtarbeit-alltag.html",
+      "label": "📌 Schichtarbeit & Alltag",
+      "sitemap": true
+    },
+    {
+      "href": "/schichtarbeit-familie.html",
+      "label": "👨‍👩‍👧 Schichtarbeit & Familie",
+      "sitemap": true
+    },
+    {
+      "href": "/schichtarbeit-beziehung.html",
+      "label": "❤️ Schichtarbeit & Beziehung",
+      "sitemap": true
+    },
+    {
+      "href": "/schichtarbeit-stress.html",
+      "label": "🧠 Schichtarbeit & Stress",
+      "sitemap": true
+    }
+  ],
+  "extra_sitemap": [
+    "/en/"
+  ]
+}
