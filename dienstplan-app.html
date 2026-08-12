@@ -1,0 +1,618 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Dienstplan App für Schichtarbeiter | Shift Lion</title>
+
+  <meta
+    name="description"
+    content="Dienstplan App für Schichtarbeiter: Plane Früh-, Spät- und Nachtdienst, freie Tage, Urlaub und Termine übersichtlich mit Shift Lion."
+  />
+
+  <meta
+    property="og:title"
+    content="Dienstplan App für Schichtarbeiter | Shift Lion"
+  />
+
+  <meta
+    property="og:description"
+    content="Verwalte deinen persönlichen Dienstplan mit Früh-, Spät- und Nachtschicht, Urlaub, freien Tagen und Terminen."
+  />
+
+  <meta
+    property="og:image"
+    content="https://shiftlion.app/kalender.jpg"
+  />
+
+  <meta
+    property="og:type"
+    content="website"
+  />
+
+  <meta
+    property="og:url"
+    content="https://shiftlion.app/dienstplan-app.html"
+  />
+
+  <link rel="icon" href="favicon.png" />
+
+  <link
+    rel="canonical"
+    href="https://shiftlion.app/dienstplan-app.html"
+  />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": [
+      {
+        "@type": "Question",
+        "name": "Was ist eine Dienstplan App?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Eine Dienstplan App hilft dabei, Arbeitszeiten, Schichten, freie Tage, Urlaub und Termine übersichtlich auf dem Smartphone zu verwalten."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Ist Shift Lion für Schichtarbeiter geeignet?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ja. Shift Lion richtet sich an Menschen mit Früh-, Spät-, Nacht- und Wechselschichten und hilft beim persönlichen Überblick über den eigenen Dienstplan."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Kann ich mehrere Schichtpläne verwalten?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Ja. In Shift Lion können mehrere Schichtgruppen angelegt und miteinander verglichen werden."
+        }
+      },
+      {
+        "@type": "Question",
+        "name": "Ist Shift Lion eine Dienstplan Software für Unternehmen?",
+        "acceptedAnswer": {
+          "@type": "Answer",
+          "text": "Nein. Shift Lion ist in erster Linie ein persönlicher Schicht- und Dienstplaner für einzelne Schichtarbeiter und keine Personalplanungssoftware für komplette Unternehmen."
+        }
+      }
+    ]
+  }
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      margin: 0;
+      font-family: Inter, system-ui, sans-serif;
+      background: #020617;
+      color: #0f172a;
+    }
+
+    img {
+      max-width: 100%;
+      height: auto;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 480px;
+      margin: 0 auto;
+      min-height: 100vh;
+      background: #e2e8f0;
+      box-shadow: 0 0 40px rgba(15, 23, 42, .18);
+      overflow-x: hidden;
+    }
+
+    .hero {
+      background: #020617;
+      color: white;
+      padding: 24px 18px 28px;
+      border-bottom-left-radius: 32px;
+      border-bottom-right-radius: 32px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 18px;
+    }
+
+    .brand-logo {
+      height: 120px;
+      width: auto;
+      display: block;
+    }
+
+    h1 {
+      font-size: 36px;
+      line-height: 1;
+      margin: 0 0 14px;
+      letter-spacing: -0.05em;
+      overflow-wrap: break-word;
+    }
+
+    .lead {
+      margin: 0;
+      color: #cbd5e1;
+      font-size: 16px;
+      line-height: 1.55;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      margin-top: 18px;
+      padding: 15px 16px;
+      border-radius: 18px;
+      background: white;
+      color: black;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 900;
+    }
+
+    .section {
+      padding: 18px;
+    }
+
+    .panel {
+      background: white;
+      border-radius: 28px;
+      padding: 20px;
+      box-shadow: 0 12px 28px rgba(15, 23, 42, .08);
+      margin-bottom: 16px;
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 26px;
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+      color: #0f172a;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 20px;
+      color: #0f172a;
+    }
+
+    p {
+      color: #475569;
+      line-height: 1.6;
+      font-size: 15.5px;
+    }
+
+    ul {
+      padding-left: 20px;
+      color: #334155;
+      line-height: 1.7;
+      font-weight: 700;
+    }
+
+    .feature-grid {
+      display: grid;
+      gap: 12px;
+    }
+
+    .feature {
+      background: #f8fafc;
+      border-radius: 20px;
+      padding: 15px;
+      border: 1px solid #e2e8f0;
+    }
+
+    .feature p {
+      margin-bottom: 0;
+    }
+
+    .cta {
+      margin: 18px;
+      background: #020617;
+      border-radius: 28px;
+      padding: 22px;
+      color: white;
+    }
+
+    .cta h2 {
+      color: white;
+    }
+
+    .cta p {
+      color: #cbd5e1;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+      margin-top: 18px;
+    }
+
+    .nav a {
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      padding: 10px 12px;
+      border-radius: 14px;
+      background: rgba(255, 255, 255, .08);
+      border: 1px solid rgba(255, 255, 255, .12);
+    }
+
+    .internal-link {
+      color: #0f172a;
+      font-weight: 800;
+    }
+
+    .small-note {
+      font-size: 13px;
+      color: #64748b;
+    }
+  </style>
+</head>
+
+<body>
+  <main class="app">
+
+    <section class="hero">
+
+      <div class="topbar">
+        <img
+          src="Shift-Lion-Logo-groß.png"
+          alt="Shift Lion Logo"
+          class="brand-logo"
+        />
+      </div>
+
+      <h1>Dienstplan App für Schichtarbeiter</h1>
+
+      <p class="lead">
+        Verwalte Früh-, Spät- und Nachtdienst, freie Tage, Urlaub und Termine
+        übersichtlich auf deinem Smartphone – mit Shift Lion.
+      </p>
+
+      <a
+        href="/download/android/"
+        class="btn"
+      >
+        Shift Lion für Android herunterladen
+      </a>
+
+      <nav class="nav">
+        <a href="/">🏠 Startseite</a>
+        <a href="/schichtplaner.html">📅 Schichtplaner App</a>
+        <a href="/dienstplan-app.html">📋 Dienstplan App</a>
+        <a href="/fruehschicht-tipps.html">🌅 Frühschicht Tipps</a>
+        <a href="/spaetschicht-tipps.html">🌇 Spätschicht Tipps</a>
+        <a href="/nachtschicht-tipps.html">🌙 Nachtschicht Tipps</a>
+        <a href="/schichtarbeit-schlaf.html">😴 Schichtarbeit & Schlaf</a>
+        <a href="/schichtarbeit-fitness.html">💪 Schichtarbeit & Fitness</a>
+        <a href="/schichtarbeit-ernaehrung.html">🍎 Schichtarbeit & Ernährung</a>
+        <a href="/schichtarbeit-alltag.html">📌 Schichtarbeit & Alltag</a>
+        <a href="/schichtarbeit-familie.html">👨‍👩‍👧 Schichtarbeit & Familie</a>
+        <a href="/schichtarbeit-beziehung.html">❤️ Schichtarbeit & Beziehung</a>
+        <a href="/schichtarbeit-stress.html">🧠 Schichtarbeit & Stress</a>
+      </nav>
+
+    </section>
+
+    <section class="section">
+
+      <div class="panel">
+        <h2>Was ist eine Dienstplan App?</h2>
+
+        <p>
+          Eine Dienstplan App hilft dir dabei, deine Arbeitszeiten und Dienste
+          digital zu organisieren. Statt deinen Dienstplan nur auf Papier,
+          als Foto oder in einer Tabelle aufzubewahren, kannst du deine
+          Schichten direkt auf dem Smartphone verwalten.
+        </p>
+
+        <p>
+          Besonders bei Frühdienst, Spätdienst, Nachtdienst und regelmäßig
+          wechselnden Arbeitszeiten hilft eine digitale Übersicht dabei,
+          freie Tage, Urlaub und Termine schneller zu erkennen.
+        </p>
+      </div>
+
+      <div class="panel">
+        <h2>Deinen persönlichen Dienstplan mit Shift Lion verwalten</h2>
+
+        <p>
+          Shift Lion wurde für Menschen entwickelt, die selbst im
+          Schichtdienst arbeiten und ihren eigenen Dienstplan übersichtlich
+          organisieren möchten.
+        </p>
+
+        <div class="feature-grid">
+
+          <div class="feature">
+            <h3>Früh-, Spät- und Nachtdienst</h3>
+            <p>
+              Lege unterschiedliche Dienste mit eigenen Namen, Kürzeln,
+              Farben und Arbeitszeiten an.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Schichtrhythmen speichern</h3>
+            <p>
+              Hinterlege wiederkehrende Schichtfolgen und individuelle
+              Startdaten für deinen persönlichen Rhythmus.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Monats- und Jahresübersicht</h3>
+            <p>
+              Behalte deine Dienste, freien Tage und Schichtarten
+              auch über längere Zeiträume im Blick.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Urlaub und freie Tage</h3>
+            <p>
+              Ergänze Urlaub und Abweichungen direkt in deinem persönlichen
+              Dienstplan.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Termine verwalten</h3>
+            <p>
+              Trage private und berufliche Termine neben deinen
+              Schichten ein und plane wiederkehrende Ereignisse.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Mehrere Schichtgruppen</h3>
+            <p>
+              Verwalte mehrere Schichtgruppen parallel und behalte
+              unterschiedliche Schichtsysteme im Blick.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Schichtpläne vergleichen</h3>
+            <p>
+              Vergleiche unterschiedliche Schichtrhythmen und erkenne
+              schneller, wann du mit Partnern, Freunden oder Kollegen
+              gemeinsam frei hast.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Arbeitszeiten auswerten</h3>
+            <p>
+              Nutze Monats- und Jahresstatistiken, um deinen
+              Schichtalltag besser zu überblicken.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Lohn und Zuschläge einschätzen</h3>
+            <p>
+              Shift Lion bietet eine Lohn- und Nettolohn-Orientierung,
+              mit der du deinen voraussichtlichen Verdienst anhand deiner
+              Schichten besser einschätzen kannst.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Offline und ohne Konto</h3>
+            <p>
+              Dein persönlicher Dienstplan kann ohne verpflichtende
+              Registrierung lokal auf deinem Gerät verwaltet werden.
+            </p>
+          </div>
+
+        </div>
+      </div>
+
+      <div class="panel">
+        <h2>Dienstplan App für wechselnde Arbeitszeiten</h2>
+
+        <p>
+          Ein fester Montag-bis-Freitag-Kalender hilft bei Schichtarbeit
+          oft nur begrenzt. Deshalb eignet sich Shift Lion für
+          unterschiedliche Formen wechselnder Arbeitszeit.
+        </p>
+
+        <ul>
+          <li>Frühdienst</li>
+          <li>Spätdienst</li>
+          <li>Nachtdienst</li>
+          <li>Wechselschicht</li>
+          <li>rotierende Schichtfolgen</li>
+          <li>individuelle Dienste</li>
+          <li>unterschiedliche Arbeitszeiten und Pausen</li>
+        </ul>
+
+        <p>
+          Wenn du vor allem nach einer App für klassische Schichtsysteme suchst,
+          findest du weitere Informationen auf unserer Seite zum
+          <a class="internal-link" href="/schichtplaner.html">
+            Schichtplaner für Schichtarbeiter
+          </a>.
+        </p>
+      </div>
+
+      <div class="panel">
+        <h2>Für wen eignet sich die Dienstplan App?</h2>
+
+        <p>
+          Shift Lion richtet sich an einzelne Arbeitnehmer mit wechselnden
+          Diensten und Schichten.
+        </p>
+
+        <p>Zum Beispiel für Beschäftigte in:</p>
+
+        <ul>
+          <li>Pflege und Krankenhaus</li>
+          <li>Rettungsdienst</li>
+          <li>Feuerwehr</li>
+          <li>Industrie und Produktion</li>
+          <li>Logistik und Lager</li>
+          <li>Polizei</li>
+          <li>Sicherheitsdienst</li>
+          <li>anderen Bereichen mit Schichtarbeit</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2>Persönliche Dienstplan App statt Personalplanung</h2>
+
+        <p>
+          Bei der Suche nach einer Dienstplan App gibt es zwei sehr
+          unterschiedliche Arten von Anwendungen.
+        </p>
+
+        <p>
+          Unternehmenslösungen richten sich an Arbeitgeber und sollen
+          Dienstpläne für ganze Teams erstellen, Mitarbeiter einteilen
+          oder Personalbedarf organisieren.
+        </p>
+
+        <p>
+          <strong>Shift Lion verfolgt einen anderen Ansatz:</strong>
+          Die App richtet sich an den einzelnen Schichtarbeiter.
+        </p>
+
+        <p>
+          Dein Arbeitgeber erstellt beispielsweise deinen Dienstplan –
+          Shift Lion hilft dir anschließend dabei, deine eigenen Dienste,
+          freien Tage, Termine, Arbeitszeiten und Schichtinformationen
+          übersichtlich zu verwalten.
+        </p>
+      </div>
+
+      <div class="panel">
+        <h2>Kostenlose Dienstplan App herunterladen</h2>
+
+        <p>
+          Shift Lion kann für Android über Google Play heruntergeladen werden.
+          Du kannst deinen persönlichen Schichtplan anlegen und die App
+          kennenlernen.
+        </p>
+
+        <p>
+          Für zusätzliche Funktionen können je nach App-Version optionale
+          Premium-Funktionen angeboten werden.
+        </p>
+
+        <a
+          href="/download/android/"
+          class="btn"
+        >
+          Shift Lion für Android herunterladen
+        </a>
+      </div>
+
+      <div class="panel">
+        <h2>Vorteile eines digitalen Dienstplans</h2>
+
+        <ul>
+          <li>Dienste übersichtlich auf dem Smartphone verwalten</li>
+          <li>freie Tage schneller erkennen</li>
+          <li>Früh-, Spät- und Nachtdienste unterscheiden</li>
+          <li>Urlaub und Termine gemeinsam betrachten</li>
+          <li>Schichtrhythmen langfristig planen</li>
+          <li>mehrere Schichtgruppen vergleichen</li>
+          <li>Arbeitszeiten und Schichtarten auswerten</li>
+        </ul>
+      </div>
+
+      <div class="panel">
+        <h2>Häufige Fragen zur Dienstplan App</h2>
+
+        <h3>Was ist eine Dienstplan App?</h3>
+        <p>
+          Eine Dienstplan App hilft dabei, Arbeitszeiten, Schichten,
+          freie Tage, Urlaub und Termine digital zu organisieren.
+        </p>
+
+        <h3>Ist Shift Lion für Schichtarbeiter geeignet?</h3>
+        <p>
+          Ja. Shift Lion wurde für Menschen mit wechselnden Schichten
+          und Arbeitszeiten entwickelt.
+        </p>
+
+        <h3>Kann ich Früh-, Spät- und Nachtdienst eintragen?</h3>
+        <p>
+          Ja. Du kannst unterschiedliche Schichtarten mit eigenen Namen,
+          Kürzeln, Farben und Arbeitszeiten anlegen.
+        </p>
+
+        <h3>Kann ich mehrere Schichtpläne verwalten?</h3>
+        <p>
+          Ja. Mehrere Schichtgruppen können parallel verwaltet und
+          miteinander verglichen werden.
+        </p>
+
+        <h3>Kann ich gemeinsame freie Tage finden?</h3>
+        <p>
+          Durch den Vergleich unterschiedlicher Schichtgruppen kannst du
+          erkennen, wann verschiedene Schichtrhythmen gleichzeitig frei haben.
+        </p>
+
+        <h3>Ist Shift Lion eine Dienstplan Software für Unternehmen?</h3>
+        <p>
+          Nein. Der Schwerpunkt liegt auf dem persönlichen Dienstplan
+          des einzelnen Schichtarbeiters und nicht auf der Personalplanung
+          kompletter Unternehmen.
+        </p>
+
+        <h3>Ist Shift Lion kostenlos?</h3>
+        <p>
+          Shift Lion kann über Google Play heruntergeladen und ausprobiert werden.
+          Je nach App-Version können zusätzliche Premium-Funktionen angeboten werden.
+        </p>
+
+        <h3>Funktioniert die App ohne Konto?</h3>
+        <p>
+          Ja. Der persönliche Schichtplan kann ohne verpflichtende
+          Registrierung lokal auf dem Gerät verwaltet werden.
+        </p>
+      </div>
+
+    </section>
+
+    <section class="cta">
+      <h2>Dein Dienstplan immer im Blick.</h2>
+
+      <p>
+        Verwalte Früh-, Spät- und Nachtdienst, freie Tage,
+        Urlaub und Termine mit Shift Lion.
+      </p>
+
+      <a
+        href="/download/android/"
+        class="btn"
+      >
+        Shift Lion für Android herunterladen
+      </a>
+    </section>
+
+  </main>
+</body>
+</html>
