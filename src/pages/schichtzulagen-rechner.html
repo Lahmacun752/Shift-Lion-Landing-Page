@@ -8,7 +8,7 @@
 
   <meta
     name="description"
-    content="Kostenloser Schichtzulagen Rechner: Berechne Nacht-, Sonntags- und Feiertagszuschläge anhand deines Stundenlohns und deiner eigenen Zuschlagssätze."
+    content="Kostenloser Schichtzulagen Rechner: Berechne Nacht-, Spät-, Sonntags- und Feiertagszuschläge anhand deines Stundenlohns und deiner eigenen Zuschlagssätze."
   />
 
   <link
@@ -25,7 +25,7 @@
 
   <meta
     property="og:description"
-    content="Berechne deinen Grundlohn und Zuschläge für Nacht-, Sonn- und Feiertagsarbeit direkt online."
+    content="Berechne deinen Grundlohn und Zuschläge für Nacht-, Spät-, Sonn- und Feiertagsarbeit direkt online."
   />
 
   <meta
@@ -374,7 +374,7 @@
     <h1>Schichtzulagen Rechner</h1>
 
     <p class="lead">
-      Berechne kostenlos deinen Grundlohn sowie Nacht-, Sonntags- und
+      Berechne kostenlos deinen Grundlohn sowie Nacht-, Spät-, Sonntags- und
       Feiertagszuschläge anhand deiner eigenen Arbeitszeiten und Zuschlagssätze.
     </p>
 
@@ -386,272 +386,314 @@
 
     <div class="panel">
 
-      <h2>Schichtzulagen online berechnen</h2>
+    <h2>Schichtzulagen online berechnen</h2>
 
-      <p>
-        Gib deinen Stundenlohn, deine Gesamtarbeitszeit und die Stunden
-        mit Zuschlägen ein. Die Prozentsätze kannst du an deinen
-        Arbeits- oder Tarifvertrag anpassen.
-      </p>
+<p>
+  Gib deinen Stundenlohn, deine Gesamtarbeitszeit und die Stunden
+  mit Zuschlägen ein. Die Prozentsätze kannst du an deinen
+  Arbeits- oder Tarifvertrag anpassen.
+</p>
 
-      <div class="field">
-        <label for="hourlyWage">Stundenlohn</label>
+<div class="field">
+  <label for="hourlyWage">Stundenlohn</label>
 
-        <div class="input-wrap">
-          <input
-            id="hourlyWage"
-            type="number"
-            min="0"
-            step="0.01"
-            value="20"
-          />
-          <span class="suffix">€</span>
-        </div>
-      </div>
+  <div class="input-wrap">
+    <input
+      id="hourlyWage"
+      type="number"
+      min="0"
+      step="0.01"
+      value="20"
+    />
+    <span class="suffix">€</span>
+  </div>
+</div>
 
-      <div class="field">
-        <label for="totalHours">Gesamte Arbeitsstunden</label>
+<div class="field">
+  <label for="totalHours">Gesamte Arbeitsstunden</label>
 
-        <div class="input-wrap">
-          <input
-            id="totalHours"
-            type="number"
-            min="0"
-            step="0.25"
-            value="160"
-          />
-          <span class="suffix">Std.</span>
-        </div>
-      </div>
+  <div class="input-wrap">
+    <input
+      id="totalHours"
+      type="number"
+      min="0"
+      step="0.25"
+      value="160"
+    />
+    <span class="suffix">Std.</span>
+  </div>
+</div>
 
-      <div class="field">
-        <label>Nachtarbeit</label>
+<div class="field">
+  <label>Nachtarbeit</label>
 
-        <div class="rate-grid">
+  <div class="rate-grid">
 
-          <div class="input-wrap">
-            <input
-              id="nightHours"
-              type="number"
-              min="0"
-              step="0.25"
-              value="0"
-              aria-label="Nachtstunden"
-            />
-            <span class="suffix">Std.</span>
-          </div>
-
-          <div class="input-wrap">
-            <input
-              id="nightRate"
-              type="number"
-              min="0"
-              step="0.1"
-              value="25"
-              aria-label="Nachtzuschlag in Prozent"
-            />
-            <span class="suffix">%</span>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Sonntagsarbeit</label>
-
-        <div class="rate-grid">
-
-          <div class="input-wrap">
-            <input
-              id="sundayHours"
-              type="number"
-              min="0"
-              step="0.25"
-              value="0"
-              aria-label="Sonntagsstunden"
-            />
-            <span class="suffix">Std.</span>
-          </div>
-
-          <div class="input-wrap">
-            <input
-              id="sundayRate"
-              type="number"
-              min="0"
-              step="0.1"
-              value="50"
-              aria-label="Sonntagszuschlag in Prozent"
-            />
-            <span class="suffix">%</span>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Feiertagsarbeit</label>
-
-        <div class="rate-grid">
-
-          <div class="input-wrap">
-            <input
-              id="holidayHours"
-              type="number"
-              min="0"
-              step="0.25"
-              value="0"
-              aria-label="Feiertagsstunden"
-            />
-            <span class="suffix">Std.</span>
-          </div>
-
-          <div class="input-wrap">
-            <input
-              id="holidayRate"
-              type="number"
-              min="0"
-              step="0.1"
-              value="100"
-              aria-label="Feiertagszuschlag in Prozent"
-            />
-            <span class="suffix">%</span>
-          </div>
-
-        </div>
-      </div>
-
-      <div class="field">
-        <label>Weitere Zulage</label>
-
-        <div class="rate-grid">
-
-          <div class="input-wrap">
-            <input
-              id="otherHours"
-              type="number"
-              min="0"
-              step="0.25"
-              value="0"
-              aria-label="Stunden mit weiterer Zulage"
-            />
-            <span class="suffix">Std.</span>
-          </div>
-
-          <div class="input-wrap">
-            <input
-              id="otherRate"
-              type="number"
-              min="0"
-              step="0.1"
-              value="0"
-              aria-label="Weitere Zulage in Prozent"
-            />
-            <span class="suffix">%</span>
-          </div>
-
-        </div>
-
-        <span class="field-note">
-          Zum Beispiel für eine individuell vereinbarte Schicht- oder Spätzulage.
-        </span>
-      </div>
-
-      <div class="field">
-        <label for="flatAllowance">Feste zusätzliche Zulage</label>
-
-        <div class="input-wrap">
-          <input
-            id="flatAllowance"
-            type="number"
-            min="0"
-            step="0.01"
-            value="0"
-          />
-          <span class="suffix">€</span>
-        </div>
-
-        <span class="field-note">
-          Optional für monatliche oder pauschale Zulagen.
-        </span>
-      </div>
-
-      <button
-        type="button"
-        class="primary-btn"
-        id="calculate"
-      >
-        Schichtzulagen berechnen
-      </button>
-
-      <button
-        type="button"
-        class="secondary-btn"
-        id="resetCalculator"
-      >
-        Rechner zurücksetzen
-      </button>
-
-      <div class="warning">
-        Die voreingestellten Prozentsätze sind nur Beispielwerte.
-        Welche Zuschläge tatsächlich gelten, hängt unter anderem von
-        Arbeitsvertrag, Tarifvertrag, Arbeitszeit und individuellen Regelungen ab.
-      </div>
-
+    <div class="input-wrap">
+      <input
+        id="nightHours"
+        type="number"
+        min="0"
+        step="0.25"
+        value="0"
+        aria-label="Nachtstunden"
+      />
+      <span class="suffix">Std.</span>
     </div>
 
-    <div
-      class="panel result"
-      id="resultPanel"
-    >
+    <div class="input-wrap">
+      <input
+        id="nightRate"
+        type="number"
+        min="0"
+        step="0.1"
+        value="25"
+        aria-label="Nachtzuschlag in Prozent"
+      />
+      <span class="suffix">%</span>
+    </div>
 
-      <h2>Deine Berechnung</h2>
+  </div>
+</div>
 
-      <div class="result-row">
-        <span class="result-label">Grundlohn</span>
-        <span class="result-value" id="baseResult">0,00 €</span>
-      </div>
+<div class="field">
+  <label>Spätschicht</label>
 
-      <div class="result-row">
-        <span class="result-label">Nachtzuschlag</span>
-        <span class="result-value" id="nightResult">0,00 €</span>
-      </div>
+  <div class="rate-grid">
 
-      <div class="result-row">
-        <span class="result-label">Sonntagszuschlag</span>
-        <span class="result-value" id="sundayResult">0,00 €</span>
-      </div>
+    <div class="input-wrap">
+      <input
+        id="lateHours"
+        type="number"
+        min="0"
+        step="0.25"
+        value="0"
+        aria-label="Spätschichtstunden"
+      />
+      <span class="suffix">Std.</span>
+    </div>
 
-      <div class="result-row">
-        <span class="result-label">Feiertagszuschlag</span>
-        <span class="result-value" id="holidayResult">0,00 €</span>
-      </div>
+    <div class="input-wrap">
+      <input
+        id="lateRate"
+        type="number"
+        min="0"
+        step="0.1"
+        value="0"
+        aria-label="Spätschichtzulage in Prozent"
+      />
+      <span class="suffix">%</span>
+    </div>
 
-      <div class="result-row">
-        <span class="result-label">Weitere prozentuale Zulage</span>
-        <span class="result-value" id="otherResult">0,00 €</span>
-      </div>
+  </div>
 
-      <div class="result-row">
-        <span class="result-label">Feste Zulage</span>
-        <span class="result-value" id="flatResult">0,00 €</span>
-      </div>
+  <span class="field-note">
+    Optional, falls dein Arbeits- oder Tarifvertrag eine Spätschichtzulage vorsieht.
+  </span>
+</div>
 
-      <div class="result-row">
-        <span class="result-label">Zuschläge insgesamt</span>
-        <span class="result-value" id="allowanceResult">0,00 €</span>
-      </div>
+<div class="field">
+  <label>Sonntagsarbeit</label>
 
-      <div class="result-total">
-        <span>Brutto inklusive eingegebener Zuschläge</span>
-        <strong id="totalResult">0,00 €</strong>
-      </div>
+  <div class="rate-grid">
 
-      <div class="warning">
-        Stunden können sich überschneiden. Wenn beispielsweise dieselbe Stunde
-        sowohl als Nacht- als auch als Sonntagsstunde eingetragen wird, werden
-        beide eingegebenen Zuschläge berücksichtigt. Ob Zuschläge tatsächlich
-        nebeneinander gezahlt werden, richtet sich nach den für dich geltenden Regelungen.
-      </div>
+    <div class="input-wrap">
+      <input
+        id="sundayHours"
+        type="number"
+        min="0"
+        step="0.25"
+        value="0"
+        aria-label="Sonntagsstunden"
+      />
+      <span class="suffix">Std.</span>
+    </div>
+
+    <div class="input-wrap">
+      <input
+        id="sundayRate"
+        type="number"
+        min="0"
+        step="0.1"
+        value="50"
+        aria-label="Sonntagszuschlag in Prozent"
+      />
+      <span class="suffix">%</span>
+    </div>
+
+  </div>
+</div>
+
+<div class="field">
+  <label>Feiertagsarbeit</label>
+
+  <div class="rate-grid">
+
+    <div class="input-wrap">
+      <input
+        id="holidayHours"
+        type="number"
+        min="0"
+        step="0.25"
+        value="0"
+        aria-label="Feiertagsstunden"
+      />
+      <span class="suffix">Std.</span>
+    </div>
+
+    <div class="input-wrap">
+      <input
+        id="holidayRate"
+        type="number"
+        min="0"
+        step="0.1"
+        value="100"
+        aria-label="Feiertagszuschlag in Prozent"
+      />
+      <span class="suffix">%</span>
+    </div>
+
+  </div>
+</div>
+
+<div class="field">
+  <label>Weitere Zulage</label>
+
+  <div class="rate-grid">
+
+    <div class="input-wrap">
+      <input
+        id="otherHours"
+        type="number"
+        min="0"
+        step="0.25"
+        value="0"
+        aria-label="Stunden mit weiterer Zulage"
+      />
+      <span class="suffix">Std.</span>
+    </div>
+
+    <div class="input-wrap">
+      <input
+        id="otherRate"
+        type="number"
+        min="0"
+        step="0.1"
+        value="0"
+        aria-label="Weitere Zulage in Prozent"
+      />
+      <span class="suffix">%</span>
+    </div>
+
+  </div>
+
+  <span class="field-note">
+    Zum Beispiel für eine individuell vereinbarte zusätzliche Zulage.
+  </span>
+</div>
+
+<div class="field">
+  <label for="flatAllowance">Feste zusätzliche Zulage</label>
+
+  <div class="input-wrap">
+    <input
+      id="flatAllowance"
+      type="number"
+      min="0"
+      step="0.01"
+      value="0"
+    />
+    <span class="suffix">€</span>
+  </div>
+
+  <span class="field-note">
+    Optional für monatliche oder pauschale Zulagen.
+  </span>
+</div>
+
+<button
+  type="button"
+  class="primary-btn"
+  id="calculate"
+>
+  Schichtzulagen berechnen
+</button>
+
+<button
+  type="button"
+  class="secondary-btn"
+  id="resetCalculator"
+>
+  Rechner zurücksetzen
+</button>
+
+<div class="warning">
+  Die voreingestellten Prozentsätze sind nur Beispielwerte.
+  Welche Zuschläge tatsächlich gelten, hängt unter anderem von
+  Arbeitsvertrag, Tarifvertrag, Arbeitszeit und individuellen Regelungen ab.
+</div>
+
+</div>
+
+<div
+  class="panel result"
+  id="resultPanel"
+>
+
+  <h2>Deine Berechnung</h2>
+
+  <div class="result-row">
+    <span class="result-label">Grundlohn</span>
+    <span class="result-value" id="baseResult">0,00 €</span>
+  </div>
+
+  <div class="result-row">
+    <span class="result-label">Nachtzuschlag</span>
+    <span class="result-value" id="nightResult">0,00 €</span>
+  </div>
+
+  <div class="result-row">
+    <span class="result-label">Spätschichtzulage</span>
+    <span class="result-value" id="lateResult">0,00 €</span>
+  </div>
+
+  <div class="result-row">
+    <span class="result-label">Sonntagszuschlag</span>
+    <span class="result-value" id="sundayResult">0,00 €</span>
+  </div>
+
+  <div class="result-row">
+    <span class="result-label">Feiertagszuschlag</span>
+    <span class="result-value" id="holidayResult">0,00 €</span>
+  </div>
+
+  <div class="result-row">
+    <span class="result-label">Weitere prozentuale Zulage</span>
+    <span class="result-value" id="otherResult">0,00 €</span>
+  </div>
+
+  <div class="result-row">
+    <span class="result-label">Feste Zulage</span>
+    <span class="result-value" id="flatResult">0,00 €</span>
+  </div>
+
+  <div class="result-row">
+    <span class="result-label">Zuschläge insgesamt</span>
+    <span class="result-value" id="allowanceResult">0,00 €</span>
+  </div>
+
+  <div class="result-total">
+    <span>Brutto inklusive eingegebener Zuschläge</span>
+    <strong id="totalResult">0,00 €</strong>
+  </div>
+
+  <div class="warning">
+    Stunden können sich überschneiden. Wenn beispielsweise dieselbe Stunde
+    sowohl als Nacht-, Spät- oder Sonntagsstunde eingetragen wird, werden
+    die jeweiligen eingegebenen Zuschläge berücksichtigt. Ob Zuschläge
+    tatsächlich nebeneinander gezahlt werden, richtet sich nach den für dich
+    geltenden Regelungen.
+  </div>
 
     </div>
 
@@ -812,6 +854,12 @@
     const nightRate =
       numberValue("nightRate");
 
+    const lateHours =
+      numberValue("lateHours");
+
+    const lateRate =
+      numberValue("lateRate");
+
     const sundayHours =
       numberValue("sundayHours");
 
@@ -844,6 +892,13 @@
         nightRate
       );
 
+    const late =
+      allowance(
+        hourlyWage,
+        lateHours,
+        lateRate
+      );
+
     const sunday =
       allowance(
         hourlyWage,
@@ -867,6 +922,7 @@
 
     const allAllowances =
       night +
+      late +
       sunday +
       holiday +
       other +
@@ -885,6 +941,11 @@
       .getElementById("nightResult")
       .textContent =
         euro(night);
+
+    document
+      .getElementById("lateResult")
+      .textContent =
+        euro(late);
 
     document
       .getElementById("sundayResult")
@@ -936,6 +997,9 @@
 
     document.getElementById("nightHours").value = 0;
     document.getElementById("nightRate").value = 25;
+
+    document.getElementById("lateHours").value = 0;
+    document.getElementById("lateRate").value = 0;
 
     document.getElementById("sundayHours").value = 0;
     document.getElementById("sundayRate").value = 50;
