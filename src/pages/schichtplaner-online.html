@@ -1,0 +1,964 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Schichtplaner Online – Kostenlos Schichtplan erstellen | Shift Lion</title>
+
+  <meta
+    name="description"
+    content="Kostenloser Schichtplaner online: Startdatum und Schichtrhythmus eingeben und sofort deinen persönlichen Schichtplan als Monatskalender erstellen."
+  />
+
+  <link
+    rel="canonical"
+    href="https://shiftlion.app/schichtplaner-online.html"
+  />
+
+  <meta property="og:type" content="website" />
+  <meta
+    property="og:title"
+    content="Schichtplaner Online – Kostenlos Schichtplan erstellen"
+  />
+  <meta
+    property="og:description"
+    content="Erstelle kostenlos deinen persönlichen Schichtplan mit Früh-, Spät-, Nacht- und freien Tagen."
+  />
+  <meta
+    property="og:url"
+    content="https://shiftlion.app/schichtplaner-online.html"
+  />
+  <meta
+    property="og:image"
+    content="https://shiftlion.app/kalender.jpg"
+  />
+
+  <link rel="icon" href="/favicon.png" />
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebApplication",
+    "name": "Shift Lion Schichtplaner Online",
+    "url": "https://shiftlion.app/schichtplaner-online.html",
+    "applicationCategory": "ProductivityApplication",
+    "operatingSystem": "Web",
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "EUR"
+    },
+    "description": "Kostenloser Online-Schichtplaner zum Erstellen eines persönlichen Schichtplans."
+  }
+  </script>
+
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    html {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      width: 100%;
+      margin: 0;
+      background: #020617;
+      font-family: Inter, system-ui, sans-serif;
+      color: #0f172a;
+    }
+
+    button,
+    input,
+    select {
+      font: inherit;
+    }
+
+    .app {
+      width: 100%;
+      max-width: 520px;
+      min-height: 100vh;
+      margin: 0 auto;
+      background: #e2e8f0;
+      box-shadow: 0 0 40px rgba(15, 23, 42, .2);
+    }
+
+    .hero {
+      background: #020617;
+      color: white;
+      padding: 24px 18px 28px;
+      border-bottom-left-radius: 32px;
+      border-bottom-right-radius: 32px;
+    }
+
+    .topbar {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 18px;
+    }
+
+    .brand-logo {
+      width: auto;
+      height: 115px;
+      display: block;
+    }
+
+    h1 {
+      margin: 0 0 14px;
+      font-size: 36px;
+      line-height: 1;
+      letter-spacing: -0.05em;
+    }
+
+    .lead {
+      margin: 0;
+      color: #cbd5e1;
+      line-height: 1.6;
+      font-size: 16px;
+    }
+
+    .nav {
+      display: grid;
+      gap: 8px;
+      margin-top: 20px;
+    }
+
+    .nav a {
+      padding: 10px 12px;
+      border-radius: 14px;
+      color: white;
+      text-decoration: none;
+      font-weight: 800;
+      background: rgba(255,255,255,.08);
+      border: 1px solid rgba(255,255,255,.12);
+    }
+
+    .section {
+      padding: 18px;
+    }
+
+    .panel {
+      background: white;
+      padding: 20px;
+      margin-bottom: 16px;
+      border-radius: 28px;
+      box-shadow: 0 12px 28px rgba(15,23,42,.08);
+    }
+
+    h2 {
+      margin: 0 0 10px;
+      font-size: 26px;
+      line-height: 1.1;
+      letter-spacing: -0.035em;
+    }
+
+    h3 {
+      margin: 0 0 8px;
+      font-size: 19px;
+    }
+
+    p {
+      line-height: 1.6;
+      color: #475569;
+    }
+
+    .form-label {
+      display: block;
+      margin: 18px 0 7px;
+      font-weight: 900;
+    }
+
+    .date-input {
+      width: 100%;
+      padding: 14px;
+      border-radius: 16px;
+      border: 1px solid #cbd5e1;
+      background: white;
+    }
+
+    .rhythm-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .shift-select {
+      width: 100%;
+      padding: 13px 10px;
+      border-radius: 16px;
+      border: 1px solid #cbd5e1;
+      background: white;
+    }
+
+    .rhythm-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+      margin-top: 12px;
+    }
+
+    .secondary-btn {
+      padding: 13px;
+      border: 1px solid #cbd5e1;
+      border-radius: 16px;
+      background: white;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .primary-btn {
+      width: 100%;
+      padding: 15px;
+      margin-top: 18px;
+      border: 0;
+      border-radius: 18px;
+      background: #020617;
+      color: white;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .month-controls {
+      display: grid;
+      grid-template-columns: 1fr 1.4fr 1fr;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 15px;
+    }
+
+    .month-button {
+      border: 1px solid #cbd5e1;
+      background: white;
+      padding: 10px;
+      border-radius: 14px;
+      font-weight: 900;
+      cursor: pointer;
+    }
+
+    .month-title {
+      text-align: center;
+      font-weight: 900;
+      font-size: 18px;
+    }
+
+    .calendar {
+      overflow: hidden;
+      border-radius: 20px;
+      background: #f8fafc;
+      border: 1px solid #e2e8f0;
+    }
+
+    .weekday-row,
+    .calendar-grid {
+      display: grid;
+      grid-template-columns: repeat(7, 1fr);
+    }
+
+    .weekday {
+      padding: 8px 2px;
+      text-align: center;
+      font-size: 11px;
+      font-weight: 900;
+      background: #e2e8f0;
+    }
+
+    .day {
+      position: relative;
+      min-height: 68px;
+      padding: 6px 4px;
+      border-right: 1px solid #e2e8f0;
+      border-bottom: 1px solid #e2e8f0;
+      background: white;
+    }
+
+    .day.empty {
+      background: #f8fafc;
+    }
+
+    .day-number {
+      display: block;
+      margin-bottom: 6px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .shift-badge {
+      display: block;
+      padding: 5px 2px;
+      border-radius: 9px;
+      text-align: center;
+      font-size: 10px;
+      font-weight: 900;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    .shift-frueh {
+      background: #fef3c7;
+      color: #92400e;
+    }
+
+    .shift-spaet {
+      background: #dbeafe;
+      color: #1e40af;
+    }
+
+    .shift-nacht {
+      background: #312e81;
+      color: white;
+    }
+
+    .shift-frei {
+      background: #dcfce7;
+      color: #166534;
+    }
+
+    .shift-sonstiges {
+      background: #e2e8f0;
+      color: #334155;
+    }
+
+    .legend {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 7px;
+      margin-top: 14px;
+    }
+
+    .legend-item {
+      padding: 6px 9px;
+      border-radius: 10px;
+      font-size: 12px;
+      font-weight: 900;
+    }
+
+    .tool-note {
+      font-size: 13px;
+      color: #64748b;
+    }
+
+    .cta {
+      margin: 18px;
+      padding: 22px;
+      border-radius: 28px;
+      background: #020617;
+      color: white;
+    }
+
+    .cta h2 {
+      color: white;
+    }
+
+    .cta p {
+      color: #cbd5e1;
+    }
+
+    .btn {
+      display: block;
+      width: 100%;
+      margin-top: 17px;
+      padding: 15px;
+      border-radius: 18px;
+      background: white;
+      color: black;
+      text-align: center;
+      text-decoration: none;
+      font-weight: 900;
+    }
+
+    .link-card {
+      display: block;
+      padding: 16px;
+      margin-top: 12px;
+      border-radius: 18px;
+      background: #f8fafc;
+      color: #0f172a;
+      text-decoration: none;
+      font-weight: 900;
+      border: 1px solid #e2e8f0;
+    }
+
+    ul {
+      color: #475569;
+      line-height: 1.8;
+      padding-left: 22px;
+    }
+
+    @media (max-width: 380px) {
+      .day {
+        min-height: 59px;
+      }
+
+      .shift-badge {
+        font-size: 9px;
+      }
+    }
+  </style>
+</head>
+
+<body>
+<main class="app">
+
+  <section class="hero">
+
+    <div class="topbar">
+      <img
+        src="/Shift-Lion-Logo-groß.png"
+        alt="Shift Lion Logo"
+        class="brand-logo"
+      />
+    </div>
+
+    <h1>Schichtplaner Online</h1>
+
+    <p class="lead">
+      Erstelle kostenlos deinen persönlichen Schichtplan.
+      Startdatum und Schichtrhythmus eingeben – der Monatskalender
+      wird direkt im Browser berechnet.
+    </p>
+
+    {{NAV_DE}}
+
+  </section>
+
+  <section class="section">
+
+    <div class="panel">
+
+      <h2>Schichtplan kostenlos erstellen</h2>
+
+      <p>
+        Lege fest, an welchem Tag dein Schichtrhythmus beginnt
+        und welche Schichten aufeinander folgen.
+      </p>
+
+      <label class="form-label" for="startDate">
+        Startdatum deines Rhythmus
+      </label>
+
+      <input
+        class="date-input"
+        id="startDate"
+        type="date"
+      />
+
+      <span class="form-label">Dein Schichtrhythmus</span>
+
+      <div id="rhythmGrid" class="rhythm-grid"></div>
+
+      <div class="rhythm-actions">
+        <button
+          class="secondary-btn"
+          type="button"
+          id="addDay"
+        >
+          + Tag
+        </button>
+
+        <button
+          class="secondary-btn"
+          type="button"
+          id="removeDay"
+        >
+          − Tag
+        </button>
+      </div>
+
+      <button
+        type="button"
+        class="primary-btn"
+        id="createPlan"
+      >
+        Schichtplan erstellen
+      </button>
+
+      <p class="tool-note">
+        Deine Eingaben bleiben in deinem Browser. Für die Erstellung
+        des Kalenders ist kein Konto erforderlich.
+      </p>
+
+    </div>
+
+    <div class="panel" id="calendarPanel">
+
+      <h2>Dein Schichtkalender</h2>
+
+      <div class="month-controls">
+
+        <button
+          type="button"
+          class="month-button"
+          id="previousMonth"
+          aria-label="Vorheriger Monat"
+        >
+          ←
+        </button>
+
+        <div
+          class="month-title"
+          id="monthTitle"
+        ></div>
+
+        <button
+          type="button"
+          class="month-button"
+          id="nextMonth"
+          aria-label="Nächster Monat"
+        >
+          →
+        </button>
+
+      </div>
+
+      <div class="calendar">
+
+        <div class="weekday-row">
+          <div class="weekday">Mo</div>
+          <div class="weekday">Di</div>
+          <div class="weekday">Mi</div>
+          <div class="weekday">Do</div>
+          <div class="weekday">Fr</div>
+          <div class="weekday">Sa</div>
+          <div class="weekday">So</div>
+        </div>
+
+        <div
+          id="calendarGrid"
+          class="calendar-grid"
+        ></div>
+
+      </div>
+
+      <div class="legend">
+        <span class="legend-item shift-frueh">Früh</span>
+        <span class="legend-item shift-spaet">Spät</span>
+        <span class="legend-item shift-nacht">Nacht</span>
+        <span class="legend-item shift-frei">Frei</span>
+      </div>
+
+    </div>
+
+    <div class="panel">
+
+      <h2>Was ist ein Online-Schichtplaner?</h2>
+
+      <p>
+        Ein Online-Schichtplaner berechnet aus einem wiederkehrenden
+        Schichtrhythmus automatisch, welche Schicht an welchem Tag
+        stattfindet.
+      </p>
+
+      <p>
+        Besonders bei Früh-, Spät- und Nachtschichten kann ein
+        automatisch berechneter Schichtkalender dabei helfen,
+        freie Tage und kommende Dienste schneller zu erkennen.
+      </p>
+
+    </div>
+
+    <div class="panel">
+
+      <h2>Für welche Schichtsysteme funktioniert der Planer?</h2>
+
+      <p>
+        Du kannst unterschiedliche Schichtfolgen kombinieren, zum Beispiel:
+      </p>
+
+      <ul>
+        <li>Früh – Früh – Spät – Spät – Nacht – Nacht – Frei – Frei</li>
+        <li>Früh – Spät – Nacht – Frei</li>
+        <li>mehrere Nacht- oder Frühschichten hintereinander</li>
+        <li>individuelle Rhythmen mit unterschiedlich vielen Tagen</li>
+      </ul>
+
+      <p>
+        Mit den Buttons <strong>+ Tag</strong> und <strong>− Tag</strong>
+        kannst du die Länge deines Rhythmus verändern.
+      </p>
+
+    </div>
+
+    <div class="panel">
+
+      <h2>Zwei Schichtpläne vergleichen?</h2>
+
+      <p>
+        Wenn du herausfinden möchtest, wann zwei Personen mit unterschiedlichen
+        Schichtsystemen gleichzeitig frei haben, kannst du zusätzlich
+        unseren Schichtvergleich nutzen.
+      </p>
+
+      <a
+        href="/"
+        class="link-card"
+      >
+        👥 Gemeinsame freie Tage finden →
+      </a>
+
+    </div>
+
+    <div class="panel">
+
+      <h2>Vom Online-Schichtplan zur Schichtplan App</h2>
+
+      <p>
+        Der kostenlose Online-Schichtplaner eignet sich für eine schnelle
+        Berechnung deines Rhythmus.
+      </p>
+
+      <p>
+        Wenn du deinen Schichtplan dauerhaft auf deinem Smartphone
+        verwalten möchtest, bietet Shift Lion zusätzliche Funktionen wie
+        Urlaub, Termine, mehrere Schichtgruppen, Statistiken,
+        Schichtvergleich sowie Lohn- und Zuschlagsberechnungen.
+      </p>
+
+    </div>
+
+  </section>
+
+  <section class="cta">
+
+    <h2>Deinen Schichtplan dauerhaft dabei haben</h2>
+
+    <p>
+      Mit Shift Lion kannst du deinen Schichtplan auf Android
+      verwalten und deinen Schichtalltag übersichtlicher organisieren.
+    </p>
+
+    <a
+      href="/download/android/"
+      class="btn"
+    >
+      Shift Lion für Android herunterladen
+    </a>
+
+  </section>
+
+</main>
+
+<script>
+  const options = ["Früh", "Spät", "Nacht", "Frei"];
+
+  let rhythm = [
+    "Früh",
+    "Früh",
+    "Spät",
+    "Spät",
+    "Nacht",
+    "Nacht",
+    "Frei",
+    "Frei"
+  ];
+
+  let displayDate = new Date();
+  displayDate.setDate(1);
+
+  const rhythmGrid = document.getElementById("rhythmGrid");
+  const calendarGrid = document.getElementById("calendarGrid");
+  const monthTitle = document.getElementById("monthTitle");
+  const startDateInput = document.getElementById("startDate");
+
+  function formatInputDate(date) {
+    const y = date.getFullYear();
+    const m = String(date.getMonth() + 1).padStart(2, "0");
+    const d = String(date.getDate()).padStart(2, "0");
+
+    return `${y}-${m}-${d}`;
+  }
+
+  startDateInput.value = formatInputDate(new Date());
+
+  function renderRhythm() {
+
+    rhythmGrid.innerHTML = "";
+
+    rhythm.forEach((shift, index) => {
+
+      const select = document.createElement("select");
+      select.className = "shift-select";
+      select.setAttribute(
+        "aria-label",
+        `Schicht an Tag ${index + 1}`
+      );
+
+      options.forEach(option => {
+
+        const element = document.createElement("option");
+
+        element.value = option;
+        element.textContent = `${index + 1}. ${option}`;
+
+        if (option === shift) {
+          element.selected = true;
+        }
+
+        select.appendChild(element);
+
+      });
+
+      select.addEventListener("change", event => {
+        rhythm[index] = event.target.value;
+        renderCalendar();
+      });
+
+      rhythmGrid.appendChild(select);
+
+    });
+
+  }
+
+  function daysBetween(start, target) {
+
+    const oneDay = 24 * 60 * 60 * 1000;
+
+    const startUTC = Date.UTC(
+      start.getFullYear(),
+      start.getMonth(),
+      start.getDate()
+    );
+
+    const targetUTC = Date.UTC(
+      target.getFullYear(),
+      target.getMonth(),
+      target.getDate()
+    );
+
+    return Math.floor((targetUTC - startUTC) / oneDay);
+
+  }
+
+  function positiveModulo(number, divisor) {
+    return ((number % divisor) + divisor) % divisor;
+  }
+
+  function getShiftForDate(date) {
+
+    const startValue = startDateInput.value;
+
+    if (!startValue || rhythm.length === 0) {
+      return null;
+    }
+
+    const parts = startValue.split("-");
+
+    const start = new Date(
+      Number(parts[0]),
+      Number(parts[1]) - 1,
+      Number(parts[2])
+    );
+
+    const difference = daysBetween(start, date);
+
+    const rhythmIndex = positiveModulo(
+      difference,
+      rhythm.length
+    );
+
+    return rhythm[rhythmIndex];
+
+  }
+
+  function getShiftClass(shift) {
+
+    if (shift === "Früh") {
+      return "shift-frueh";
+    }
+
+    if (shift === "Spät") {
+      return "shift-spaet";
+    }
+
+    if (shift === "Nacht") {
+      return "shift-nacht";
+    }
+
+    if (shift === "Frei") {
+      return "shift-frei";
+    }
+
+    return "shift-sonstiges";
+
+  }
+
+  function renderCalendar() {
+
+    calendarGrid.innerHTML = "";
+
+    const year = displayDate.getFullYear();
+    const month = displayDate.getMonth();
+
+    const formatter = new Intl.DateTimeFormat(
+      "de-DE",
+      {
+        month: "long",
+        year: "numeric"
+      }
+    );
+
+    monthTitle.textContent =
+      formatter.format(displayDate);
+
+    const firstDay = new Date(year, month, 1);
+
+    let weekday = firstDay.getDay();
+
+    if (weekday === 0) {
+      weekday = 7;
+    }
+
+    const emptyBefore = weekday - 1;
+
+    for (let i = 0; i < emptyBefore; i++) {
+
+      const empty = document.createElement("div");
+      empty.className = "day empty";
+
+      calendarGrid.appendChild(empty);
+
+    }
+
+    const daysInMonth =
+      new Date(year, month + 1, 0).getDate();
+
+    for (let dayNumber = 1; dayNumber <= daysInMonth; dayNumber++) {
+
+      const date =
+        new Date(year, month, dayNumber);
+
+      const shift =
+        getShiftForDate(date);
+
+      const cell =
+        document.createElement("div");
+
+      cell.className = "day";
+
+      const number =
+        document.createElement("span");
+
+      number.className = "day-number";
+      number.textContent = dayNumber;
+
+      cell.appendChild(number);
+
+      if (shift) {
+
+        const badge =
+          document.createElement("span");
+
+        badge.className =
+          `shift-badge ${getShiftClass(shift)}`;
+
+        badge.textContent = shift;
+
+        cell.appendChild(badge);
+
+      }
+
+      calendarGrid.appendChild(cell);
+
+    }
+
+  }
+
+  document
+    .getElementById("addDay")
+    .addEventListener("click", () => {
+
+      if (rhythm.length >= 31) {
+        return;
+      }
+
+      rhythm.push("Frei");
+
+      renderRhythm();
+      renderCalendar();
+
+    });
+
+  document
+    .getElementById("removeDay")
+    .addEventListener("click", () => {
+
+      if (rhythm.length <= 1) {
+        return;
+      }
+
+      rhythm.pop();
+
+      renderRhythm();
+      renderCalendar();
+
+    });
+
+  document
+    .getElementById("createPlan")
+    .addEventListener("click", () => {
+
+      const value = startDateInput.value;
+
+      if (!value) {
+        return;
+      }
+
+      const parts = value.split("-");
+
+      displayDate = new Date(
+        Number(parts[0]),
+        Number(parts[1]) - 1,
+        1
+      );
+
+      renderCalendar();
+
+      document
+        .getElementById("calendarPanel")
+        .scrollIntoView({
+          behavior: "smooth"
+        });
+
+    });
+
+  document
+    .getElementById("previousMonth")
+    .addEventListener("click", () => {
+
+      displayDate.setMonth(
+        displayDate.getMonth() - 1
+      );
+
+      renderCalendar();
+
+    });
+
+  document
+    .getElementById("nextMonth")
+    .addEventListener("click", () => {
+
+      displayDate.setMonth(
+        displayDate.getMonth() + 1
+      );
+
+      renderCalendar();
+
+    });
+
+  startDateInput.addEventListener(
+    "change",
+    renderCalendar
+  );
+
+  renderRhythm();
+  renderCalendar();
+</script>
+
+</body>
+</html>
