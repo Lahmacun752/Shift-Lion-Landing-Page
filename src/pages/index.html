@@ -574,13 +574,18 @@ body { background: #05070d; }
 .brand { width: auto; justify-content: flex-start; }
 .brand-logo { height: 68px; }
 .language-switch { position: static; order: 3; }
-.desktop-nav { display: flex; gap: 30px; align-items: center; margin-left: auto; margin-right: 30px; }
+.desktop-nav { display: flex; gap: 26px; align-items: center; margin-left: auto; }
 .desktop-nav a { color: #d7dce5; text-decoration: none; font-weight: 700; font-size: 14px; }
 .desktop-nav a:hover { color: #f2be37; }
+.desktop-nav .nav-download { color: #111318; background: #f2be37; padding: 12px 17px; border-radius: 10px; }
+.desktop-nav .nav-download:hover { color: #111318; background: #ffd45f; }
 .menu-toggle { display: none; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.07); color: white; border-radius: 10px; padding: 10px 13px; font: inherit; font-weight: 900; cursor: pointer; }
-.mobile-menu { grid-column: 1 / -1; width: 100%; padding: 12px 0 20px; display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+.menu-toggle .menu-icon { display: inline-block; margin-right: 7px; font-size: 17px; line-height: 1; }
+.mobile-menu { position: absolute; z-index: 20; top: 76px; right: 0; width: min(360px, calc(100vw - 40px)); padding: 12px; display: grid; grid-template-columns: 1fr; gap: 7px; border: 1px solid rgba(255,255,255,.13); border-radius: 16px; background: #11141b; box-shadow: 0 22px 55px rgba(0,0,0,.45); }
 .mobile-menu[hidden] { display: none; }
-.mobile-menu a { color: white; text-decoration: none; padding: 12px; border-radius: 10px; background: rgba(255,255,255,.07); font-weight: 750; }
+.mobile-menu a { color: white; text-decoration: none; padding: 13px 14px; border-radius: 10px; background: rgba(255,255,255,.055); font-weight: 750; }
+.mobile-menu a:hover { background: rgba(255,255,255,.1); }
+.mobile-menu .mobile-download { background: #f2be37; color: #111318; text-align: center; margin-top: 5px; }
 .hero-copy { max-width: 860px; padding: 64px 0 24px; }
 .eyebrow { color: #f2be37; font-size: 13px; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; margin-bottom: 22px; }
 h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
@@ -702,14 +707,16 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
     <a href="#features">Funktionen</a>
     <a href="#tool">Schichten vergleichen</a>
     <a href="schichtplaner-online.html">Online-Planer</a>
-    <a href="schichtzulagen-rechner.html">Lohn & Zuschläge</a>
+    <a href="schichtzulagen-rechner.html">Zuschlagsrechner</a>
+    <a class="nav-download" href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro" target="_blank" rel="noopener">App herunterladen</a>
   </nav>
-  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileMenu" onclick="toggleMenu(this)">Menü</button>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Navigation öffnen" onclick="toggleMenu(this)"><span class="menu-icon" aria-hidden="true">☰</span>Menü</button>
   <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile Navigation" hidden>
     <a href="#features" onclick="closeMenu()">Funktionen</a>
     <a href="#tool" onclick="closeMenu()">Schichten vergleichen</a>
     <a href="schichtplaner-online.html">Online-Planer</a>
-    <a href="schichtzulagen-rechner.html">Lohn & Zuschläge</a>
+    <a href="schichtzulagen-rechner.html">Zuschlagsrechner</a>
+    <a class="mobile-download" href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro" target="_blank" rel="noopener">App herunterladen</a>
   </nav>
 
 </div>
@@ -1110,6 +1117,18 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
       menu.setAttribute('hidden', '');
       button?.setAttribute('aria-expanded', 'false');
     }
+
+    document.addEventListener('keydown', event => {
+      if (event.key === 'Escape') closeMenu();
+    });
+
+    document.addEventListener('click', event => {
+      const menu = document.getElementById('mobileMenu');
+      const button = document.querySelector('.menu-toggle');
+      if (!menu.hasAttribute('hidden') && !menu.contains(event.target) && !button.contains(event.target)) {
+        closeMenu();
+      }
+    });
 
     const options = [
       ['F', 'Früh'],
