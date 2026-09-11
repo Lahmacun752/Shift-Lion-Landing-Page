@@ -521,6 +521,61 @@
         grid-template-columns: 1fr 1fr;
       }
     }
+
+    /* Shift Lion website design system */
+    body { background:#f4f6f8; }
+    .app { max-width:none; box-shadow:none; background:#f4f6f8; }
+    .hero { border-radius:0; padding:0 max(24px,calc((100vw - 1180px)/2)) 72px; background:#05070d; }
+    .topbar { min-height:92px; margin:0 0 64px; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,.1); position:relative; }
+    .brand-logo { height:68px; }
+    .desktop-nav { display:flex; align-items:center; gap:25px; margin-left:auto; }
+    .desktop-nav a { color:#d7dce5; text-decoration:none; font-size:14px; font-weight:750; }
+    .desktop-nav .nav-download { padding:12px 17px; border-radius:10px; background:#f2be37; color:#111318; }
+    .menu-toggle { display:none; border:1px solid rgba(255,255,255,.16); background:rgba(255,255,255,.07); color:white; border-radius:10px; padding:10px 13px; font-weight:900; }
+    .mobile-menu { position:absolute; z-index:20; top:76px; right:0; width:min(360px,calc(100vw - 40px)); padding:12px; display:grid; gap:7px; border:1px solid rgba(255,255,255,.13); border-radius:16px; background:#11141b; box-shadow:0 22px 55px rgba(0,0,0,.45); }
+    .mobile-menu[hidden] { display:none; }
+    .mobile-menu a { color:white; text-decoration:none; padding:13px 14px; border-radius:10px; background:rgba(255,255,255,.055); font-weight:750; }
+    .mobile-menu .mobile-download { background:#f2be37; color:#111318; text-align:center; }
+    .hero-kicker { color:#f2be37; text-transform:uppercase; letter-spacing:.11em; font-size:13px; font-weight:900; margin-bottom:20px; }
+    h1 { max-width:850px; font-size:clamp(50px,5vw,76px); }
+    .lead { max-width:740px; font-size:19px; }
+    .hero-points { display:flex; flex-wrap:wrap; gap:10px; margin-top:28px; }
+    .hero-points span { padding:10px 13px; border-radius:10px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1); color:#e1e5eb; font-weight:750; font-size:13px; }
+    .section { width:min(1180px,calc(100% - 48px)); margin:auto; padding:56px 0; }
+    .panel { border-radius:22px; padding:clamp(24px,4vw,46px); margin-bottom:24px; box-shadow:0 10px 32px rgba(15,23,42,.07); }
+    .section > .panel:first-child { border-top:4px solid #f2be37; }
+    .primary-btn,.download-btn { background:#f2be37; color:#111318; border-radius:12px; }
+    .secondary-btn,.print-btn,.month-button,.date-input,.shift-select { border-radius:11px; }
+    .planner-layout { display:grid; grid-template-columns:minmax(300px,.72fr) minmax(0,1.28fr); gap:24px; align-items:start; }
+    .planner-layout .panel { margin:0; }
+    .trust-strip { width:min(1180px,calc(100% - 48px)); margin:-28px auto 10px; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .trust-strip div { background:white; border-radius:15px; padding:18px; box-shadow:0 10px 30px rgba(15,23,42,.08); font-weight:850; text-align:center; }
+    .faq-list { display:grid; gap:10px; margin-top:20px; }
+    .faq-list details { border:1px solid #e2e6ec; border-radius:13px; padding:0 18px; }
+    .faq-list summary { padding:17px 0; cursor:pointer; font-weight:850; }
+    .site-footer { padding:56px max(24px,calc((100vw - 1180px)/2)) 28px; background:#05070d; color:white; }
+    .footer-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:42px; }
+    .footer-grid img { height:62px; width:auto; }
+    .footer-grid p { color:#aeb5c1; max-width:380px; }
+    .footer-col strong { color:#f2be37; display:block; margin-bottom:14px; }
+    .footer-col a { display:block; color:#cbd0d9; text-decoration:none; margin:10px 0; }
+    .footer-bottom { margin-top:38px; padding-top:20px; border-top:1px solid rgba(255,255,255,.1); color:#89919f; font-size:13px; }
+    .cta { width:min(1180px,calc(100% - 48px)); margin:10px auto 64px; padding:42px; border-radius:22px; }
+    .cta .btn { display:inline-block; width:auto; background:#f2be37; padding:15px 20px; border-radius:12px; }
+
+    @media (max-width:860px) {
+      .hero { padding:0 20px 52px; }
+      .topbar { min-height:82px; margin-bottom:44px; }
+      .brand-logo { height:52px; }
+      .desktop-nav { display:none; }
+      .menu-toggle { display:block; margin-left:auto; }
+      h1 { font-size:43px; }
+      .lead { font-size:17px; }
+      .section,.trust-strip,.cta { width:min(100% - 28px,680px); }
+      .planner-layout,.trust-strip,.footer-grid { grid-template-columns:1fr; }
+      .section { padding:32px 0; }
+      .cta { padding:28px; }
+    }
   </style>
 </head>
 
@@ -536,8 +591,22 @@
         alt="Shift Lion Logo"
         class="brand-logo"
       />
+      <nav class="desktop-nav" aria-label="Hauptnavigation">
+        <a href="/">Startseite</a>
+        <a href="#planner">Planer</a>
+        <a href="/schichtzulagen-rechner.html">Zuschlagsrechner</a>
+        <a class="nav-download" href="/download/android/">App herunterladen</a>
+      </nav>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileMenu" onclick="toggleMenu(this)">☰ Menü</button>
+      <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile Navigation" hidden>
+        <a href="/">Startseite</a>
+        <a href="#planner" onclick="closeMenu()">Planer öffnen</a>
+        <a href="/schichtzulagen-rechner.html">Zuschlagsrechner</a>
+        <a class="mobile-download" href="/download/android/">App herunterladen</a>
+      </nav>
     </div>
 
+    <div class="hero-kicker">Kostenlos · ohne Anmeldung · direkt im Browser</div>
     <h1>Schichtplaner Online</h1>
 
     <p class="lead">
@@ -546,11 +615,15 @@
       werden direkt im Browser berechnet.
     </p>
 
-    {{NAV_DE}}
+    <div class="hero-points"><span>Monatsplan</span><span>Jahresplan</span><span>PDF-Export</span><span>Individuelle Rhythmen</span></div>
 
   </section>
 
-  <section class="section">
+  <div class="trust-strip"><div>Direkt nutzbar</div><div>Eingaben bleiben im Browser</div><div>Für Früh-, Spät- und Nachtschicht</div></div>
+
+  <section class="section" id="planner">
+
+    <div class="planner-layout">
 
     <div class="panel">
 
@@ -680,6 +753,8 @@
 
     </div>
 
+    </div>
+
     <!-- Jahresplan -->
 
     <div class="panel" id="yearPanel">
@@ -737,6 +812,16 @@
         kommende Dienste und freie Tage schneller zu erkennen.
       </p>
 
+    </div>
+
+    <div class="panel">
+      <h2>Häufige Fragen zum Online-Schichtplaner</h2>
+      <div class="faq-list">
+        <details><summary>Muss ich mich registrieren?</summary><p>Nein. Der Online-Schichtplaner kann ohne Benutzerkonto verwendet werden.</p></details>
+        <details><summary>Welche Schichtrhythmen kann ich eingeben?</summary><p>Du kannst Früh-, Spät-, Nacht- und freie Tage in einer individuellen Reihenfolge kombinieren.</p></details>
+        <details><summary>Kann ich einen Jahresplan erstellen?</summary><p>Ja. Nach dem Monatsplan kannst du den vollständigen Jahresplan erzeugen, als PDF speichern oder ausdrucken.</p></details>
+        <details><summary>Werden meine Eingaben hochgeladen?</summary><p>Die Berechnung erfolgt direkt in deinem Browser. Für die Nutzung des Planers ist kein Konto erforderlich.</p></details>
+      </div>
     </div>
 
     <div class="panel">
@@ -810,9 +895,29 @@
 
   </section>
 
+  <footer class="site-footer">
+    <div class="footer-grid">
+      <div><img src="/Shift-Lion-Logo-groß.png" alt="Shift Lion"><p>Schichtplanung für mehr Überblick, bessere Organisation und mehr gemeinsame Zeit.</p></div>
+      <div class="footer-col"><strong>Produkt</strong><a href="/">Startseite</a><a href="#planner">Online-Schichtplaner</a><a href="/schichtzulagen-rechner.html">Zuschlagsrechner</a></div>
+      <div class="footer-col"><strong>Shift Lion</strong><a href="mailto:masterinpocket@gmail.com">Kontakt</a><a href="/download/android/">Im Play Store öffnen</a></div>
+    </div>
+    <div class="footer-bottom">© 2026 Shift Lion · Master in Pocket</div>
+  </footer>
+
 </main>
 
 <script>
+  function toggleMenu(button) {
+    const menu = document.getElementById('mobileMenu');
+    const open = menu.hasAttribute('hidden');
+    menu.toggleAttribute('hidden', !open);
+    button.setAttribute('aria-expanded', String(open));
+  }
+  function closeMenu() {
+    document.getElementById('mobileMenu')?.setAttribute('hidden','');
+    document.querySelector('.menu-toggle')?.setAttribute('aria-expanded','false');
+  }
+  document.addEventListener('keydown', event => { if (event.key === 'Escape') closeMenu(); });
   const options = [
     "Früh",
     "Spät",
@@ -1384,19 +1489,33 @@
       "So"
     ];
 
+    const pdfShiftColors = {
+      "Früh":  { fill: [254, 243, 199], text: [146, 64, 14] },
+      "Spät":  { fill: [219, 234, 254], text: [30, 64, 175] },
+      "Nacht": { fill: [49, 46, 129],  text: [255, 255, 255] },
+      "Frei":  { fill: [220, 252, 231], text: [22, 101, 52] }
+    };
+
     function drawMonth(
       month,
       x,
       y
     ) {
 
-      doc.setDrawColor(180);
-      doc.rect(
+      doc.setFillColor(5, 7, 13);
+      doc.setDrawColor(5, 7, 13);
+      doc.roundedRect(
         x,
         y,
         boxWidth,
-        boxHeight
+        boxHeight,
+        2,
+        2,
+        "FD"
       );
+
+      doc.setFillColor(255, 255, 255);
+      doc.rect(x + 1, y + 10, boxWidth - 2, boxHeight - 11, "F");
 
       doc.setFont(
         "helvetica",
@@ -1404,6 +1523,8 @@
       );
 
       doc.setFontSize(11);
+
+      doc.setTextColor(242, 190, 55);
 
       doc.text(
         `${monthNames[month]} ${activeYear}`,
@@ -1427,6 +1548,8 @@
         10;
 
       doc.setFontSize(6);
+
+      doc.setTextColor(15, 23, 42);
 
       weekdays.forEach(
         (weekday, index) => {
@@ -1492,14 +1615,13 @@
           calendarTop + 7 +
           row * rowHeight;
 
-        doc.setDrawColor(220);
+        const date = new Date(activeYear, month, day);
+        const shift = getShiftForDate(date);
+        const palette = pdfShiftColors[shift] || { fill: [248, 250, 252], text: [51, 65, 85] };
 
-        doc.rect(
-          cellX,
-          cellY,
-          cellWidth,
-          rowHeight
-        );
+        doc.setFillColor(...palette.fill);
+        doc.setDrawColor(226, 232, 240);
+        doc.rect(cellX, cellY, cellWidth, rowHeight, "FD");
 
         doc.setFont(
           "helvetica",
@@ -1508,21 +1630,13 @@
 
         doc.setFontSize(5.5);
 
+        doc.setTextColor(15, 23, 42);
+
         doc.text(
           String(day),
           cellX + 1,
           cellY + 3
         );
-
-        const date =
-          new Date(
-            activeYear,
-            month,
-            day
-          );
-
-        const shift =
-          getShiftForDate(date);
 
         doc.setFont(
           "helvetica",
@@ -1530,6 +1644,8 @@
         );
 
         doc.setFontSize(5.5);
+
+        doc.setTextColor(...palette.text);
 
         doc.text(
           shift || "",
@@ -1541,6 +1657,8 @@
         );
 
       }
+
+      doc.setTextColor(15, 23, 42);
 
     }
 
@@ -1693,9 +1811,23 @@
             text-align: center;
             font-size: 9px;
             margin-top: 4px;
+            padding: 4px 2px;
+            border-radius: 5px;
+            font-weight: bold;
           }
 
+          .shift-frueh { background:#fef3c7; color:#92400e; }
+          .shift-spaet { background:#dbeafe; color:#1e40af; }
+          .shift-nacht { background:#312e81; color:#fff; }
+          .shift-frei { background:#dcfce7; color:#166534; }
+          .shift-sonstiges { background:#e2e8f0; color:#334155; }
+
           @media print {
+
+            * {
+              -webkit-print-color-adjust: exact !important;
+              print-color-adjust: exact !important;
+            }
 
             body {
               margin: 8mm;
