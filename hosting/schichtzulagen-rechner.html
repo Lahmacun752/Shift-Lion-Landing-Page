@@ -354,6 +354,64 @@
       text-decoration: none;
       font-weight: 900;
     }
+
+    /* Shift Lion website design system */
+    body { background:#f4f6f8; }
+    .app { max-width:none; box-shadow:none; background:#f4f6f8; }
+    .hero { border-radius:0; padding:0 max(24px,calc((100vw - 1180px)/2)) 72px; background:#05070d; }
+    .topbar { min-height:92px; margin:0 0 64px; justify-content:space-between; align-items:center; border-bottom:1px solid rgba(255,255,255,.1); position:relative; }
+    .brand-logo { height:68px; }
+    .desktop-nav { display:flex; align-items:center; gap:25px; margin-left:auto; }
+    .desktop-nav a { color:#d7dce5; text-decoration:none; font-size:14px; font-weight:750; }
+    .desktop-nav .nav-download { padding:12px 17px; border-radius:10px; background:#f2be37; color:#111318; }
+    .menu-toggle { display:none; border:1px solid rgba(255,255,255,.16); background:rgba(255,255,255,.07); color:white; border-radius:10px; padding:10px 13px; font-weight:900; }
+    .mobile-menu { position:absolute; z-index:20; top:76px; right:0; width:min(360px,calc(100vw - 40px)); padding:12px; display:grid; gap:7px; border:1px solid rgba(255,255,255,.13); border-radius:16px; background:#11141b; box-shadow:0 22px 55px rgba(0,0,0,.45); }
+    .mobile-menu[hidden] { display:none; }
+    .mobile-menu a { color:white; text-decoration:none; padding:13px 14px; border-radius:10px; background:rgba(255,255,255,.055); font-weight:750; }
+    .mobile-menu .mobile-download { background:#f2be37; color:#111318; text-align:center; }
+    .hero-kicker { color:#f2be37; text-transform:uppercase; letter-spacing:.11em; font-size:13px; font-weight:900; margin-bottom:20px; }
+    h1 { max-width:900px; font-size:clamp(50px,5vw,76px); }
+    .lead { max-width:760px; font-size:19px; }
+    .hero-points { display:flex; flex-wrap:wrap; gap:10px; margin-top:28px; }
+    .hero-points span { padding:10px 13px; border-radius:10px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1); color:#e1e5eb; font-weight:750; font-size:13px; }
+    .trust-strip { width:min(1180px,calc(100% - 48px)); margin:-28px auto 10px; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
+    .trust-strip div { background:white; border-radius:15px; padding:18px; box-shadow:0 10px 30px rgba(15,23,42,.08); font-weight:850; text-align:center; }
+    .section { width:min(1180px,calc(100% - 48px)); margin:auto; padding:56px 0; }
+    .panel { border-radius:22px; padding:clamp(24px,4vw,46px); margin-bottom:24px; box-shadow:0 10px 32px rgba(15,23,42,.07); }
+    .calculator-layout { display:grid; grid-template-columns:minmax(360px,.9fr) minmax(0,1.1fr); gap:24px; align-items:start; }
+    .calculator-layout .panel { margin:0; }
+    .calculator-layout .result { position:sticky; top:20px; }
+    .primary-btn { background:#f2be37; color:#111318; border-radius:12px; }
+    .secondary-btn,.input-wrap input { border-radius:11px; }
+    .result-total { background:#05070d; border:1px solid rgba(242,190,55,.35); }
+    .result-total strong { color:#f2be37; font-size:38px; }
+    .faq-list { display:grid; gap:10px; margin-top:20px; }
+    .faq-list details { border:1px solid #e2e6ec; border-radius:13px; padding:0 18px; }
+    .faq-list summary { padding:17px 0; cursor:pointer; font-weight:850; }
+    .cta { width:min(1180px,calc(100% - 48px)); margin:10px auto 64px; padding:42px; border-radius:22px; }
+    .cta .btn { display:inline-block; width:auto; background:#f2be37; padding:15px 20px; border-radius:12px; }
+    .site-footer { padding:56px max(24px,calc((100vw - 1180px)/2)) 28px; background:#05070d; color:white; }
+    .footer-grid { display:grid; grid-template-columns:1.4fr 1fr 1fr; gap:42px; }
+    .footer-grid img { height:62px; width:auto; }
+    .footer-grid p { color:#aeb5c1; max-width:380px; }
+    .footer-col strong { color:#f2be37; display:block; margin-bottom:14px; }
+    .footer-col a { display:block; color:#cbd0d9; text-decoration:none; margin:10px 0; }
+    .footer-bottom { margin-top:38px; padding-top:20px; border-top:1px solid rgba(255,255,255,.1); color:#89919f; font-size:13px; }
+
+    @media (max-width:860px) {
+      .hero { padding:0 20px 52px; }
+      .topbar { min-height:82px; margin-bottom:44px; }
+      .brand-logo { height:52px; }
+      .desktop-nav { display:none; }
+      .menu-toggle { display:block; margin-left:auto; }
+      h1 { font-size:43px; }
+      .lead { font-size:17px; }
+      .section,.trust-strip,.cta { width:min(100% - 28px,680px); }
+      .section { padding:32px 0; }
+      .calculator-layout,.trust-strip,.footer-grid { grid-template-columns:1fr; }
+      .calculator-layout .result { position:static; }
+      .cta { padding:28px; }
+    }
   </style>
 </head>
 
@@ -369,8 +427,12 @@
         alt="Shift Lion Logo"
         class="brand-logo"
       />
+      <nav class="desktop-nav" aria-label="Hauptnavigation"><a href="/">Startseite</a><a href="#rechner">Rechner</a><a href="/schichtplaner-online.html">Online-Planer</a><a class="nav-download" href="/download/android/">App herunterladen</a></nav>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileMenu" onclick="toggleMenu(this)">☰ Menü</button>
+      <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile Navigation" hidden><a href="/">Startseite</a><a href="#rechner" onclick="closeMenu()">Rechner öffnen</a><a href="/schichtplaner-online.html">Online-Planer</a><a class="mobile-download" href="/download/android/">App herunterladen</a></nav>
     </div>
 
+    <div class="hero-kicker">Kostenlos · flexibel · transparent</div>
     <h1>Schichtzulagen Rechner</h1>
 
     <p class="lead">
@@ -378,27 +440,15 @@
       Feiertagszuschläge anhand deiner eigenen Arbeitszeiten und Zuschlagssätze.
     </p>
 
-    <nav class="nav">
-  <a href="/">🏠 Startseite</a>
-  <a href="/schichtplaner.html">📅 Schichtplaner App</a>
-  <a href="/dienstplan-app.html">📋 Dienstplan App</a>
-  <a href="/fruehschicht-tipps.html">🌅 Frühschicht Tipps</a>
-  <a href="/spaetschicht-tipps.html">🌇 Spätschicht Tipps</a>
-  <a href="/nachtschicht-tipps.html">🌙 Nachtschicht Tipps</a>
-  <a href="/schichtarbeit-schlaf.html">😴 Schichtarbeit &amp; Schlaf</a>
-  <a href="/schichtarbeit-fitness.html">💪 Schichtarbeit &amp; Fitness</a>
-  <a href="/schichtarbeit-ernaehrung.html">🍎 Schichtarbeit &amp; Ernährung</a>
-  <a href="/schichtarbeit-alltag.html">📌 Schichtarbeit &amp; Alltag</a>
-  <a href="/schichtarbeit-familie.html">👨‍👩‍👧 Schichtarbeit &amp; Familie</a>
-  <a href="/schichtarbeit-beziehung.html">❤️ Schichtarbeit &amp; Beziehung</a>
-  <a href="/schichtarbeit-stress.html">🧠 Schichtarbeit &amp; Stress</a>
-  <a href="/schichtplaner-online.html">🗓️ Schichtplaner Online</a>
-  <a href="/schichtzulagen-rechner.html">💶 Schichtzulagen Rechner</a>
-</nav>
+    <div class="hero-points"><span>Nachtzuschlag</span><span>Sonntagszuschlag</span><span>Feiertagszuschlag</span><span>Eigene Sätze</span></div>
 
   </section>
 
-  <section class="section">
+  <div class="trust-strip"><div>Direkt im Browser</div><div>Eigene Zuschlagssätze</div><div>Unverbindliche Brutto-Schätzung</div></div>
+
+  <section class="section" id="rechner">
+
+    <div class="calculator-layout">
 
     <div class="panel">
 
@@ -651,7 +701,7 @@
 
 </div>
 
-<div
+    <div
   class="panel result"
   id="resultPanel"
 >
@@ -713,6 +763,8 @@
 
     </div>
 
+    </div>
+
     <div class="panel">
 
       <h2>Wie funktioniert der Schichtzulagen Rechner?</h2>
@@ -737,6 +789,16 @@
         40 Nachtstunden × 20 € × 25 % = 200 € Nachtzuschlag.
       </div>
 
+    </div>
+
+    <div class="panel">
+      <h2>Häufige Fragen zu Schichtzulagen</h2>
+      <div class="faq-list">
+        <details><summary>Sind die Ergebnisse rechtlich verbindlich?</summary><p>Nein. Der Rechner liefert eine unverbindliche mathematische Schätzung anhand deiner Eingaben und ersetzt keine Lohnabrechnung oder Rechtsberatung.</p></details>
+        <details><summary>Warum kann ich die Prozentsätze selbst ändern?</summary><p>Zuschlagssätze können sich je nach Arbeitsvertrag, Tarifvertrag, Branche und konkreter Arbeitszeit unterscheiden.</p></details>
+        <details><summary>Berechnet der Rechner meinen Nettolohn?</summary><p>Nein. Angezeigt wird der Bruttolohn inklusive der eingegebenen Zuschläge. Steuern und Sozialabgaben werden nicht berechnet.</p></details>
+        <details><summary>Können sich Zuschlagsstunden überschneiden?</summary><p>Ja. Eingetragene Stunden werden je Kategorie berechnet. Ob mehrere Zuschläge gleichzeitig gezahlt werden, richtet sich nach den für dich geltenden Regelungen.</p></details>
+      </div>
     </div>
 
     <div class="panel">
@@ -819,9 +881,35 @@
 
   </section>
 
+  <footer class="site-footer"><div class="footer-grid"><div><img src="/Shift-Lion-Logo-groß.png" alt="Shift Lion"><p>Schichtplanung und Vergütung übersichtlich an einem Ort.</p></div><div class="footer-col"><strong>Produkt</strong><a href="/">Startseite</a><a href="/schichtplaner-online.html">Online-Schichtplaner</a><a href="#rechner">Zuschlagsrechner</a></div><div class="footer-col"><strong>Shift Lion</strong><a href="mailto:masterinpocket@gmail.com">Kontakt</a><a href="/download/android/">Im Play Store öffnen</a></div></div><div class="footer-bottom">© 2026 Shift Lion · Master in Pocket</div></footer>
+
 </main>
 
 <script>
+  function toggleMenu(button) { const menu=document.getElementById('mobileMenu'); const open=menu.hasAttribute('hidden'); menu.toggleAttribute('hidden',!open); button.setAttribute('aria-expanded',String(open)); }
+  function closeMenu() { document.getElementById('mobileMenu')?.setAttribute('hidden',''); document.querySelector('.menu-toggle')?.setAttribute('aria-expanded','false'); }
+  document.addEventListener('keydown',event=>{ if(event.key==='Escape') closeMenu(); });
+
+  document.querySelectorAll('input[type="number"]').forEach(input => {
+    input.addEventListener('focus', () => {
+      if (Number(input.value) === 0) input.select();
+    });
+
+    input.addEventListener('blur', () => {
+      if (input.value.trim() === '') input.value = '0';
+    });
+
+    input.addEventListener('beforeinput', event => {
+      if (Number(input.value) === 0 && event.inputType === 'insertText' && event.data && /[0-9]/.test(event.data)) {
+        input.value = '';
+      }
+    });
+
+    input.addEventListener('input', () => {
+      if (/^0\d/.test(input.value)) input.value = input.value.replace(/^0+/, '');
+    });
+  });
+
   function numberValue(id) {
     const value = Number(
       document.getElementById(id).value
