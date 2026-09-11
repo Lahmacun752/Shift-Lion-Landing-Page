@@ -577,6 +577,10 @@ body { background: #05070d; }
 .desktop-nav { display: flex; gap: 30px; align-items: center; margin-left: auto; margin-right: 30px; }
 .desktop-nav a { color: #d7dce5; text-decoration: none; font-weight: 700; font-size: 14px; }
 .desktop-nav a:hover { color: #f2be37; }
+.menu-toggle { display: none; border: 1px solid rgba(255,255,255,.16); background: rgba(255,255,255,.07); color: white; border-radius: 10px; padding: 10px 13px; font: inherit; font-weight: 900; cursor: pointer; }
+.mobile-menu { grid-column: 1 / -1; width: 100%; padding: 12px 0 20px; display: grid; grid-template-columns: repeat(2,1fr); gap: 8px; }
+.mobile-menu[hidden] { display: none; }
+.mobile-menu a { color: white; text-decoration: none; padding: 12px; border-radius: 10px; background: rgba(255,255,255,.07); font-weight: 750; }
 .hero-copy { max-width: 860px; padding: 64px 0 24px; }
 .eyebrow { color: #f2be37; font-size: 13px; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; margin-bottom: 22px; }
 h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
@@ -624,12 +628,32 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
 .screenshot-grid { grid-template-columns: repeat(2, 1fr); gap: 24px; }
 .cta { padding: 56px; margin-top: 32px; margin-bottom: 64px; }
 .cta h3 { font-size: 38px; }
+.trust-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 16px; margin-top: 28px; }
+.trust-card { padding: 24px; border-radius: 18px; background: #0b0e14; color: white; border: 1px solid rgba(218,165,32,.22); }
+.trust-card strong { display: block; color: #f2be37; font-size: 19px; margin-bottom: 9px; }
+.trust-card p { margin: 0; color: #bec4cf; line-height: 1.6; }
+.faq-list { display: grid; gap: 12px; margin-top: 28px; }
+.faq-list details { background: white; border: 1px solid #e1e5eb; border-radius: 15px; padding: 0 20px; }
+.faq-list summary { cursor: pointer; font-weight: 850; padding: 19px 34px 19px 0; position: relative; list-style: none; }
+.faq-list summary::-webkit-details-marker { display: none; }
+.faq-list summary:after { content: "+"; position: absolute; right: 0; color: #b78609; font-size: 24px; top: 13px; }
+.faq-list details[open] summary:after { content: "–"; }
+.faq-list details p { margin: 0; padding: 0 0 20px; color: #596273; line-height: 1.65; max-width: 820px; }
+.site-footer { background: #05070d; color: white; padding: 62px max(24px,calc((100vw - 1180px)/2)) 30px; border-top: 1px solid rgba(255,255,255,.1); }
+.footer-grid { display: grid; grid-template-columns: 1.4fr 1fr 1fr; gap: 48px; }
+.footer-brand img { height: 62px; width: auto; }
+.footer-brand p { color: #aeb5c1; max-width: 400px; line-height: 1.65; }
+.footer-col strong { display: block; color: #f2be37; margin-bottom: 15px; }
+.footer-col a { display: block; color: #cbd0d9; text-decoration: none; margin: 11px 0; }
+.footer-col a:hover { color: white; }
+.footer-bottom { margin-top: 42px; padding-top: 22px; border-top: 1px solid rgba(255,255,255,.1); color: #89919f; font-size: 13px; }
 
 @media (max-width: 860px) {
   .app { background: linear-gradient(180deg, #05070d 0 760px, #f4f6f8 760px 100%); }
   .hero { min-height: 0; padding: 0 20px 58px; display: block; }
   .topbar { height: 82px; margin-bottom: 48px; }
   .desktop-nav { display: none; }
+  .menu-toggle { display: inline-block; margin-left: auto; }
   .brand-logo { height: 58px; }
   h1 { font-size: 45px; }
   .hero-actions { display: grid; }
@@ -641,8 +665,9 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
   .section, .preview-card, .cta { width: min(100% - 28px, 680px); }
   .section { padding: 34px 0; }
   .panel { padding: 24px; }
-  .feature-grid, .screenshot-grid { grid-template-columns: 1fr; }
+  .feature-grid, .screenshot-grid, .trust-grid, .footer-grid { grid-template-columns: 1fr; }
   .cta { padding: 28px; }
+  .site-footer { padding-top: 44px; }
 }
 
 @media (max-width: 480px) {
@@ -676,6 +701,13 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
   <nav class="desktop-nav" aria-label="Hauptnavigation">
     <a href="#features">Funktionen</a>
     <a href="#tool">Schichten vergleichen</a>
+    <a href="schichtplaner-online.html">Online-Planer</a>
+    <a href="schichtzulagen-rechner.html">Lohn & Zuschläge</a>
+  </nav>
+  <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileMenu" onclick="toggleMenu(this)">Menü</button>
+  <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile Navigation" hidden>
+    <a href="#features" onclick="closeMenu()">Funktionen</a>
+    <a href="#tool" onclick="closeMenu()">Schichten vergleichen</a>
     <a href="schichtplaner-online.html">Online-Planer</a>
     <a href="schichtzulagen-rechner.html">Lohn & Zuschläge</a>
   </nav>
@@ -987,6 +1019,33 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
 
 </section>
 
+<section class="section" id="datenschutz">
+  <div class="panel">
+    <div class="eyebrow" style="color:#a87500">Deine Daten. Deine Kontrolle.</div>
+    <h2 class="section-title">Privat geplant – ohne unnötige Umwege.</h2>
+    <p class="section-copy">Shift Lion ist für Menschen gemacht, die ihren Schichtalltag einfach organisieren möchten, ohne dafür ein Benutzerkonto anzulegen.</p>
+    <div class="trust-grid">
+      <div class="trust-card"><strong>Offline nutzbar</strong><p>Deine wichtigsten Planungsfunktionen stehen dir auch ohne dauerhafte Internetverbindung zur Verfügung.</p></div>
+      <div class="trust-card"><strong>Ohne Konto</strong><p>Du kannst direkt loslegen. Für die Nutzung der App ist kein persönliches Benutzerkonto erforderlich.</p></div>
+      <div class="trust-card"><strong>Lokale Speicherung</strong><p>Schichten, Termine und Einstellungen werden in der aktuellen App-Version lokal auf deinem Gerät gespeichert.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="faq">
+  <div class="panel">
+    <div class="eyebrow" style="color:#a87500">Häufige Fragen</div>
+    <h2 class="section-title">Das Wichtigste zu Shift Lion</h2>
+    <div class="faq-list">
+      <details><summary>Für welche Schichtmodelle eignet sich Shift Lion?</summary><p>Für Früh-, Spät-, Nacht- und frei definierbare Wechselschichten. Unterschiedliche Rhythmen lassen sich über mehrere Schichtgruppen abbilden.</p></details>
+      <details><summary>Kann ich gemeinsame freie Tage finden?</summary><p>Ja. Mit dem Schichtvergleich kannst du zwei Rhythmen gegenüberstellen und gemeinsame freie Tage als Liste und im Monatskalender anzeigen.</p></details>
+      <details><summary>Brauche ich ein Benutzerkonto?</summary><p>Nein. Die aktuelle App-Version lässt sich ohne persönliches Benutzerkonto verwenden.</p></details>
+      <details><summary>Wo werden meine Daten gespeichert?</summary><p>Deine Schicht-, Termin-, Arbeitszeit- und Einstellungsdaten werden in der aktuellen App-Version lokal auf deinem Gerät gespeichert.</p></details>
+      <details><summary>Kann ich meinen Schichtplan exportieren?</summary><p>Ja. Shift Lion unterstützt den Export deines Schichtplans, unter anderem als PDF- und Excel-Datei.</p></details>
+    </div>
+  </div>
+</section>
+
     <section class="cta">
 
       
@@ -1011,9 +1070,47 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
 
     </section>
 
+    <footer class="site-footer">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <img src="Shift-Lion-Logo-groß.png" alt="Shift Lion" />
+          <p>Schichtplanung für mehr Überblick, bessere Organisation und mehr gemeinsame Zeit.</p>
+        </div>
+        <div class="footer-col">
+          <strong>Produkt</strong>
+          <a href="#features">Funktionen</a>
+          <a href="#tool">Schichten vergleichen</a>
+          <a href="schichtplaner-online.html">Online-Schichtplaner</a>
+          <a href="schichtzulagen-rechner.html">Schichtzulagen-Rechner</a>
+        </div>
+        <div class="footer-col">
+          <strong>Shift Lion</strong>
+          <a href="#datenschutz">Datenschutz & lokale Daten</a>
+          <a href="#faq">Häufige Fragen</a>
+          <a href="mailto:masterinpocket@gmail.com">Kontakt</a>
+          <a href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro" target="_blank" rel="noopener">Im Play Store öffnen</a>
+        </div>
+      </div>
+      <div class="footer-bottom">© 2026 Shift Lion · Master in Pocket</div>
+    </footer>
+
   </main>
 
   <script>
+    function toggleMenu(button) {
+      const menu = document.getElementById('mobileMenu');
+      const willOpen = menu.hasAttribute('hidden');
+      menu.toggleAttribute('hidden', !willOpen);
+      button.setAttribute('aria-expanded', String(willOpen));
+    }
+
+    function closeMenu() {
+      const menu = document.getElementById('mobileMenu');
+      const button = document.querySelector('.menu-toggle');
+      menu.setAttribute('hidden', '');
+      button?.setAttribute('aria-expanded', 'false');
+    }
+
     const options = [
       ['F', 'Früh'],
       ['S', 'Spät'],
