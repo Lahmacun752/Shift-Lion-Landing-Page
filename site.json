@@ -80,6 +80,20 @@
 }
   ],
   "extra_sitemap": [
-    "/en/"
+    "/en/",
+    "/en/schichtplaner.html",
+    "/en/dienstplan-app.html",
+    "/en/schichtplaner-online.html",
+    "/en/schichtzulagen-rechner.html",
+    "/en/fruehschicht-tipps.html",
+    "/en/spaetschicht-tipps.html",
+    "/en/nachtschicht-tipps.html",
+    "/en/schichtarbeit-schlaf.html",
+    "/en/schichtarbeit-fitness.html",
+    "/en/schichtarbeit-ernaehrung.html",
+    "/en/schichtarbeit-alltag.html",
+    "/en/schichtarbeit-familie.html",
+    "/en/schichtarbeit-beziehung.html",
+    "/en/schichtarbeit-stress.html"
   ]
 }

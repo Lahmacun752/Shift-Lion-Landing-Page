@@ -1,5 +1,5 @@
 from pathlib import Path
-import json, shutil, html
+import json, shutil, html, re
 
 ROOT = Path(__file__).parent
 SRC = ROOT / "src" / "pages"
@@ -30,6 +30,12 @@ def build():
         text = text.replace("{{NAV_DE}}", render_nav("nav", "nav"))
         text = text.replace("{{NAV_DE_DARK}}", render_nav("nav nav-dark", "div"))
         target.write_text(text, encoding="utf-8")
+
+    # Keep the English homepage visually identical to the German homepage.
+    german_home = (SRC / "index.html").read_text(encoding="utf-8")
+    style_match = re.search(r"<style>(.*?)</style>", german_home, re.S)
+    if style_match:
+        (OUT / "en" / "homepage-structure.css").write_text(style_match.group(1), encoding="utf-8")
 
     # Sitemap from the same config: no manual sitemap maintenance.
     urls = []
