@@ -23,6 +23,13 @@
     action.textContent=isEnglish?'Open calculator →':'Zum Rechner →';
     oldAction.replaceWith(action);
   }
+  const nightCard=[...document.querySelectorAll('.tool-card')].find(card=>card.querySelector('h3')?.textContent===(isEnglish?'Night Allowance Calculator':'Nachtzuschlag-Rechner'));
+  if(nightCard){
+    nightCard.classList.remove('coming');
+    nightCard.querySelector('.badge').textContent=isEnglish?'Available':'Verfügbar';
+    const oldAction=nightCard.querySelector('.card-action'),action=document.createElement('a');
+    action.className='card-action';action.href=isEnglish?'/en/night-allowance-calculator.html':'/nachtzuschlag-rechner.html';action.textContent=isEnglish?'Open calculator →':'Zum Rechner →';oldAction.replaceWith(action);
+  }
   const availableCount=document.querySelectorAll('.tool-card:not(.coming)').length;
   const availableStat=document.querySelectorAll('.hero-stat strong')[1];
   if(availableStat)availableStat.textContent=String(availableCount);
