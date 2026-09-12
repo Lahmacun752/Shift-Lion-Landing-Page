@@ -506,6 +506,9 @@ img {
   background: rgba(255,255,255,.08);
   border: 1px solid rgba(255,255,255,.12);
 }
+.page-directory summary {
+  display: none;
+}
 .feature-grid {
   display: grid;
   gap: 12px;
@@ -673,6 +676,34 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
   .feature-grid, .screenshot-grid, .trust-grid, .footer-grid { grid-template-columns: 1fr; }
   .cta { padding: 28px; }
   .site-footer { padding-top: 44px; }
+  .footer-grid { gap: 24px; }
+  .footer-brand p { margin-bottom: 0; }
+  .footer-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .footer-col strong { grid-column: 1 / -1; margin: 0 0 4px; }
+  .footer-col a { margin: 0; padding: 10px 11px; border: 1px solid rgba(255,255,255,.1); border-radius: 9px; background: rgba(255,255,255,.045); }
+  .footer-bottom { margin-top: 28px; }
+  .page-directory summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 15px 17px;
+    margin-top: 18px;
+    border: 1px solid #d8a91f;
+    border-radius: 12px;
+    background: #f2be37;
+    color: #101318;
+    font-weight: 850;
+    list-style: none;
+  }
+  .page-directory summary::-webkit-details-marker { display: none; }
+  .page-directory summary::after { content: "+"; color: #101318; font-size: 24px; }
+  .page-directory[open] summary::after { content: "–"; }
+  .page-directory .directory-close { display: none; }
+  .page-directory[open] .directory-open { display: none; }
+  .page-directory[open] .directory-close { display: inline; }
+  .page-directory .nav { margin-top: 10px; }
+  .page-directory .nav a { padding: 11px 13px; border-radius: 10px; font-size: 14px; }
 }
 
 @media (max-width: 480px) {
@@ -706,8 +737,8 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
   <nav class="desktop-nav" aria-label="Hauptnavigation">
     <a href="#features">Funktionen</a>
     <a href="#tool">Schichten vergleichen</a>
+    <a href="/tools/">Tools</a>
     <a href="schichtplaner-online.html">Online-Planer</a>
-    <a href="schichtzulagen-rechner.html">Zuschlagsrechner</a>
     <a class="nav-download" href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro" target="_blank" rel="noopener">App herunterladen</a>
   </nav>
   <div class="language-switch" aria-label="Sprache wählen">
@@ -717,9 +748,7 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
   <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileMenu" aria-label="Navigation öffnen" onclick="toggleMenu(this)"><span class="menu-icon" aria-hidden="true">☰</span>Menü</button>
   <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile Navigation" hidden>
     <a href="#features" onclick="closeMenu()">Funktionen</a>
-    <a href="#tool" onclick="closeMenu()">Schichten vergleichen</a>
-    <a href="schichtplaner-online.html">Online-Planer</a>
-    <a href="schichtzulagen-rechner.html">Zuschlagsrechner</a>
+    <a href="/tools/">Kostenlose Tools</a>
     <a href="/en/" lang="en">English version</a>
     <a class="mobile-download" href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro" target="_blank" rel="noopener">App herunterladen</a>
   </nav>
@@ -998,7 +1027,9 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
       Hier findest du praktische Tipps für den Schichtalltag.
     </p>
 
-   <div class="nav nav-dark">
+   <details class="page-directory" open>
+     <summary><span class="directory-open">Mehr Tipps für deinen Schichtalltag entdecken</span><span class="directory-close">Seitenübersicht wieder einklappen</span></summary>
+     <div class="nav nav-dark">
   <a href="/">🏠 Startseite</a>
   <a href="/schichtplaner.html">📅 Schichtplaner App</a>
   <a href="/dienstplan-app.html">📋 Dienstplan App</a>
@@ -1015,6 +1046,7 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
   <a href="/schichtplaner-online.html">🗓️ Schichtplaner Online</a>
   <a href="/schichtzulagen-rechner.html">💶 Schichtzulagen Rechner</a>
 </div>
+   </details>
 
   </div>
 
@@ -1107,9 +1139,8 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
         <div class="footer-col">
           <strong>Produkt</strong>
           <a href="#features">Funktionen</a>
-          <a href="#tool">Schichten vergleichen</a>
-          <a href="schichtplaner-online.html">Online-Schichtplaner</a>
-          <a href="schichtzulagen-rechner.html">Schichtzulagen-Rechner</a>
+          <a href="/tools/">Kostenlose Tools</a>
+          <a href="/schichtplaner.html">Schichtplaner-App</a>
         </div>
         <div class="footer-col">
           <strong>Shift Lion</strong>
@@ -1125,6 +1156,10 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
   </main>
 
   <script>
+    if (window.matchMedia('(max-width: 860px)').matches) {
+      document.querySelectorAll('.page-directory').forEach(directory => directory.removeAttribute('open'));
+    }
+
     function toggleMenu(button) {
       const menu = document.getElementById('mobileMenu');
       const willOpen = menu.hasAttribute('hidden');

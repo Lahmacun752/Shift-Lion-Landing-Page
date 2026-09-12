@@ -451,6 +451,9 @@ img {
   background: rgba(255,255,255,.08);
   border: 1px solid rgba(255,255,255,.12);
 }
+.page-directory summary {
+  display: none;
+}
 .feature-grid {
   display: grid;
   gap: 12px;
@@ -618,6 +621,34 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
   .feature-grid, .screenshot-grid, .trust-grid, .footer-grid { grid-template-columns: 1fr; }
   .cta { padding: 28px; }
   .site-footer { padding-top: 44px; }
+  .footer-grid { gap: 24px; }
+  .footer-brand p { margin-bottom: 0; }
+  .footer-col { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 8px; }
+  .footer-col strong { grid-column: 1 / -1; margin: 0 0 4px; }
+  .footer-col a { margin: 0; padding: 10px 11px; border: 1px solid rgba(255,255,255,.1); border-radius: 9px; background: rgba(255,255,255,.045); }
+  .footer-bottom { margin-top: 28px; }
+  .page-directory summary {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    cursor: pointer;
+    padding: 15px 17px;
+    margin-top: 18px;
+    border: 1px solid #d8a91f;
+    border-radius: 12px;
+    background: #f2be37;
+    color: #101318;
+    font-weight: 850;
+    list-style: none;
+  }
+  .page-directory summary::-webkit-details-marker { display: none; }
+  .page-directory summary::after { content: "+"; color: #101318; font-size: 24px; }
+  .page-directory[open] summary::after { content: "–"; }
+  .page-directory .directory-close { display: none; }
+  .page-directory[open] .directory-open { display: none; }
+  .page-directory[open] .directory-close { display: inline; }
+  .page-directory .nav { margin-top: 10px; }
+  .page-directory .nav a { padding: 11px 13px; border-radius: 10px; font-size: 14px; }
 }
 
 @media (max-width: 480px) {
