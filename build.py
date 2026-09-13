@@ -42,7 +42,7 @@ def build():
         text = text.replace("{{NAV_DE_DARK}}", render_nav("nav nav-dark", "div"))
         text = text.replace('/workdays-calculator.js"', '/workdays-calculator.js?v=3"')
         text = text.replace('/calculator-tools.css"', '/calculator-tools.css?v=2"')
-        text = text.replace('/tool-hub.js?v=6"', '/tool-hub.js?v=8"')
+        text = re.sub(r'/tool-hub\.js(?:\?v=\d+)?"', '/tool-hub.js?v=10"', text)
         if source.name in TOOL_PAGES or (
             source.name in {"schichtplaner-online.html", "schichtzulagen-rechner.html"}
             and rel.parts and rel.parts[0] == "en"
