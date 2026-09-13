@@ -1,5 +1,6 @@
 (() => {
   const isEnglish=document.documentElement.lang==='en';
+  const compareCard=[...document.querySelectorAll('.tool-card')].find(card=>['Schichten vergleichen','Compare Shifts'].includes(card.querySelector('h3')?.textContent));if(compareCard)compareCard.querySelector('.card-action').href=isEnglish?'/en/compare-shifts.html':'/schichten-vergleichen.html';
   const suggestion=document.querySelector('.cta');
   if(suggestion){
     const promo=document.createElement('section');

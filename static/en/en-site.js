@@ -11,7 +11,7 @@
   }
   hero.querySelectorAll('.nav').forEach((nav) => nav.remove());
   document.querySelector('.language-switch')?.remove();
-  const links = '<a href="/en/">Home</a><a href="/en/schichtplaner.html">Shift Planner</a><a href="/en/tools/">Tools</a><a href="/en/schichtplaner-online.html">Online Planner</a><a href="/download/android/" class="nav-download">Download App</a>';
+  const links = '<a href="/en/#features">Features</a><a href="/en/compare-shifts.html">Compare Shifts</a><a href="/en/tools/">Tools</a><a href="/download/android/" class="nav-download">Download App</a>';
   const mobileLinks = '<a href="/en/">Home</a><a href="/en/tools/">Free Tools</a><a href="/">Deutsch</a><a href="/download/android/" class="mobile-download">Download App</a>';
   top.insertAdjacentHTML('beforeend', `<nav class="desktop-nav">${links}</nav><div class="language-switch" aria-label="Choose language"><a href="/" lang="de">DE</a><a class="active" href="/en/" lang="en" aria-current="page">EN</a></div><button class="menu-toggle" aria-expanded="false" aria-controls="mobileMenu">☰ Menu</button><nav class="mobile-menu" id="mobileMenu" hidden>${mobileLinks}</nav>`);
 
