@@ -32,6 +32,8 @@
   }
   const overtimeCard=[...document.querySelectorAll('.tool-card')].find(card=>card.querySelector('h3')?.textContent===(isEnglish?'Overtime Calculator':'Überstunden-Rechner'));
   if(overtimeCard){overtimeCard.classList.remove('coming');overtimeCard.querySelector('.badge').textContent=isEnglish?'Available':'Verfügbar';const old=overtimeCard.querySelector('.card-action'),a=document.createElement('a');a.className='card-action';a.href=isEnglish?'/en/overtime-calculator.html':'/ueberstunden-rechner.html';a.textContent=isEnglish?'Open calculator →':'Zum Rechner →';old.replaceWith(a)}
+  const wageCard=[...document.querySelectorAll('.tool-card')].find(card=>card.querySelector('h3')?.textContent===(isEnglish?'Hourly Wage Calculator':'Stundenlohn-Rechner'));
+  if(wageCard){wageCard.classList.remove('coming');wageCard.querySelector('.badge').textContent=isEnglish?'Available':'Verfügbar';const old=wageCard.querySelector('.card-action'),a=document.createElement('a');a.className='card-action';a.href=isEnglish?'/en/hourly-wage-calculator.html':'/stundenlohn-rechner.html';a.textContent=isEnglish?'Open calculator →':'Zum Rechner →';old.replaceWith(a)}
   const grid=document.querySelector('.tool-grid');
   if(grid){
     const holiday=document.createElement('article');holiday.className='tool-card coming';holiday.dataset.category='lohn';
