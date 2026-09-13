@@ -38,10 +38,10 @@
   if(workdaysCard){workdaysCard.classList.remove('coming');workdaysCard.querySelector('.badge').textContent=isEnglish?'Available':'Verfügbar';const old=workdaysCard.querySelector('.card-action'),a=document.createElement('a');a.className='card-action';a.href=isEnglish?'/en/workdays-calculator.html':'/arbeitstage-rechner.html';a.textContent=isEnglish?'Open calculator →':'Zum Rechner →';old.replaceWith(a)}
   const grid=document.querySelector('.tool-grid');
   if(grid){
-    const holiday=document.createElement('article');holiday.className='tool-card coming';holiday.dataset.category='lohn';
+    const holiday=document.createElement('article');holiday.className='tool-card';holiday.dataset.category='lohn';
     holiday.innerHTML=isEnglish
-      ? '<div class="card-top"><div class="icon">🎉</div><span class="badge">Coming soon</span></div><h3>Holiday Allowance Calculator</h3><p>Calculate holiday hours, base pay and your individual holiday allowance.</p><div class="tags"><span>Public holidays</span><span>Pay</span><span>Custom rate</span></div><span class="card-action">Planned</span>'
-      : '<div class="card-top"><div class="icon">🎉</div><span class="badge">Demnächst</span></div><h3>Feiertagszuschlag-Rechner</h3><p>Berechne Feiertagsstunden, Grundlohn und deinen individuellen Feiertagszuschlag.</p><div class="tags"><span>Feiertage</span><span>Lohn</span><span>Eigener Satz</span></div><span class="card-action">Geplant</span>';
+      ? '<div class="card-top"><div class="icon">🎉</div><span class="badge">Available</span></div><h3>Holiday Allowance Calculator</h3><p>Calculate holiday hours, base pay and your individual holiday allowance.</p><div class="tags"><span>Public holidays</span><span>Pay</span><span>Custom rate</span></div><a class="card-action" href="/en/holiday-allowance-calculator.html">Open calculator →</a>'
+      : '<div class="card-top"><div class="icon">🎉</div><span class="badge">Verfügbar</span></div><h3>Feiertagszuschlag-Rechner</h3><p>Berechne Feiertagsstunden, Grundlohn und deinen individuellen Feiertagszuschlag.</p><div class="tags"><span>Feiertage</span><span>Lohn</span><span>Eigener Satz</span></div><a class="card-action" href="/feiertagszuschlag-rechner.html">Zum Rechner →</a>';
     grid.appendChild(holiday);
   }
   const totalStat=document.querySelectorAll('.hero-stat strong')[0];
