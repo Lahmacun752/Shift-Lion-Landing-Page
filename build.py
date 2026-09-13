@@ -7,6 +7,17 @@ STATIC = ROOT / "static"
 OUT = ROOT / "hosting"
 CONFIG = json.loads((ROOT / "site.json").read_text(encoding="utf-8"))
 
+TOOL_PAGES = {
+    "arbeitszeitrechner.html", "nachtzuschlag-rechner.html",
+    "ueberstunden-rechner.html", "stundenlohn-rechner.html",
+    "arbeitstage-rechner.html", "feiertagszuschlag-rechner.html",
+    "schichten-vergleichen.html", "schichtplaner-online.html",
+    "schichtzulagen-rechner.html", "working-time-calculator.html",
+    "night-allowance-calculator.html", "overtime-calculator.html",
+    "hourly-wage-calculator.html", "workdays-calculator.html",
+    "holiday-allowance-calculator.html", "compare-shifts.html",
+}
+
 
 def render_nav(css_class="nav", tag="nav"):
     links = []
@@ -32,6 +43,26 @@ def build():
         text = text.replace('/workdays-calculator.js"', '/workdays-calculator.js?v=3"')
         text = text.replace('/calculator-tools.css"', '/calculator-tools.css?v=2"')
         text = text.replace('/tool-hub.js?v=6"', '/tool-hub.js?v=8"')
+        if source.name in TOOL_PAGES or (
+            source.name in {"schichtplaner-online.html", "schichtzulagen-rechner.html"}
+            and rel.parts and rel.parts[0] == "en"
+        ):
+            text = re.sub(
+                r"</head>",
+                '<link rel="stylesheet" href="/tool-foundation.css?v=2"></head>',
+                text,
+                count=1,
+                flags=re.I,
+            )
+            # Some tools contain printable HTML inside JavaScript template
+            # strings. Inject at the real page end, never at an inner </body>.
+            body_end = text.lower().rfind("</body>")
+            if body_end != -1:
+                text = (
+                    text[:body_end]
+                    + '<script src="/tool-foundation.js?v=2"></script>'
+                    + text[body_end:]
+                )
         target.write_text(text, encoding="utf-8")
 
     # Keep the English homepage visually identical to the German homepage.
