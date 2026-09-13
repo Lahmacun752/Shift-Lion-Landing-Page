@@ -29,6 +29,8 @@ def build():
         text = source.read_text(encoding="utf-8")
         text = text.replace("{{NAV_DE}}", render_nav("nav", "nav"))
         text = text.replace("{{NAV_DE_DARK}}", render_nav("nav nav-dark", "div"))
+        text = text.replace('/workdays-calculator.js"', '/workdays-calculator.js?v=3"')
+        text = text.replace('/calculator-tools.css"', '/calculator-tools.css?v=2"')
         target.write_text(text, encoding="utf-8")
 
     # Keep the English homepage visually identical to the German homepage.
