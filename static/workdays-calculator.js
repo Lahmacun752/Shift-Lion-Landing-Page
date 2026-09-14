@@ -7,7 +7,7 @@
     invalid:'The end date must not be before the start date.',
     missing:'Please complete all required dates.',
     tooLong:'Please choose a period of no more than ten years.',
-    minCycle:'Your rotation needs at least one day.',
+    minCycle:'Your rotation needs at least one day.', vacationInvalid:'Leave cannot end before it starts.', holiday:'Holiday', vacation:'Leave',
     weekdays:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
     monthLocale:'en-GB'
   }:{
@@ -15,7 +15,7 @@
     invalid:'Das Enddatum darf nicht vor dem Startdatum liegen.',
     missing:'Bitte fülle alle benötigten Datumsfelder aus.',
     tooLong:'Bitte wähle einen Zeitraum von höchstens zehn Jahren.',
-    minCycle:'Dein Rhythmus benötigt mindestens einen Tag.',
+    minCycle:'Dein Rhythmus benötigt mindestens einen Tag.', vacationInvalid:'Das Urlaubsende darf nicht vor dem Urlaubsbeginn liegen.', holiday:'Feiertag', vacation:'Urlaub',
     weekdays:['Mo','Di','Mi','Do','Fr','Sa','So'],
     monthLocale:'de-DE'
   };
@@ -32,6 +32,18 @@
   };
   const monthKey=(year,month)=>year*12+month;
   const positiveModulo=(value,divisor)=>((value%divisor)+divisor)%divisor;
+  const easterSunday=year=>{
+    const a=year%19,b=Math.floor(year/100),c=year%100,d=Math.floor(b/4),e=b%4,f=Math.floor((b+8)/25),g=Math.floor((b-f+1)/3),h=(19*a+b-d-g+15)%30,i=Math.floor(c/4),k=c%4,l=(32+2*e+2*i-h-k)%7,m=Math.floor((a+11*h+22*l)/451),month=Math.floor((h+l-7*m+114)/31)-1,day=(h+l-7*m+114)%31+1;
+    return Date.UTC(year,month,day);
+  };
+  const nationwideHolidaySet=(from,to)=>{
+    const dates=new Set();
+    for(let year=new Date(from).getUTCFullYear();year<=new Date(to).getUTCFullYear();year++){
+      [Date.UTC(year,0,1),Date.UTC(year,4,1),Date.UTC(year,9,3),Date.UTC(year,11,25),Date.UTC(year,11,26)].forEach(date=>dates.add(date));
+      const easter=easterSunday(year);[-2,1,39,50].forEach(offset=>dates.add(easter+offset*DAY));
+    }
+    return dates;
+  };
   const shiftFor=time=>{
     if(q('model').value!=='custom')return q('weekdays').querySelector(`input[data-day="${new Date(time).getUTCDay()}"]`)?.checked?'W':'O';
     const reference=parseDate(q('reference').value);
@@ -73,7 +85,7 @@
     if(resetWeekdays&&!custom)setWeekdays(q('model').value==='6'?[1,2,3,4,5,6]:[1,2,3,4,5]);
     calculate();
   };
-  const renderCalendar=(start,end)=>{
+  const renderCalendar=(start,end,holidays,vacationStart,vacationEnd)=>{
     const firstMonth=monthKey(new Date(start).getUTCFullYear(),new Date(start).getUTCMonth());
     const lastMonth=monthKey(new Date(end).getUTCFullYear(),new Date(end).getUTCMonth());
     let current=monthKey(calendarYear,calendarMonth);
@@ -95,8 +107,12 @@
       else{
         const shift=shiftFor(time);
         const free=shift==='O';
+        const holiday=holidays.has(time);
+        const vacation=!free&&Number.isFinite(vacationStart)&&time>=vacationStart&&time<=vacationEnd;
         cell.classList.add(free?'free':'work',`shift-${shift.toLowerCase()}`);
-        const name=shift==='W'?text.work:labels[shift];
+        if(holiday)cell.classList.add('holiday');
+        if(vacation)cell.classList.add('vacation');
+        const name=vacation?text.vacation:holiday?text.holiday:shift==='W'?text.work:labels[shift];
         cell.innerHTML=`<strong>${day}</strong><small>${name}</small>`;
         cell.setAttribute('aria-label',`${formatDate(calendarYear,calendarMonth,day)}: ${name}`);
       }
@@ -108,22 +124,36 @@
     const end=parseDate(q('end').value);
     const custom=q('model').value==='custom';
     const reference=parseDate(q('reference').value);
+    const vacationStart=parseDate(q('vacationStart').value);
+    const vacationEnd=parseDate(q('vacationEnd').value);
     if(!Number.isFinite(start)||!Number.isFinite(end)||(custom&&!Number.isFinite(reference))){setError(text.missing);return}
     if(end<start){setError(text.invalid);return}
+    if((Number.isFinite(vacationStart)||Number.isFinite(vacationEnd))&&(!Number.isFinite(vacationStart)||!Number.isFinite(vacationEnd))){setError(text.missing);return}
+    if(Number.isFinite(vacationStart)&&vacationEnd<vacationStart){setError(text.vacationInvalid);return}
     const days=Math.round((end-start)/DAY)+1;
     if(days>3660){setError(text.tooLong);return}
     if(custom&&!rotation.length){setError(text.minCycle);return}
     setError('');
+    const holidays=q('nationwideHolidays').checked?nationwideHolidaySet(start,end):new Set();
     let work=0;
     let free=0;
+    let holidayDays=0;
+    let vacationDays=0;
     for(let time=start;time<=end;time+=DAY){
-      if(shiftFor(time)==='O')free+=1;else work+=1;
+      const isWork=shiftFor(time)!=='O';
+      if(!isWork){free+=1;continue}
+      work+=1;
+      if(holidays.has(time)){holidayDays+=1;continue}
+      if(Number.isFinite(vacationStart)&&time>=vacationStart&&time<=vacationEnd)vacationDays+=1;
     }
+    const effectiveWork=work-holidayDays-vacationDays;
     q('total').textContent=String(days);
     q('work').textContent=String(work);
+    q('holidays').textContent=String(holidayDays);
+    q('vacation').textContent=String(vacationDays);
+    q('effectiveWork').textContent=String(effectiveWork);
     q('free').textContent=String(free);
-    q('share').textContent=`${Math.round(work/days*100)} %`;
-    renderCalendar(start,end);
+    renderCalendar(start,end,holidays,vacationStart,vacationEnd);
   }
 
   const now=new Date();
@@ -135,7 +165,8 @@
   calendarMonth=now.getMonth();
   q('model').addEventListener('change',()=>updateModel(true));
   q('weekdays').querySelectorAll('input').forEach(input=>input.addEventListener('change',calculate));
-  ['start','end','reference'].forEach(id=>q(id).addEventListener('change',()=>{if(id==='start'){const start=parseDate(q('start').value);if(Number.isFinite(start)){calendarYear=new Date(start).getUTCFullYear();calendarMonth=new Date(start).getUTCMonth()}}calculate()}));
+  ['start','end','reference','vacationStart','vacationEnd'].forEach(id=>q(id).addEventListener('change',()=>{if(id==='start'){const start=parseDate(q('start').value);if(Number.isFinite(start)){calendarYear=new Date(start).getUTCFullYear();calendarMonth=new Date(start).getUTCMonth()}}calculate()}));
+  q('nationwideHolidays').addEventListener('change',calculate);
   q('addCycleDay').addEventListener('click',()=>{if(rotation.length<31){rotation.push('O');renderRotation();calculate()}});
   q('removeCycleDay').addEventListener('click',()=>{if(rotation.length>1){rotation.pop();renderRotation();calculate()}});
   q('calculate').addEventListener('click',calculate);
