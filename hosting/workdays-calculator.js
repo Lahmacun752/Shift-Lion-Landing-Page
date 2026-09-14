@@ -8,6 +8,7 @@
     missing:'Please complete all required dates.',
     tooLong:'Please choose a period of no more than ten years.',
     minCycle:'Your rotation needs at least one day.', vacationInvalid:'Leave cannot end before it starts.', holiday:'Holiday', vacation:'Leave',
+    bridgeEnable:'Enable public holidays to receive bridge-day suggestions.', bridgeNone:'No bridge days in this period create a longer break.', bridgeTake:'Take leave', bridgeDays:'days off in a row', dateLocale:'en-GB',
     weekdays:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
     monthLocale:'en-GB'
   }:{
@@ -16,6 +17,7 @@
     missing:'Bitte fülle alle benötigten Datumsfelder aus.',
     tooLong:'Bitte wähle einen Zeitraum von höchstens zehn Jahren.',
     minCycle:'Dein Rhythmus benötigt mindestens einen Tag.', vacationInvalid:'Das Urlaubsende darf nicht vor dem Urlaubsbeginn liegen.', holiday:'Feiertag', vacation:'Urlaub',
+    bridgeEnable:'Aktiviere Feiertage, um Brückentag-Vorschläge zu erhalten.', bridgeNone:'In diesem Zeitraum gibt es keine Brückentage für eine längere freie Zeit.', bridgeTake:'Urlaub nehmen am', bridgeDays:'freie Tage am Stück', dateLocale:'de-DE',
     weekdays:['Mo','Di','Mi','Do','Fr','Sa','So'],
     monthLocale:'de-DE'
   };
@@ -137,6 +139,32 @@
       grid.append(cell);
     }
   };
+  const renderBridgeDays=(start,end,holidays,vacationStart,vacationEnd)=>{
+    const list=q('bridgeDaysList');
+    const intro=q('bridgeDaysIntro');
+    list.innerHTML='';
+    if(!q('nationwideHolidays').checked){intro.textContent=text.bridgeEnable;return}
+    const isLeave=time=>Number.isFinite(vacationStart)&&time>=vacationStart&&time<=vacationEnd;
+    const naturallyFree=time=>shiftFor(time)==='O'||holidays.has(time)||isLeave(time);
+    const recommendations=[];
+    for(let time=start;time<=end;time+=DAY){
+      if(naturallyFree(time))continue;
+      let before=0,after=0;
+      for(let cursor=time-DAY;cursor>=start&&naturallyFree(cursor);cursor-=DAY)before++;
+      for(let cursor=time+DAY;cursor<=end&&naturallyFree(cursor);cursor+=DAY)after++;
+      const total=before+1+after;
+      if(total>=3)recommendations.push({time,total});
+    }
+    recommendations.sort((a,b)=>b.total-a.total||a.time-b.time);
+    if(!recommendations.length){intro.textContent=text.bridgeNone;return}
+    intro.textContent='';
+    recommendations.slice(0,4).forEach(({time,total})=>{
+      const card=document.createElement('div');card.className='bridge-day-card';
+      const date=new Intl.DateTimeFormat(text.dateLocale,{weekday:'short',day:'2-digit',month:'long',year:'numeric',timeZone:'UTC'}).format(new Date(time));
+      card.innerHTML=`<strong>${text.bridgeTake}</strong><span>${date}</span><b>${total} ${text.bridgeDays}</b>`;
+      list.append(card);
+    });
+  };
   function calculate(){
     const start=parseDate(q('start').value);
     const end=parseDate(q('end').value);
@@ -173,6 +201,7 @@
     q('effectiveWork').textContent=String(effectiveWork);
     q('free').textContent=String(free);
     renderCalendar(start,end,holidays,vacationStart,vacationEnd);
+    renderBridgeDays(start,end,holidays,vacationStart,vacationEnd);
   }
 
   const now=new Date();
