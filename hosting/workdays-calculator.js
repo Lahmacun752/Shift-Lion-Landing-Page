@@ -8,7 +8,7 @@
     missing:'Please complete all required dates.',
     tooLong:'Please choose a period of no more than ten years.',
     minCycle:'Your rotation needs at least one day.', vacationInvalid:'Leave cannot end before it starts.', holiday:'Holiday', vacation:'Leave',
-    bridgeEnable:'Enable public holidays to receive bridge-day suggestions.', bridgeNone:'No bridge days in this period create a longer break.', bridgeTake:'Take leave', bridgeDays:'days off in a row', dateLocale:'en-GB',
+    bridgeEnable:'Enable public holidays to receive bridge-day suggestions.', bridgeNone:'No bridge days in this period create a longer break.', bridgeTake:'Take leave', bridgeDays:'days off in a row', dateLocale:'en-GB', copied:'Summary copied.', copyFailed:'Copying was not possible. Please select and copy the text manually.', period:'Period', model:'Work model', planned:'Planned workdays', holidays:'Holidays on workdays', vacationDays:'Leave days', effective:'Effective workdays',
     weekdays:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
     monthLocale:'en-GB'
   }:{
@@ -17,7 +17,7 @@
     missing:'Bitte fülle alle benötigten Datumsfelder aus.',
     tooLong:'Bitte wähle einen Zeitraum von höchstens zehn Jahren.',
     minCycle:'Dein Rhythmus benötigt mindestens einen Tag.', vacationInvalid:'Das Urlaubsende darf nicht vor dem Urlaubsbeginn liegen.', holiday:'Feiertag', vacation:'Urlaub',
-    bridgeEnable:'Aktiviere Feiertage, um Brückentag-Vorschläge zu erhalten.', bridgeNone:'In diesem Zeitraum gibt es keine Brückentage für eine längere freie Zeit.', bridgeTake:'Urlaub nehmen am', bridgeDays:'freie Tage am Stück', dateLocale:'de-DE',
+    bridgeEnable:'Aktiviere Feiertage, um Brückentag-Vorschläge zu erhalten.', bridgeNone:'In diesem Zeitraum gibt es keine Brückentage für eine längere freie Zeit.', bridgeTake:'Urlaub nehmen am', bridgeDays:'freie Tage am Stück', dateLocale:'de-DE', copied:'Zusammenfassung kopiert.', copyFailed:'Kopieren war nicht möglich. Bitte markiere den Text und kopiere ihn manuell.', period:'Zeitraum', model:'Arbeitsmodell', planned:'Geplante Arbeitstage', holidays:'Feiertage auf Arbeitstage', vacationDays:'Urlaubstage', effective:'Effektive Arbeitstage',
     weekdays:['Mo','Di','Mi','Do','Fr','Sa','So'],
     monthLocale:'de-DE'
   };
@@ -165,6 +165,27 @@
       list.append(card);
     });
   };
+  const copySummary=async()=>{
+    const format=time=>new Intl.DateTimeFormat(text.dateLocale,{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'UTC'}).format(new Date(time));
+    const start=parseDate(q('start').value),end=parseDate(q('end').value);
+    const model=q('model').options[q('model').selectedIndex].text;
+    const summary=[
+      'Shift Lion – '+(en?'Workdays Calculator':'Arbeitstage-Rechner'),
+      `${text.period}: ${format(start)} – ${format(end)}`,
+      `${text.model}: ${model}`,
+      `${text.planned}: ${q('work').textContent}`,
+      `${text.holidays}: ${q('holidays').textContent}`,
+      `${text.vacationDays}: ${q('vacation').textContent}`,
+      `${text.effective}: ${q('effectiveWork').textContent}`
+    ].join('\n');
+    try{
+      await navigator.clipboard.writeText(summary);
+      q('copyStatus').textContent=text.copied;
+    }catch(error){
+      const area=document.createElement('textarea');area.value=summary;area.setAttribute('readonly','');area.style.position='fixed';area.style.opacity='0';document.body.append(area);area.select();
+      const copied=document.execCommand('copy');area.remove();q('copyStatus').textContent=copied?text.copied:text.copyFailed;
+    }
+  };
   function calculate(){
     const start=parseDate(q('start').value);
     const end=parseDate(q('end').value);
@@ -216,6 +237,7 @@
   ['start','end','reference','vacationStart','vacationEnd'].forEach(id=>q(id).addEventListener('change',()=>{if(id==='start'){const start=parseDate(q('start').value);if(Number.isFinite(start)){calendarYear=new Date(start).getUTCFullYear();calendarMonth=new Date(start).getUTCMonth()}}calculate()}));
   q('nationwideHolidays').addEventListener('change',calculate);
   q('state').addEventListener('change',calculate);
+  q('copySummary').addEventListener('click',copySummary);
   q('addCycleDay').addEventListener('click',()=>{if(rotation.length<31){rotation.push('O');renderRotation();calculate()}});
   q('removeCycleDay').addEventListener('click',()=>{if(rotation.length>1){rotation.pop();renderRotation();calculate()}});
   q('calculate').addEventListener('click',calculate);
