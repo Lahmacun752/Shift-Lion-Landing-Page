@@ -238,6 +238,7 @@
   q('nationwideHolidays').addEventListener('change',calculate);
   q('state').addEventListener('change',calculate);
   q('copySummary').addEventListener('click',copySummary);
+  q('printResult').addEventListener('click',()=>window.print());
   q('addCycleDay').addEventListener('click',()=>{if(rotation.length<31){rotation.push('O');renderRotation();calculate()}});
   q('removeCycleDay').addEventListener('click',()=>{if(rotation.length>1){rotation.pop();renderRotation();calculate()}});
   q('calculate').addEventListener('click',calculate);
