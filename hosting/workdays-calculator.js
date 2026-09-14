@@ -44,6 +44,24 @@
     }
     return dates;
   };
+  const regionalHolidaySet=(from,to,state)=>{
+    const dates=new Set();
+    const add=(year,month,day)=>dates.add(Date.UTC(year,month,day));
+    const addEaster=(year,offset)=>dates.add(easterSunday(year)+offset*DAY);
+    for(let year=new Date(from).getUTCFullYear();year<=new Date(to).getUTCFullYear();year++){
+      if(['BW','BY','ST'].includes(state))add(year,0,6);
+      if(['BW','BY','HE','NW','RP','SL'].includes(state))addEaster(year,60);
+      if(['BW','BY','NW','RP','SL'].includes(state))add(year,10,1);
+      if(['BE','MV'].includes(state))add(year,2,8);
+      if(['BE','BB','HB','HH','MV','NI','SH','SN','ST','TH'].includes(state))add(year,9,31);
+      if(state==='SN'){
+        const nov23=Date.UTC(year,10,23);
+        dates.add(nov23-((new Date(nov23).getUTCDay()+3)%7)*DAY);
+      }
+      if(state==='TH')add(year,8,20);
+    }
+    return dates;
+  };
   const shiftFor=time=>{
     if(q('model').value!=='custom')return q('weekdays').querySelector(`input[data-day="${new Date(time).getUTCDay()}"]`)?.checked?'W':'O';
     const reference=parseDate(q('reference').value);
@@ -135,6 +153,7 @@
     if(custom&&!rotation.length){setError(text.minCycle);return}
     setError('');
     const holidays=q('nationwideHolidays').checked?nationwideHolidaySet(start,end):new Set();
+    if(q('nationwideHolidays').checked)regionalHolidaySet(start,end,q('state').value).forEach(date=>holidays.add(date));
     let work=0;
     let free=0;
     let holidayDays=0;
@@ -167,6 +186,7 @@
   q('weekdays').querySelectorAll('input').forEach(input=>input.addEventListener('change',calculate));
   ['start','end','reference','vacationStart','vacationEnd'].forEach(id=>q(id).addEventListener('change',()=>{if(id==='start'){const start=parseDate(q('start').value);if(Number.isFinite(start)){calendarYear=new Date(start).getUTCFullYear();calendarMonth=new Date(start).getUTCMonth()}}calculate()}));
   q('nationwideHolidays').addEventListener('change',calculate);
+  q('state').addEventListener('change',calculate);
   q('addCycleDay').addEventListener('click',()=>{if(rotation.length<31){rotation.push('O');renderRotation();calculate()}});
   q('removeCycleDay').addEventListener('click',()=>{if(rotation.length>1){rotation.pop();renderRotation();calculate()}});
   q('calculate').addEventListener('click',calculate);
