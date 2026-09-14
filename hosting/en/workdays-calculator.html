@@ -1,1 +1,37 @@
-<!doctype html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>Workdays Calculator | Shift Lion</title><link rel="stylesheet" href="/calculator-tools.css?v=2"><link rel="stylesheet" href="/tool-foundation.css?v=2"></head><body><header class="hero"><div class="topbar"><a href="/en/"><img class="logo" src="/Shift-Lion-Logo-groß.png"></a><nav class="desktop-nav"><a href="/en/">Home</a><a href="/en/tools/">All Tools</a><a href="/arbeitstage-rechner.html">DE</a></nav><button class="menu-toggle">☰ Menu</button><nav class="mobile-menu" hidden><a href="/en/tools/">All Tools</a></nav></div><div class="eyebrow">Workdays calculator</div><h1>How many days do you work?</h1><p>Calculate working days and days off from your personal rotation.</p></header><main class="layout"><section class="calculator"><h2>Period and rotation</h2><div class="settings"><div class="field"><label>From</label><input id="start" type="date" value="2026-09-01"></div><div class="field"><label>To</label><input id="end" type="date" value="2026-09-30"></div><div class="field"><label>Rotation starts</label><input id="reference" type="date" value="2026-09-01"></div><div class="field"><label>Pattern (W = work, O = off)</label><input id="pattern" value="W,W,O,O"></div></div><button id="calculate" class="button primary">Calculate workdays</button><div class="summary"><div class="metric"><span>Total days</span><strong id="total"></strong></div><div class="metric"><span>Workdays</span><strong id="work"></strong></div><div class="metric"><span>Days off</span><strong id="free"></strong></div><div class="metric"><span>Work share</span><strong id="share"></strong></div></div><p class="hint">F, O and 0 count as days off; all other codes count as work.</p></section><section class="app-cta"><div><h2>See your full rotation in a calendar.</h2></div><a href="/download/android/">Download Shift Lion</a></section></main><script src="/workdays-calculator.js?v=3"></script><script src="/tool-foundation.js?v=2"></script></body></html>
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Workdays Calculator for Shift Work | Shift Lion</title>
+  <meta name="description" content="Calculate workdays and days off for a 5-day week, 6-day week or your individual shift rotation.">
+  <link rel="canonical" href="https://shiftlion.app/en/workdays-calculator.html">
+  <link rel="alternate" hreflang="de" href="https://shiftlion.app/arbeitstage-rechner.html">
+  <link rel="alternate" hreflang="en" href="https://shiftlion.app/en/workdays-calculator.html">
+  <link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/calculator-tools.css?v=2"><link rel="stylesheet" href="/workdays-calculator.css?v=1">
+<link rel="stylesheet" href="/tool-foundation.css?v=2"></head>
+<body>
+  <header class="hero"><div class="topbar"><a href="/en/"><img class="logo" src="/Shift-Lion-Logo-groß.png" alt="Shift Lion"></a><nav class="desktop-nav"><a href="/en/">Home</a><a href="/en/tools/">All Tools</a><a href="/arbeitstage-rechner.html">DE</a><a class="download" href="/download/android/">Download App</a></nav></div><div class="eyebrow">Free workdays calculator</div><h1>How many days do you work?</h1><p>Calculate workdays and days off for fixed weekly models or your personal shift rotation – with a clear calendar.</p></header>
+  <main class="layout">
+    <section class="calculator" aria-labelledby="calculatorTitle">
+      <h2 id="calculatorTitle">Period and work model</h2>
+      <div class="settings">
+        <div class="field"><label for="start">From</label><input id="start" type="date" required></div>
+        <div class="field"><label for="end">To</label><input id="end" type="date" required></div>
+        <div class="field model-field"><label for="model">Work model</label><select id="model"><option value="5">5-day week</option><option value="6">6-day week</option><option value="custom">Custom shift rotation</option></select><small>Choose a weekly model or build your own rotation.</small></div>
+        <fieldset id="weekdayEditor" class="weekday-editor"><legend>Working days of the week</legend><p>The relevant days are preselected and can be adjusted.</p><div id="weekdays" class="weekday-options"><label><input type="checkbox" data-day="1"> Mon</label><label><input type="checkbox" data-day="2"> Tue</label><label><input type="checkbox" data-day="3"> Wed</label><label><input type="checkbox" data-day="4"> Thu</label><label><input type="checkbox" data-day="5"> Fri</label><label><input type="checkbox" data-day="6"> Sat</label><label><input type="checkbox" data-day="0"> Sun</label></div></fieldset>
+        <div id="referenceField" class="field reference-field" hidden><label for="reference">Rotation starts on</label><input id="reference" type="date" required><small>Day 1 of the sequence below starts on this date.</small></div>
+        <fieldset id="cycleEditor" class="cycle-editor" hidden><legend>Your shift rotation</legend><p>Choose early, late, night or off for each day. The sequence then repeats.</p><div id="sequence" class="cycle-sequence"></div><div class="cycle-actions"><button id="addCycleDay" class="button secondary" type="button">+ Add day</button><button id="removeCycleDay" class="button secondary" type="button">− Remove last day</button></div></fieldset>
+      </div>
+      <p id="workdaysError" class="workdays-error" role="alert"></p>
+      <button id="calculate" class="button primary" type="button">Calculate workdays</button>
+      <div class="summary" aria-live="polite"><div class="metric"><span>Total days</span><strong id="total">0</strong></div><div class="metric"><span>Workdays</span><strong id="work">0</strong></div><div class="metric"><span>Days off</span><strong id="free">0</strong></div><div class="metric"><span>Work share</span><strong id="share">0%</strong></div></div>
+      <section class="workdays-calendar-panel" aria-labelledby="calendarTitle"><div class="workdays-calendar-head"><button id="prevMonth" class="month-nav" type="button" aria-label="Previous month">←</button><h3 id="calendarTitle"></h3><button id="nextMonth" class="month-nav" type="button" aria-label="Next month">→</button></div><div class="calendar-weekdays" aria-hidden="true"><span>Mon</span><span>Tue</span><span>Wed</span><span>Thu</span><span>Fri</span><span>Sat</span><span>Sun</span></div><div id="workdaysCalendar" class="workdays-calendar"></div><div class="calendar-legend"><span><i class="legend-work"></i> Work</span><span><i class="legend-free"></i> Off</span></div></section>
+      <p class="hint">Early, late and night shifts count as workdays. The result is intended for personal planning.</p>
+    </section>
+    <section class="info-card"><h2>Fixed week or shift rotation?</h2><p>For 5- and 6-day weeks, the calculator counts specific weekdays. A custom rotation repeats your shift sequence from the selected start date, regardless of the weekday.</p></section>
+    <section class="app-cta"><div><h2>Keep your complete rotation in view.</h2><p>Shift Lion helps you plan shifts, days off and appointments in your personal calendar.</p></div><a href="/download/android/">Download Shift Lion</a></section>
+  </main>
+  <footer class="footer"><a href="/en/">Home</a><a href="/en/tools/">All Tools</a><a href="/download/android/">Download App</a></footer>
+  <script src="/workdays-calculator.js?v=4"></script>
+<script src="/tool-foundation.js?v=2"></script></body>
+</html>

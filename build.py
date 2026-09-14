@@ -40,7 +40,7 @@ def build():
         text = source.read_text(encoding="utf-8")
         text = text.replace("{{NAV_DE}}", render_nav("nav", "nav"))
         text = text.replace("{{NAV_DE_DARK}}", render_nav("nav nav-dark", "div"))
-        text = text.replace('/workdays-calculator.js"', '/workdays-calculator.js?v=3"')
+        text = re.sub(r'/workdays-calculator\.js(?:\?v=\d+)?"', '/workdays-calculator.js?v=4"', text)
         text = text.replace('/calculator-tools.css"', '/calculator-tools.css?v=2"')
         text = re.sub(r'/tool-hub\.js(?:\?v=\d+)?"', '/tool-hub.js?v=10"', text)
         if source.name in TOOL_PAGES or (
