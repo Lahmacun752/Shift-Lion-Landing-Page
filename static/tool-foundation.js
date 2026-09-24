@@ -138,18 +138,34 @@
       if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(value);
       const area=document.createElement('textarea');area.value=value;area.style.position='fixed';area.style.opacity='0';document.body.append(area);area.select();document.execCommand('copy');area.remove();
     };
-    const utilities=document.createElement('section');utilities.className='tool-utilities';utilities.setAttribute('aria-label',isEnglish?'Calculator actions':'Rechner-Aktionen');
-    utilities.innerHTML=`<div class="tool-utilities-copy"><strong>${isEnglish?'Quick actions':'Schnellaktionen'}</strong><span>${isEnglish?'Your entries are saved only in this browser.':'Deine Eingaben werden nur in diesem Browser gespeichert.'}</span></div><div class="tool-utility-actions"><button type="button" data-example>${isEnglish?'Load example':'Beispieldaten laden'}</button><button type="button" data-copy>${isEnglish?'Copy result':'Ergebnis kopieren'}</button><button type="button" data-print>${isEnglish?'Save PDF / print':'PDF speichern / drucken'}</button><a href="${toolsHref}">${isEnglish?'Choose another tool':'Weiteres Tool wählen'} →</a></div><span class="tool-utility-status" aria-live="polite"></span>`;
+    const utilities=document.createElement('section');utilities.className='tool-example-action';utilities.setAttribute('aria-label',isEnglish?'Example values':'Beispieldaten');
+    utilities.innerHTML=`<div><strong>${isEnglish?'Start faster with an example':'Mit einem Beispiel schneller starten'}</strong><span>${isEnglish?'Your entries stay in this browser.':'Deine Eingaben bleiben in diesem Browser.'}</span></div><button type="button" data-example>${isEnglish?'Load example':'Beispieldaten laden'}</button><span class="tool-utility-status" aria-live="polite"></span>`;
     const firstHeading=calculator.querySelector('h2');
     if(firstHeading)firstHeading.after(utilities);else calculator.prepend(utilities);
     utilities.querySelector('[data-example]').addEventListener('click',()=>{
       const example=initialValues.map(value=>({...value,value:value.type==='date'&&!value.value?new Date().toISOString().slice(0,10):value.value}));
       applyValues(example);saveInputs();calculateResult();utilities.querySelector('.tool-utility-status').textContent=isEnglish?'Example values loaded.':'Beispieldaten wurden geladen.';
     });
-    utilities.querySelector('[data-copy]').addEventListener('click',async()=>{
-      try{await copyText(resultText());utilities.querySelector('.tool-utility-status').textContent=isEnglish?'Result copied.':'Ergebnis wurde kopiert.'}catch(_error){utilities.querySelector('.tool-utility-status').textContent=isEnglish?'Copying was not available.':'Kopieren war nicht möglich.'}
-    });
-    utilities.querySelector('[data-print]').addEventListener('click',()=>window.print());
+    const existingCopy=calculator.querySelector('#copySummary,[data-copy]');
+    const existingPrint=calculator.querySelector('#printResult,[data-print]');
+    if(!existingCopy||!existingPrint){
+      const resultActions=document.createElement('section');resultActions.className='tool-result-actions';resultActions.setAttribute('aria-label',isEnglish?'Result actions':'Ergebnis-Aktionen');
+      resultActions.innerHTML=`<strong>${isEnglish?'Use your result':'Ergebnis verwenden'}</strong><div>${existingCopy?'':`<button type="button" data-copy>${isEnglish?'Copy result':'Ergebnis kopieren'}</button>`}${existingPrint?'':`<button type="button" data-print>${isEnglish?'Save PDF / print':'PDF speichern / drucken'}</button>`}</div><span class="tool-result-status" aria-live="polite"></span>`;
+      const resultArea=calculator.querySelector('.panel.result,.summary,.results,[class*="result-summary"]');
+      if(resultArea)resultArea.append(resultActions);else calculator.append(resultActions);
+      const resultActionRow=resultActions.querySelector('div');
+      if(existingCopy&&!existingCopy.closest('.result-share'))resultActionRow.prepend(existingCopy);
+      if(existingPrint&&!existingPrint.closest('.result-share'))resultActionRow.append(existingPrint);
+      const copyButton=resultActions.querySelector('[data-copy]');
+      if(copyButton)copyButton.addEventListener('click',async()=>{
+        try{await copyText(resultText());resultActions.querySelector('.tool-result-status').textContent=isEnglish?'Result copied.':'Ergebnis wurde kopiert.'}catch(_error){resultActions.querySelector('.tool-result-status').textContent=isEnglish?'Copying was not available.':'Kopieren war nicht möglich.'}
+      });
+      const printButton=resultActions.querySelector('[data-print]');
+      if(printButton)printButton.addEventListener('click',()=>window.print());
+    }
+
+    const moreTools=document.createElement('div');moreTools.className='tool-more-tools';moreTools.innerHTML=`<a href="${toolsHref}">${isEnglish?'Choose another tool':'Weiteres Tool wählen'} →</a>`;
+    calculator.insertAdjacentElement('afterend',moreTools);
 
     if(!calculator.querySelector('.tool-method-note')){
       const methodNote=document.createElement('p');methodNote.className='tool-method-note';
