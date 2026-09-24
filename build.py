@@ -840,7 +840,7 @@ def add_structured_data(text, rel):
             "name": "Home" if is_english else "Startseite",
             "item": f"{site_url}/en/" if is_english else f"{site_url}/",
         }]
-        is_tool = rel.name in TOOL_PAGES or rel.parent.name == "tools"
+        is_tool = rel.name in TOOL_PAGES or key in STEP9_TOOLS or rel.parent.name == "tools"
         if is_legacy_guide:
             items.append({
                 "@type": "ListItem",
@@ -1067,6 +1067,15 @@ def build():
     # page has been written, so generated guides and tools stay consistent too.
     for target in OUT.rglob("*.html"):
         page = target.read_text(encoding="utf-8")
+        has_json_ld = re.search(
+            r'<script\b[^>]*type=["\']application/ld\+json["\']', page, re.I
+        )
+        has_canonical = re.search(r'<link\s+rel=["\']canonical["\']', page, re.I)
+        is_noindex = re.search(
+            r'<meta\s+name=["\']robots["\'][^>]*noindex', page, re.I
+        )
+        if not has_json_ld and has_canonical and not is_noindex:
+            page = add_structured_data(page, target.relative_to(OUT))
         page = add_social_metadata(page, target.relative_to(OUT))
         page = integrate_contact_page(page, target.relative_to(OUT))
         page = add_accessibility_foundation(page)
