@@ -126,12 +126,12 @@ def guide_trust_signals(en=False, calculation_guide=False):
         if calculation_guide:
             links += '<a href="https://www.gesetze-im-internet.de/estg/__3b.html" target="_blank" rel="noopener">Income Tax Act § 3b</a>'
         links += '<a href="https://www.baua.de/DE/Themen/Arbeitsgestaltung/Arbeitszeit/Nacht-und-Schichtarbeit" target="_blank" rel="noopener">BAuA: Night and shift work</a>'
-        return f'''<section class="guide-trust" aria-label="Article information"><div class="guide-trust-meta"><div><span>Publisher</span><strong>Shift Lion editorial team</strong></div><div><span>Published</span><strong><time datetime="{GUIDE_PUBLISHED}">{published}</time></strong></div><div><span>Last reviewed</span><strong><time datetime="{GUIDE_REVIEWED}">{reviewed}</time></strong></div></div><div class="guide-trust-sources"><strong>Official sources</strong>{links}</div><p>This article provides general, non-binding guidance. It does not replace medical, legal, tax or professional advice and cannot assess individual agreements.</p></section>'''
+        return f'''<section class="guide-trust" aria-label="Article information"><div class="guide-trust-meta"><div><span>Author and publisher</span><strong>Shift Lion editorial team</strong></div><div><span>Published</span><strong><time datetime="{GUIDE_PUBLISHED}">{published}</time></strong></div><div><span>Last reviewed</span><strong><time datetime="{GUIDE_REVIEWED}">{reviewed}</time></strong></div></div><div class="guide-trust-sources"><strong>Official sources</strong>{links}</div><p>This article provides general, non-binding guidance. It does not replace medical, legal, tax or professional advice and cannot assess individual agreements.</p></section>'''
     links = '<a href="https://www.gesetze-im-internet.de/arbzg/" target="_blank" rel="noopener">Arbeitszeitgesetz (ArbZG)</a>'
     if calculation_guide:
         links += '<a href="https://www.gesetze-im-internet.de/estg/__3b.html" target="_blank" rel="noopener">Einkommensteuergesetz § 3b</a>'
     links += '<a href="https://www.baua.de/DE/Themen/Arbeitsgestaltung/Arbeitszeit/Nacht-und-Schichtarbeit" target="_blank" rel="noopener">BAuA: Nacht- und Schichtarbeit</a>'
-    return f'''<section class="guide-trust" aria-label="Angaben zum Ratgeber"><div class="guide-trust-meta"><div><span>Herausgeber</span><strong>Shift Lion Redaktion</strong></div><div><span>Veröffentlicht</span><strong><time datetime="{GUIDE_PUBLISHED}">{published}</time></strong></div><div><span>Zuletzt geprüft</span><strong><time datetime="{GUIDE_REVIEWED}">{reviewed}</time></strong></div></div><div class="guide-trust-sources"><strong>Amtliche Quellen</strong>{links}</div><p>Dieser Ratgeber bietet eine allgemeine, unverbindliche Orientierung. Er ersetzt keine medizinische, rechtliche, steuerliche oder fachliche Beratung und kann individuelle Vereinbarungen nicht prüfen.</p></section>'''
+    return f'''<section class="guide-trust" aria-label="Angaben zum Ratgeber"><div class="guide-trust-meta"><div><span>Autor und Herausgeber</span><strong>Shift Lion Redaktion</strong></div><div><span>Veröffentlicht</span><strong><time datetime="{GUIDE_PUBLISHED}">{published}</time></strong></div><div><span>Zuletzt geprüft</span><strong><time datetime="{GUIDE_REVIEWED}">{reviewed}</time></strong></div></div><div class="guide-trust-sources"><strong>Amtliche Quellen</strong>{links}</div><p>Dieser Ratgeber bietet eine allgemeine, unverbindliche Orientierung. Er ersetzt keine medizinische, rechtliche, steuerliche oder fachliche Beratung und kann individuelle Vereinbarungen nicht prüfen.</p></section>'''
 
 
 def add_legacy_guide_trust(text, rel):
@@ -566,6 +566,29 @@ def add_structured_data(text, rel):
     url = site_url + public_path(rel)
     is_english = key.startswith("en/")
     graph = []
+    is_legacy_guide = rel.name in GUIDE_PAGE_NAMES
+
+    if is_legacy_guide:
+        headline_match = re.search(r"<h1\b[^>]*>(.*?)</h1>", text, re.I | re.S)
+        description_match = re.search(
+            r'<meta\s+name=["\']description["\'][^>]*content=["\']([^"\']+)',
+            text,
+            re.I,
+        )
+        headline = plain_text(headline_match.group(1)) if headline_match else page_label(text, rel)
+        description = html.unescape(description_match.group(1)) if description_match else ""
+        graph.append({
+            "@type": "Article",
+            "@id": f"{url}#article",
+            "headline": headline,
+            "description": description,
+            "inLanguage": "en" if is_english else "de",
+            "mainEntityOfPage": {"@type": "WebPage", "@id": url},
+            "author": {"@type": "Organization", "name": "Shift Lion Redaktion"},
+            "publisher": {"@type": "Organization", "name": "Shift Lion Redaktion", "url": f"{site_url}/"},
+            "datePublished": GUIDE_PUBLISHED,
+            "dateModified": GUIDE_REVIEWED,
+        })
 
     if key in {"index.html", "en/index.html"}:
         graph.append({
@@ -614,6 +637,13 @@ def add_structured_data(text, rel):
             "item": f"{site_url}/en/" if is_english else f"{site_url}/",
         }]
         is_tool = rel.name in TOOL_PAGES or rel.parent.name == "tools"
+        if is_legacy_guide:
+            items.append({
+                "@type": "ListItem",
+                "position": 2,
+                "name": "Guides" if is_english else "Ratgeber",
+                "item": f"{site_url}/en/guides/" if is_english else f"{site_url}/ratgeber/",
+            })
         if is_tool:
             items.append({
                 "@type": "ListItem",
@@ -686,10 +716,11 @@ def render_guide(relative, guide):
     data = {
         "@context": "https://schema.org",
         "@graph": [
-            {"@type": "Article", "headline": guide["h1"], "description": guide["description"], "inLanguage": guide["lang"], "mainEntityOfPage": url, "publisher": {"@id": f"{site}/#organization"}},
+            {"@type": "Article", "@id": f"{url}#article", "headline": guide["h1"], "description": guide["description"], "inLanguage": guide["lang"], "mainEntityOfPage": {"@type": "WebPage", "@id": url}, "author": {"@type": "Organization", "name": "Shift Lion Redaktion"}, "publisher": {"@type": "Organization", "name": "Shift Lion Redaktion", "url": f"{site}/"}, "datePublished": GUIDE_PUBLISHED, "dateModified": GUIDE_REVIEWED},
             {"@type": "BreadcrumbList", "itemListElement": [
                 {"@type": "ListItem", "position": 1, "name": "Home" if en else "Startseite", "item": f"{site}/en/" if en else f"{site}/"},
-                {"@type": "ListItem", "position": 2, "name": guide["h1"], "item": url},
+                {"@type": "ListItem", "position": 2, "name": "Guides" if en else "Ratgeber", "item": f"{site}/en/guides/" if en else f"{site}/ratgeber/"},
+                {"@type": "ListItem", "position": 3, "name": guide["h1"], "item": url},
             ]},
             {"@type": "FAQPage", "mainEntity": faq_data},
         ],
