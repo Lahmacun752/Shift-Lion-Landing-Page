@@ -399,6 +399,31 @@ def add_social_metadata(text, rel):
     return re.sub(r"</head>", tags + "</head>", text, count=1, flags=re.I)
 
 
+def integrate_contact_page(text, rel):
+    """Route footer contact links through the central contact page."""
+    if rel.as_posix() == "kontakt.html":
+        return text
+    english = rel.as_posix().startswith("en/")
+    label = "Contact" if english else "Kontakt"
+
+    def update_footer(match):
+        footer = match.group(0)
+        footer = re.sub(
+            r'<a\b([^>]*?)href=["\']mailto:[^"\']+["\']([^>]*)>.*?</a>',
+            rf'<a\1href="/kontakt.html"\2>{label}</a>',
+            footer,
+            flags=re.I | re.S,
+        )
+        if re.search(r'href=["\']/kontakt\.html["\']', footer, re.I):
+            return footer
+        link = f'<a href="/kontakt.html">{label}</a>'
+        if re.search(r"<small\b", footer, re.I):
+            return re.sub(r"<small\b", link + "<small", footer, count=1, flags=re.I)
+        return re.sub(r"</footer>", link + "</footer>", footer, count=1, flags=re.I)
+
+    return re.sub(r"<footer\b.*?</footer>", update_footer, text, flags=re.I | re.S)
+
+
 def plain_text(value):
     value = re.sub(r"<[^>]+>", " ", value)
     return html.unescape(re.sub(r"\s+", " ", value)).strip()
@@ -1030,6 +1055,7 @@ def build():
     for target in OUT.rglob("*.html"):
         page = target.read_text(encoding="utf-8")
         page = add_social_metadata(page, target.relative_to(OUT))
+        page = integrate_contact_page(page, target.relative_to(OUT))
         page = add_accessibility_foundation(page)
         target.write_text(page, encoding="utf-8")
 
