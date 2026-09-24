@@ -213,4 +213,5 @@
   if(!footer){footer=document.createElement('footer');footer.className='footer';document.body.append(footer)}
   footer.className='footer';
   footer.innerHTML=`<a href="${homeHref}">${copy.footerHome}</a><a href="${toolsHref}">${copy.tools}</a><a href="${isEnglish?'/en/for-shift-workers.html':'/fuer-schichtarbeiter.html'}">${isEnglish?'For shift workers':'Für Schichtarbeiter'}</a><a href="${isEnglish?'/en/methodology.html':'/methodik.html'}">${isEnglish?'Methodology':'Methodik'}</a><a href="${isEnglish?'/en/privacy.html':'/datenschutz.html'}">${isEnglish?'Privacy':'Datenschutz'}</a><a href="/kontakt.html">${isEnglish?'Contact':'Kontakt'}</a><a href="/download/android/">${copy.download}</a>`;
+  document.documentElement.classList.remove('tool-preparing');
 })();
