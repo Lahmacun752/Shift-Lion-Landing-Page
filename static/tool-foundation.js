@@ -134,6 +134,32 @@
       const note=calculator.querySelector('.calculation-note,#formula')?.textContent?.trim();
       return [title,...rows,note].filter(Boolean).join('\n');
     };
+
+    const resultArea=calculator.querySelector('.panel.result,.summary,.results,[class*="result-summary"]');
+    if(resultArea){
+      resultArea.classList.add('tool-unified-result');
+      const resultRows=[...resultArea.querySelectorAll('.metric,.result-row,.result-total')];
+      let primaryRows=resultRows.filter(row=>row.matches('.metric-highlight,.balance,.result-total'));
+      if(!primaryRows.length&&resultRows.length)primaryRows=[resultRows[resultRows.length-1]];
+      resultRows.forEach(row=>row.classList.toggle('tool-primary-result',primaryRows.includes(row)));
+    }
+
+    const pauseType=calculator.querySelector('#pauseType,[name="pauseType"]');
+    const pauseInputs=[...calculator.querySelectorAll('input,select')].filter(field=>/pause|break/i.test(`${field.id} ${field.name} ${field.getAttribute('aria-label')||''}`));
+    if(pauseInputs.length){
+      const pauseText=isEnglish
+        ? (pauseType?'Paid breaks remain in base pay and all enabled allowances. Unpaid breaks are deducted from both.':'Entered breaks are treated as unpaid and deducted from working time.')
+        : (pauseType?'Bezahlte Pausen bleiben in Grundlohn und allen aktivierten Zuschlägen enthalten. Unbezahlte Pausen werden von beidem abgezogen.':'Eingetragene Pausen gelten als unbezahlt und werden von der Arbeitszeit abgezogen.');
+      const existingPauseNote=pauseType?.closest('.field')?.querySelector('small');
+      if(existingPauseNote){existingPauseNote.textContent=pauseText;existingPauseNote.classList.add('tool-break-note')}
+      else if(!calculator.querySelector('.tool-break-note')){
+        const pauseNote=document.createElement('p');pauseNote.className='tool-break-note';pauseNote.textContent=pauseText;
+        const field=pauseInputs[0].closest('.field')||pauseInputs[0];field.insertAdjacentElement('afterend',pauseNote);
+      }
+    }
+
+    calculator.querySelectorAll('.calculation-note,#formula').forEach(note=>note.classList.add('tool-calculation-path'));
+    calculator.querySelectorAll('.hint').forEach(note=>note.classList.add('tool-limitations'));
     const copyText=async value=>{
       if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(value);
       const area=document.createElement('textarea');area.value=value;area.style.position='fixed';area.style.opacity='0';document.body.append(area);area.select();document.execCommand('copy');area.remove();
@@ -151,7 +177,6 @@
     if(!existingCopy||!existingPrint){
       const resultActions=document.createElement('section');resultActions.className='tool-result-actions';resultActions.setAttribute('aria-label',isEnglish?'Result actions':'Ergebnis-Aktionen');
       resultActions.innerHTML=`<strong>${isEnglish?'Use your result':'Ergebnis verwenden'}</strong><div>${existingCopy?'':`<button type="button" data-copy>${isEnglish?'Copy result':'Ergebnis kopieren'}</button>`}${existingPrint?'':`<button type="button" data-print>${isEnglish?'Save PDF / print':'PDF speichern / drucken'}</button>`}</div><span class="tool-result-status" aria-live="polite"></span>`;
-      const resultArea=calculator.querySelector('.panel.result,.summary,.results,[class*="result-summary"]');
       if(resultArea)resultArea.append(resultActions);else calculator.append(resultActions);
       const resultActionRow=resultActions.querySelector('div');
       if(existingCopy&&!existingCopy.closest('.result-share'))resultActionRow.prepend(existingCopy);

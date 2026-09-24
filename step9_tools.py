@@ -45,7 +45,14 @@ def result_rows(kind, en):
         "rest": (("restResult", "Rest period" if en else "Ruhezeit"), ("differenceResult", "Compared with 11 hours" if en else "Vergleich mit 11 Stunden"), ("statusResult", "Assessment" if en else "Einordnung")),
         "leave": (("annualResult", "Converted annual leave" if en else "Umgerechneter Jahresurlaub"), ("partialResult", "For entered months" if en else "Für eingegebene Monate"), ("weeksResult", "Equivalent weeks off" if en else "Entspricht freien Wochen")),
     }[kind]
-    return "".join(f'<div class="metric{" metric-highlight" if index == len(labels)-1 else ""}"><span>{label}</span><strong id="{identifier}">–</strong></div>' for index, (identifier, label) in enumerate(labels))
+    primary_result = {
+        "monthly-pay": "totalResult",
+        "break": "breakResult",
+        "sunday": "totalResult",
+        "rest": "restResult",
+        "leave": "partialResult",
+    }[kind]
+    return "".join(f'<div class="metric{" metric-highlight" if identifier == primary_result else ""}"><span>{label}</span><strong id="{identifier}">–</strong></div>' for identifier, label in labels)
 
 
 def render(path, item):

@@ -730,7 +730,7 @@ def build():
         ):
             text = re.sub(
                 r"</head>",
-                '<link rel="stylesheet" href="/tool-foundation.css?v=7"></head>',
+                '<link rel="stylesheet" href="/tool-foundation.css?v=8"></head>',
                 text,
                 count=1,
                 flags=re.I,
@@ -741,7 +741,7 @@ def build():
             if body_end != -1:
                 text = (
                     text[:body_end]
-                    + '<script src="/tool-foundation.js?v=8"></script>'
+                    + '<script src="/tool-foundation.js?v=9"></script>'
                     + text[body_end:]
                 )
         target.write_text(text, encoding="utf-8")
@@ -768,7 +768,7 @@ def build():
     for relative, item in STEP9_TOOLS.items():
         target = OUT / relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(render_step9_tool(relative, item).replace("/tool-foundation.css?v=3", "/tool-foundation.css?v=7").replace("/tool-foundation.js?v=4", "/tool-foundation.js?v=8"), encoding="utf-8")
+        target.write_text(render_step9_tool(relative, item).replace("/tool-foundation.css?v=3", "/tool-foundation.css?v=8").replace("/tool-foundation.js?v=4", "/tool-foundation.js?v=9"), encoding="utf-8")
 
     published_trust_pages = [relative for relative in TRUST_PAGES if relative not in {"impressum.html", "en/legal-notice.html"}]
     for relative in published_trust_pages:
