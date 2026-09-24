@@ -60,9 +60,9 @@ a{color:inherit}
 .app-promo h2{margin:7px 0 8px;font-size:clamp(27px,3vw,40px);letter-spacing:-.03em}
 .app-promo p{margin:0;max-width:690px;color:#667085;line-height:1.6}
 .app-download{flex:0 0 auto;background:#f2be37;color:#111318;text-decoration:none;font-weight:900;padding:15px 20px;border-radius:11px;text-align:center}
-.footer{background:#05070d;color:#c4cad3;padding:45px max(24px,calc((100vw - 1180px)/2))}
-.footer a{color:#c4cad3;margin-right:20px}
-.footer small{display:block;margin-top:22px;color:#7f8896}
+.footer{display:flex;flex-wrap:wrap;gap:8px 20px;background:#05070d;color:#c4cad3;padding:45px max(24px,calc((100vw - 1180px)/2))}
+.footer a{color:#c4cad3;margin:0;padding:8px 0}
+.footer small{flex-basis:100%;display:block;margin-top:14px;color:#7f8896}
 @media(max-width:900px){
   .desktop-nav{display:none}.menu-toggle{display:block}.eyebrow{margin-top:48px}.hero{padding:0 20px 65px}.logo{height:52px}
   .hero-stats{grid-template-columns:repeat(3,1fr)}.workspace,.cta,.app-promo{width:min(100% - 28px,680px)}
@@ -70,5 +70,6 @@ a{color:inherit}
   .app-promo{margin-top:-44px;padding:28px;align-items:stretch;flex-direction:column}.app-download{width:100%}
 }
 @media(max-width:520px){
+  .tool-hero-layout,.tool-hero-copy,.hero-copy{min-width:0}.hero h1{font-size:38px;line-height:1.04;overflow-wrap:anywhere}.eyebrow{overflow-wrap:anywhere}
   .hero-stats{grid-template-columns:1fr}.filters{display:grid;grid-template-columns:1fr 1fr}.filter{width:100%}
 }
