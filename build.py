@@ -952,8 +952,17 @@ def render_guide_index(language):
     site = CONFIG["site_url"].rstrip("/")
     relative = "en/guides/" if en else "ratgeber/"
     url = site + "/" + relative
+
+    def category_for(path):
+        slug = path.lower()
+        if any(term in slug for term in ("nacht", "night", "feiertag", "holiday", "stundenlohn", "hourly-wage", "schichtzulagen", "shift-allowances")):
+            return "pay"
+        if any(term in slug for term in ("schichtplan", "shift-plan", "shared-days", "gemeinsame-freie")):
+            return "planning"
+        return "time"
+
     cards = "".join(
-        f'<article><span>{html.escape(guide["eyebrow"])}</span><h2>{html.escape(guide["h1"])}</h2><p>{html.escape(guide["description"])}</p><a href="/{html.escape(path, quote=True)}">{"Read guide" if en else "Ratgeber lesen"} →</a></article>'
+        f'<article data-category="{category_for(path)}" data-search="{html.escape((guide["h1"] + " " + guide["description"] + " " + guide["eyebrow"]).lower(), quote=True)}"><span>{html.escape(guide["eyebrow"])}</span><h2>{html.escape(guide["h1"])}</h2><p>{html.escape(guide["description"])}</p><a href="/{html.escape(path, quote=True)}">{"Read guide" if en else "Ratgeber lesen"} →</a></article>'
         for path, guide in GUIDES.items() if guide["lang"] == language
     )
     data = {"@context": "https://schema.org", "@graph": [
@@ -965,7 +974,8 @@ def render_guide_index(language):
     ]}
     other = f"{site}/ratgeber/" if en else f"{site}/en/guides/"
     json_ld = json.dumps(data, ensure_ascii=False)
-    return f'''<!doctype html><html lang="{language}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{"Shift Work Guides and Calculations | Shift Lion" if en else "Ratgeber für Schichtarbeit und Berechnungen | Shift Lion"}</title><meta name="description" content="{"Practical guides for working time, allowances, overtime and shift planning with examples and free calculators." if en else "Praktische Ratgeber zu Arbeitszeit, Zuschlägen, Überstunden und Schichtplanung mit Beispielen und kostenlosen Rechnern."}"><link rel="canonical" href="{url}"><link rel="alternate" hreflang="{language}" href="{url}"><link rel="alternate" hreflang="{"de" if en else "en"}" href="{other}"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/guide.css?v=1"><script type="application/ld+json">{json_ld}</script></head><body><header class="guide-hero guide-index-hero"><nav><a class="guide-logo" href="/{'en/' if en else ''}"><img src="/Shift-Lion-Logo-groß.png" alt="Shift Lion"></a><div><a href="/{'en/' if en else ''}">{"Home" if en else "Startseite"}</a><a href="/{'en/' if en else ''}tools/">Tools</a><a href="/{'ratgeber/' if en else 'en/guides/'}">{"DE" if en else "EN"}</a><a class="nav-cta" href="/download/android/">{"Download app" if en else "App herunterladen"}</a></div></nav><div class="hero-copy"><span>{"SHIFT WORK KNOWLEDGE" if en else "WISSEN FÜR SCHICHTARBEIT"}</span><h1>{"Guides for calculations and shift planning" if en else "Ratgeber für Berechnungen und Schichtplanung"}</h1><p>{"Clear explanations, practical examples and the matching free calculator for every topic." if en else "Verständliche Erklärungen, konkrete Beispiele und zu jedem Thema der passende kostenlose Rechner."}</p></div></header><main><section class="guide-card-grid">{cards}</section></main><footer><a href="/{'en/' if en else ''}">{"Home" if en else "Startseite"}</a><a href="/{'en/' if en else ''}tools/">{"All tools" if en else "Alle Tools"}</a><a href="/download/android/">{"Download app" if en else "App herunterladen"}</a></footer></body></html>'''
+    controls = f'''<section class="guide-controls" aria-label="{'Filter guides' if en else 'Ratgeber filtern'}"><label for="guideSearch">{'Search guides' if en else 'Ratgeber durchsuchen'}<input id="guideSearch" type="search" placeholder="{'Search by topic or term' if en else 'Thema oder Begriff eingeben'}" autocomplete="off"></label><div class="guide-filters" role="group" aria-label="{'Categories' if en else 'Kategorien'}"><button type="button" data-filter="all" aria-pressed="true">{'All guides' if en else 'Alle Ratgeber'}</button><button type="button" data-filter="time" aria-pressed="false">{'Working time' if en else 'Arbeitszeit'}</button><button type="button" data-filter="pay" aria-pressed="false">{'Pay & allowances' if en else 'Lohn & Zuschläge'}</button><button type="button" data-filter="planning" aria-pressed="false">{'Shift planning' if en else 'Schichtplanung'}</button></div><p id="guideResultCount" class="guide-result-count" aria-live="polite"></p></section>'''
+    return f'''<!doctype html><html lang="{language}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{"Shift Work Guides and Calculations | Shift Lion" if en else "Ratgeber für Schichtarbeit und Berechnungen | Shift Lion"}</title><meta name="description" content="{"Practical guides for working time, allowances, overtime and shift planning with examples and free calculators." if en else "Praktische Ratgeber zu Arbeitszeit, Zuschlägen, Überstunden und Schichtplanung mit Beispielen und kostenlosen Rechnern."}"><link rel="canonical" href="{url}"><link rel="alternate" hreflang="{language}" href="{url}"><link rel="alternate" hreflang="{"de" if en else "en"}" href="{other}"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/guide.css?v=1"><script type="application/ld+json">{json_ld}</script></head><body><header class="guide-hero guide-index-hero"><nav><a class="guide-logo" href="/{'en/' if en else ''}"><img src="/Shift-Lion-Logo-groß.png" alt="Shift Lion"></a><div><a href="/{'en/' if en else ''}">{"Home" if en else "Startseite"}</a><a href="/{'en/' if en else ''}tools/">Tools</a><a href="/{'ratgeber/' if en else 'en/guides/'}">{"DE" if en else "EN"}</a><a class="nav-cta" href="/download/android/">{"Download app" if en else "App herunterladen"}</a></div></nav><div class="hero-copy"><span>{"SHIFT WORK KNOWLEDGE" if en else "WISSEN FÜR SCHICHTARBEIT"}</span><h1>{"Guides for calculations and shift planning" if en else "Ratgeber für Berechnungen und Schichtplanung"}</h1><p>{"Clear explanations, practical examples and the matching free calculator for every topic." if en else "Verständliche Erklärungen, konkrete Beispiele und zu jedem Thema der passende kostenlose Rechner."}</p></div></header><main>{controls}<section class="guide-card-grid">{cards}</section><p class="guide-empty" hidden>{"No matching guide found." if en else "Kein passender Ratgeber gefunden."}</p></main><footer><a href="/{'en/' if en else ''}">{"Home" if en else "Startseite"}</a><a href="/{'en/' if en else ''}tools/">{"All tools" if en else "Alle Tools"}</a><a href="/kontakt.html">{"Contact" if en else "Kontakt"}</a><a href="/download/android/">{"Download app" if en else "App herunterladen"}</a></footer><script src="/guide-index.js?v=1"></script></body></html>'''
 
 
 def build():
@@ -1030,7 +1040,7 @@ def build():
         target = OUT / relative
         target.parent.mkdir(parents=True, exist_ok=True)
         index_html = render_guide_index(language).replace(
-            "</head>", '<link rel="stylesheet" href="/guide-index.css?v=1"></head>'
+            "</head>", '<link rel="stylesheet" href="/guide-index.css?v=2"></head>'
         )
         target.write_text(index_html, encoding="utf-8")
 
