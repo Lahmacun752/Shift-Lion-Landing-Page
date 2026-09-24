@@ -23,10 +23,16 @@
     '/feiertagszuschlag-rechner.html':'/en/holiday-allowance-calculator.html',
     '/schichten-vergleichen.html':'/en/compare-shifts.html',
     '/schichtplaner-online.html':'/en/schichtplaner-online.html',
-    '/schichtzulagen-rechner.html':'/en/schichtzulagen-rechner.html'
+    '/schichtzulagen-rechner.html':'/en/schichtzulagen-rechner.html',
+    '/monats-schichtlohn-rechner.html':'/en/monthly-shift-pay-calculator.html',
+    '/pausenrechner.html':'/en/break-calculator.html',
+    '/sonntagszuschlag-rechner.html':'/en/sunday-allowance-calculator.html',
+    '/ruhezeit-rechner.html':'/en/rest-period-calculator.html',
+    '/urlaubsanspruch-rechner.html':'/en/leave-entitlement-calculator.html'
   };
   const reverse=Object.fromEntries(Object.entries(pairs).map(([de,en])=>[en,de]));
   const path=location.pathname.replace(/\/$/,'')||'/';
+  const storageKey=`shiftlion-tool:${path}:inputs:v1`;
   const languageHref=isEnglish?(reverse[path]||'/'):(pairs[path]||'/en/');
   const homeHref=isEnglish?'/en/':'/';
   const toolsHref=isEnglish?'/en/tools/':'/tools/';
@@ -56,7 +62,7 @@
     document.addEventListener('keydown',event=>{if(event.key==='Escape')closeMenu()});
   }
 
-  const calculator=document.querySelector('.calculator');
+  const calculator=document.querySelector('.calculator,.calculator-layout,#planner .planner-layout');
   if(calculator){
     const liveAreas=calculator.querySelectorAll('.summary,[class*="result-summary"],.results');
     liveAreas.forEach(area=>area.setAttribute('aria-live','polite'));
@@ -85,8 +91,76 @@
       let actions=calculate.closest('.actions,.foundation-actions');
       if(!actions){actions=document.createElement('div');actions.className='foundation-actions';calculate.before(actions);actions.append(calculate)}
       const reset=document.createElement('button');reset.type='button';reset.className='button secondary tool-reset';reset.dataset.toolReset='';reset.textContent=copy.reset;
-      reset.addEventListener('click',()=>location.reload());actions.append(reset);
+      actions.append(reset);
     }
+
+    const fields=()=>[...calculator.querySelectorAll('input:not([type="button"]):not([type="submit"]):not([type="hidden"]),select,textarea')];
+    const fieldKey=(field,index)=>field.id||field.name||`${field.tagName.toLowerCase()}-${index}`;
+    const initialValues=fields().map((field,index)=>({key:fieldKey(field,index),value:field.value,checked:field.checked,type:field.type}));
+    const dispatchValue=field=>{field.dispatchEvent(new Event('input',{bubbles:true}));field.dispatchEvent(new Event('change',{bubbles:true}))};
+    const applyValues=values=>{
+      const byKey=new Map(values.map(value=>[value.key,value]));
+      fields().forEach((field,index)=>{
+        const saved=byKey.get(fieldKey(field,index));if(!saved)return;
+        if(field.type==='checkbox'||field.type==='radio')field.checked=Boolean(saved.checked);else field.value=saved.value;
+        dispatchValue(field);
+      });
+    };
+    const calculateResult=()=>{
+      const trigger=calculator.querySelector('#calculate,#createPlan,[data-calculate],button.primary,button.primary-btn');
+      if(trigger)trigger.click();
+    };
+    try{
+      const saved=JSON.parse(localStorage.getItem(storageKey)||'null');
+      if(Array.isArray(saved))applyValues(saved);
+    }catch(_error){}
+    let saveTimer;
+    const saveInputs=()=>{
+      clearTimeout(saveTimer);saveTimer=setTimeout(()=>{
+        const values=fields().map((field,index)=>({key:fieldKey(field,index),value:field.value,checked:field.checked,type:field.type}));
+        try{localStorage.setItem(storageKey,JSON.stringify(values))}catch(_error){}
+      },120);
+    };
+    calculator.addEventListener('input',saveInputs);
+    calculator.addEventListener('change',saveInputs);
+
+    const resultText=()=>{
+      const title=(document.querySelector('h1')?.textContent||document.title).trim();
+      const rows=[...calculator.querySelectorAll('.summary .metric,.results .metric,.result-row,.result-total')].map(row=>{
+        const label=row.querySelector('span,.result-label')?.textContent?.trim();
+        const value=row.querySelector('strong,.result-value')?.textContent?.trim();
+        return label&&value?`${label}: ${value}`:'';
+      }).filter(Boolean);
+      const note=calculator.querySelector('.calculation-note,#formula')?.textContent?.trim();
+      return [title,...rows,note].filter(Boolean).join('\n');
+    };
+    const copyText=async value=>{
+      if(navigator.clipboard&&window.isSecureContext)return navigator.clipboard.writeText(value);
+      const area=document.createElement('textarea');area.value=value;area.style.position='fixed';area.style.opacity='0';document.body.append(area);area.select();document.execCommand('copy');area.remove();
+    };
+    const utilities=document.createElement('section');utilities.className='tool-utilities';utilities.setAttribute('aria-label',isEnglish?'Calculator actions':'Rechner-Aktionen');
+    utilities.innerHTML=`<div class="tool-utilities-copy"><strong>${isEnglish?'Quick actions':'Schnellaktionen'}</strong><span>${isEnglish?'Your entries are saved only in this browser.':'Deine Eingaben werden nur in diesem Browser gespeichert.'}</span></div><div class="tool-utility-actions"><button type="button" data-example>${isEnglish?'Load example':'Beispieldaten laden'}</button><button type="button" data-copy>${isEnglish?'Copy result':'Ergebnis kopieren'}</button><button type="button" data-print>${isEnglish?'Save PDF / print':'PDF speichern / drucken'}</button><a href="${toolsHref}">${isEnglish?'Choose another tool':'Weiteres Tool wählen'} →</a></div><span class="tool-utility-status" aria-live="polite"></span>`;
+    const firstHeading=calculator.querySelector('h2');
+    if(firstHeading)firstHeading.after(utilities);else calculator.prepend(utilities);
+    utilities.querySelector('[data-example]').addEventListener('click',()=>{
+      const example=initialValues.map(value=>({...value,value:value.type==='date'&&!value.value?new Date().toISOString().slice(0,10):value.value}));
+      applyValues(example);saveInputs();calculateResult();utilities.querySelector('.tool-utility-status').textContent=isEnglish?'Example values loaded.':'Beispieldaten wurden geladen.';
+    });
+    utilities.querySelector('[data-copy]').addEventListener('click',async()=>{
+      try{await copyText(resultText());utilities.querySelector('.tool-utility-status').textContent=isEnglish?'Result copied.':'Ergebnis wurde kopiert.'}catch(_error){utilities.querySelector('.tool-utility-status').textContent=isEnglish?'Copying was not available.':'Kopieren war nicht möglich.'}
+    });
+    utilities.querySelector('[data-print]').addEventListener('click',()=>window.print());
+
+    if(!calculator.querySelector('.tool-method-note')){
+      const methodNote=document.createElement('p');methodNote.className='tool-method-note';
+      methodNote.innerHTML=isEnglish?'Estimate for guidance only. Your employment contract, collective agreement and applicable law remain authoritative. <a href="/en/methodology.html">See methodology and sources →</a>':'Schätzung zur Orientierung. Maßgeblich bleiben Arbeitsvertrag, Tarifvertrag und anwendbares Recht. <a href="/methodik.html">Methodik und Quellen ansehen →</a>';
+      calculator.append(methodNote);
+    }
+
+    calculator.querySelectorAll('[data-tool-reset],.tool-reset').forEach(reset=>reset.addEventListener('click',()=>{
+      try{localStorage.removeItem(storageKey)}catch(_error){}
+      applyValues(initialValues);calculateResult();
+    }));
   }
 
   const main=document.querySelector('main');
@@ -96,5 +170,5 @@
 
   let footer=document.querySelector('footer.footer');
   if(!footer){footer=document.createElement('footer');footer.className='footer';document.body.append(footer)}
-  footer.innerHTML=`<a href="${homeHref}">${copy.footerHome}</a><a href="${toolsHref}">${copy.tools}</a><a href="/download/android/">${copy.download}</a>`;
+  footer.innerHTML=`<a href="${homeHref}">${copy.footerHome}</a><a href="${toolsHref}">${copy.tools}</a><a href="${isEnglish?'/en/for-shift-workers.html':'/fuer-schichtarbeiter.html'}">${isEnglish?'For shift workers':'Für Schichtarbeiter'}</a><a href="${isEnglish?'/en/methodology.html':'/methodik.html'}">${isEnglish?'Methodology':'Methodik'}</a><a href="${isEnglish?'/en/privacy.html':'/datenschutz.html'}">${isEnglish?'Privacy':'Datenschutz'}</a><a href="/download/android/">${copy.download}</a>`;
 })();

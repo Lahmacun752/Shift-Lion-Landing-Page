@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Dienstplan App für Schichtarbeiter | Shift Lion</title>
+  <title>Dienstplan-App für Schichtarbeiter: Dienste persönlich planen | Shift Lion</title>
 
   <meta
     name="description"
-    content="Dienstplan App für Schichtarbeiter: Plane Früh-, Spät- und Nachtdienst, freie Tage, Urlaub und Termine übersichtlich mit Shift Lion."
+    content="Persönliche Dienstplan-App für Schichtarbeiter: Übertrage Früh-, Spät- und Nachtdienste, ergänze Urlaub und Termine und finde freie Tage."
   />
 
   <meta
@@ -294,7 +294,9 @@
     .feature-grid { grid-template-columns:repeat(3,1fr); gap:15px; }
     .feature { padding:20px; border-radius:16px; }
     .product-shots { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
-    .product-shots img { width:100%; max-height:720px; object-fit:cover; object-position:top; border-radius:18px; box-shadow:0 16px 36px rgba(15,23,42,.14); }
+    .product-shots figure { margin:0; padding:12px; border:1px solid #e2e8f0; border-radius:20px; background:#f8fafc; }
+    .product-shots img { width:100%; max-height:720px; object-fit:cover; object-position:top; border-radius:14px; box-shadow:0 12px 28px rgba(15,23,42,.12); }
+    .product-shots figcaption { padding:13px 4px 3px; color:#475569; line-height:1.5; font-size:14px; }
     .faq-panel h3 { padding-top:18px; border-top:1px solid #e4e8ee; }
     .cta { width:min(1180px,calc(100% - 48px)); margin:10px auto 64px; padding:42px; border-radius:22px; }
     .cta .btn { display:inline-block; width:auto; background:#f2be37; padding:15px 20px; border-radius:12px; }
@@ -343,8 +345,9 @@
       <h1>Dienstplan App für Schichtarbeiter</h1>
 
       <p class="lead">
-        Verwalte Früh-, Spät- und Nachtdienst, freie Tage, Urlaub und Termine
-        übersichtlich auf deinem Smartphone – mit Shift Lion.
+        Übertrage den Dienstplan deines Arbeitgebers in deinen persönlichen
+        Kalender und behalte Früh-, Spät- und Nachtdienste, Urlaub, Termine
+        und freie Tage auf deinem Smartphone im Blick.
       </p>
 
       <a
@@ -481,13 +484,32 @@
       </div>
 
       <div class="panel">
+        <h2>So wird aus dem Dienstplan dein persönlicher Kalender</h2>
+        <div class="feature-grid">
+          <div class="feature">
+            <h3>1. Dienste anlegen</h3>
+            <p>Lege Namen, Kürzel, Farben sowie Beginn, Ende und Pause deiner typischen Dienste fest.</p>
+          </div>
+          <div class="feature">
+            <h3>2. Plan übertragen</h3>
+            <p>Trage einzelne Dienste ein oder übernimm einen wiederkehrenden Schichtrhythmus in den Kalender.</p>
+          </div>
+          <div class="feature">
+            <h3>3. Alltag ergänzen</h3>
+            <p>Füge Urlaub, freie Tage und persönliche Termine hinzu und behalte alles in einer Ansicht.</p>
+          </div>
+        </div>
+        <p class="small-note">Shift Lion erstellt nicht den betrieblichen Dienstplan für ein Team. Die App hilft dir, deinen bereits festgelegten Dienstplan persönlich zu organisieren.</p>
+      </div>
+
+      <div class="panel">
         <h2>Alles Wichtige direkt in deiner Hand</h2>
         <p>Plane Dienste, vergleiche Schichtrhythmen und werte Arbeitszeiten und Lohn übersichtlich aus.</p>
         <div class="product-shots">
-          <img src="kalender.jpg" alt="Dienstplan und Kalender in Shift Lion" loading="lazy" />
-          <img src="schichtvergleich.png" alt="Gemeinsame freie Tage im Schichtvergleich" loading="lazy" />
-          <img src="statistik_neu.png" alt="Monats- und Jahresstatistik" loading="lazy" />
-          <img src="lohnrechner.png" alt="Lohnübersicht für Schichtarbeiter" loading="lazy" />
+          <figure><img src="kalender.jpg" alt="Persönlicher Dienstplan und Kalender in Shift Lion" loading="lazy" /><figcaption><strong>Kalender:</strong> Dienste, freie Tage und Termine übersichtlich an einem Ort.</figcaption></figure>
+          <figure><img src="schichtvergleich.png" alt="Gemeinsame freie Tage im Schichtvergleich" loading="lazy" /><figcaption><strong>Schichtvergleich:</strong> Gemeinsame freie Tage zwischen unterschiedlichen Schichtgruppen erkennen.</figcaption></figure>
+          <figure><img src="statistik_neu.png" alt="Monats- und Jahresstatistik der geplanten Arbeitszeit" loading="lazy" /><figcaption><strong>Statistik:</strong> Geplante Arbeitszeiten und Schichtarten nach Monat oder Jahr auswerten.</figcaption></figure>
+          <figure><img src="lohnrechner.png" alt="Lohnorientierung für Schichtarbeiter" loading="lazy" /><figcaption><strong>Lohnorientierung:</strong> Voraussichtlichen Verdienst und hinterlegte Zuschläge besser einordnen.</figcaption></figure>
         </div>
       </div>
 

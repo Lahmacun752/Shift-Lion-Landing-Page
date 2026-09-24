@@ -610,9 +610,9 @@
     <h1>Schichtplaner Online</h1>
 
     <p class="lead">
-      Erstelle kostenlos deinen persönlichen Schichtplan.
-      Startdatum und Schichtrhythmus eingeben – Monats- und Jahresplan
-      werden direkt im Browser berechnet.
+      Erstelle aus deinem wiederkehrenden Schichtrhythmus kostenlos einen
+      persönlichen Monats- oder Jahresplan. Die Berechnung erfolgt direkt
+      im Browser – ohne Anmeldung.
     </p>
 
     <div class="hero-points"><span>Monatsplan</span><span>Jahresplan</span><span>PDF-Export</span><span>Individuelle Rhythmen</span></div>
@@ -630,9 +630,15 @@
       <h2>Schichtplan kostenlos erstellen</h2>
 
       <p>
-        Lege fest, an welchem Tag dein Schichtrhythmus beginnt
-        und welche Schichten aufeinander folgen.
+        Lege fest, an welchem Datum Tag 1 deines Rhythmus beginnt und welche
+        Schichten danach aufeinander folgen.
       </p>
+
+      <ol>
+        <li>Startdatum des Rhythmus auswählen.</li>
+        <li>Früh-, Spät-, Nacht- und freie Tage in die richtige Reihenfolge bringen.</li>
+        <li>Plan erstellen und anschließend Monat oder Gesamtjahr ansehen.</li>
+      </ol>
 
       <label class="form-label" for="startDate">
         Startdatum deines Rhythmus
@@ -812,6 +818,14 @@
         kommende Dienste und freie Tage schneller zu erkennen.
       </p>
 
+      <p>
+        Der kostenlose Web-Planer eignet sich für einen schnellen Überblick
+        und einen ausdruckbaren Grundplan. Wenn du einzelne Dienste ändern,
+        private Termine ergänzen oder deinen Plan unterwegs pflegen möchtest,
+        ist die <a href="/schichtplaner.html">Shift-Lion-Schichtplaner-App</a>
+        die passendere Lösung.
+      </p>
+
     </div>
 
     <div class="panel">
@@ -821,6 +835,7 @@
         <details><summary>Welche Schichtrhythmen kann ich eingeben?</summary><p>Du kannst Früh-, Spät-, Nacht- und freie Tage in einer individuellen Reihenfolge kombinieren.</p></details>
         <details><summary>Kann ich einen Jahresplan erstellen?</summary><p>Ja. Nach dem Monatsplan kannst du den vollständigen Jahresplan erzeugen, als PDF speichern oder ausdrucken.</p></details>
         <details><summary>Werden meine Eingaben hochgeladen?</summary><p>Die Berechnung erfolgt direkt in deinem Browser. Für die Nutzung des Planers ist kein Konto erforderlich.</p></details>
+        <details><summary>Kann ich einzelne Dienste oder Termine eintragen?</summary><p>Der Web-Planer wiederholt einen festen Grundrhythmus. Einzelne Änderungen und persönliche Termine kannst du in der Shift-Lion-App verwalten.</p></details>
       </div>
     </div>
 
@@ -867,7 +882,7 @@
       </p>
 
       <a
-        href="/"
+        href="/schichten-vergleichen.html"
         class="link-card"
       >
         👥 Gemeinsame freie Tage finden →
@@ -882,8 +897,8 @@
     <h2>Deinen Schichtplan dauerhaft dabei haben</h2>
 
     <p>
-      Mit Shift Lion kannst du deinen Schichtplan auf Android
-      verwalten und deinen Schichtalltag übersichtlicher organisieren.
+      Übertrage deinen Grundrhythmus in Shift Lion, passe einzelne Dienste an
+      und ergänze freie Tage oder private Termine direkt auf deinem Android-Gerät.
     </p>
 
     <a
@@ -1455,7 +1470,7 @@
     const pageWidth = 297;
     const pageHeight = 210;
 
-    const margin = 10;
+    const margin = 20;
     const gap = 7;
 
     const boxWidth =
@@ -1495,6 +1510,25 @@
       "Nacht": { fill: [49, 46, 129],  text: [255, 255, 255] },
       "Frei":  { fill: [220, 252, 231], text: [22, 101, 52] }
     };
+
+    function drawPdfHeader() {
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(12);
+      doc.setTextColor(15, 23, 42);
+      doc.text(`Shift Lion · Schichtplan ${activeYear}`, margin, 8);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(7);
+      doc.setTextColor(71, 85, 105);
+      doc.text("Legende:", margin, 14);
+      let legendX = margin + 17;
+      Object.entries(pdfShiftColors).forEach(([label, palette]) => {
+        doc.setFillColor(...palette.fill);
+        doc.roundedRect(legendX, 10.5, 12, 5, 1, 1, "F");
+        doc.setTextColor(...palette.text);
+        doc.text(label, legendX + 6, 14, { align: "center" });
+        legendX += 17;
+      });
+    }
 
     function drawMonth(
       month,
@@ -1662,6 +1696,8 @@
 
     }
 
+    drawPdfHeader();
+
     for (
       let month = 0;
       month < 12;
@@ -1677,6 +1713,7 @@
           "a4",
           "landscape"
         );
+        drawPdfHeader();
 
       }
 

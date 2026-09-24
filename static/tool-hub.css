@@ -3,7 +3,7 @@
 html{scroll-behavior:smooth}
 body{margin:0;font-family:Inter,system-ui,sans-serif;background:var(--soft);color:var(--ink)}
 a{color:inherit}
-.hero{background:#05070d;color:#fff;padding:0 max(24px,calc((100vw - 1180px)/2)) 86px}
+.hero{background:#05070d;color:#fff;padding:0 max(24px,calc((100vw - 1180px)/2)) 60px}
 .topbar{position:relative;min-height:92px;display:flex;align-items:center;border-bottom:1px solid rgba(255,255,255,.1)}
 .logo{height:68px;width:auto}
 .desktop-nav{display:flex;gap:25px;align-items:center;margin-left:auto}
@@ -13,9 +13,10 @@ a{color:inherit}
 .mobile-menu{position:absolute;right:0;top:76px;z-index:10;background:#11141b;border:1px solid #2a303b;border-radius:15px;padding:10px;display:grid;width:min(340px,calc(100vw - 40px));box-shadow:0 22px 55px rgba(0,0,0,.42)}
 .mobile-menu[hidden]{display:none}
 .mobile-menu a{color:#fff;text-decoration:none;padding:12px;border-radius:9px}
-.eyebrow{margin-top:70px;color:var(--gold);font-size:13px;letter-spacing:.12em;font-weight:900;text-transform:uppercase}
+.eyebrow{margin-top:50px;color:var(--gold);font-size:13px;letter-spacing:.12em;font-weight:900;text-transform:uppercase}
 .hero h1{font-size:clamp(52px,6vw,82px);letter-spacing:-.055em;line-height:.98;margin:18px 0;max-width:920px}
 .hero-copy{max-width:770px;color:#bbc2ce;font-size:19px;line-height:1.65}
+.tool-hero-layout{display:block}.tool-hero-layout .hero-copy{max-width:900px}
 .hero-stats{display:grid;grid-template-columns:repeat(3,minmax(0,170px));gap:12px;margin-top:30px}
 .hero-stat{padding:16px;border:1px solid rgba(255,255,255,.12);border-radius:14px;background:rgba(255,255,255,.055)}
 .hero-stat strong{display:block;color:#fff;font-size:23px}
@@ -28,7 +29,7 @@ a{color:inherit}
 .clear-search{position:absolute;right:9px;top:50%;transform:translateY(-50%);width:38px;height:38px;border:0;border-radius:9px;background:#eef1f5;color:#3b4350;font-size:21px;cursor:pointer}
 .clear-search[hidden]{display:none}
 .filters{display:flex;flex-wrap:wrap;gap:9px;margin-top:15px}
-.filter{border:1px solid var(--line);background:#f8f9fb;border-radius:999px;padding:10px 15px;font-weight:800;cursor:pointer}
+.filter{min-height:44px;border:1px solid var(--line);background:#f8f9fb;border-radius:999px;padding:10px 15px;font-weight:800;cursor:pointer}
 .filter.active{background:var(--ink);color:#fff;border-color:var(--ink)}
 .results-head{display:flex;align-items:end;justify-content:space-between;margin:48px 0 20px}
 .results-head h2{font-size:clamp(30px,4vw,45px);margin:0}

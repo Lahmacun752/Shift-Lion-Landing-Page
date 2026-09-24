@@ -7,8 +7,8 @@
     invalid:'The end date must not be before the start date.',
     missing:'Please complete all required dates.',
     tooLong:'Please choose a period of no more than ten years.',
-    minCycle:'Your rotation needs at least one day.', vacationInvalid:'Leave cannot end before it starts.', holiday:'Holiday', vacation:'Leave',
-    bridgeEnable:'Enable public holidays to receive bridge-day suggestions.', bridgeNone:'No bridge days in this period create a longer break.', bridgeTake:'Take leave', bridgeDays:'days off in a row', dateLocale:'en-GB', copied:'Summary copied.', copyFailed:'Copying was not possible. Please select and copy the text manually.', period:'Period', model:'Work model', planned:'Planned workdays', holidays:'Holidays on workdays', vacationDays:'Leave days', effective:'Effective workdays',
+    minCycle:'Your rotation needs at least one day.', vacationInvalid:'Leave cannot end before it starts.', holiday:'Holiday', vacation:'Leave', holidayAndLeave:'Holiday and leave',
+    bridgeEnable:'Enable public holidays and choose “Off on public holidays” to receive bridge-day suggestions.', bridgeNone:'No bridge days in this period create a longer break.', bridgeTake:'Take leave', bridgeDays:'days off in a row', dateLocale:'en-GB', copied:'Summary copied.', copyFailed:'Copying was not possible. Please select and copy the text manually.', period:'Period', model:'Work model', planned:'Planned workdays', holidaysOff:'Holidays treated as off', holidaysMarked:'Holidays on planned workdays', vacationDays:'Leave days', effective:'Effective workdays',
     weekdays:['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
     monthLocale:'en-GB'
   }:{
@@ -16,8 +16,8 @@
     invalid:'Das Enddatum darf nicht vor dem Startdatum liegen.',
     missing:'Bitte fülle alle benötigten Datumsfelder aus.',
     tooLong:'Bitte wähle einen Zeitraum von höchstens zehn Jahren.',
-    minCycle:'Dein Rhythmus benötigt mindestens einen Tag.', vacationInvalid:'Das Urlaubsende darf nicht vor dem Urlaubsbeginn liegen.', holiday:'Feiertag', vacation:'Urlaub',
-    bridgeEnable:'Aktiviere Feiertage, um Brückentag-Vorschläge zu erhalten.', bridgeNone:'In diesem Zeitraum gibt es keine Brückentage für eine längere freie Zeit.', bridgeTake:'Urlaub nehmen am', bridgeDays:'freie Tage am Stück', dateLocale:'de-DE', copied:'Zusammenfassung kopiert.', copyFailed:'Kopieren war nicht möglich. Bitte markiere den Text und kopiere ihn manuell.', period:'Zeitraum', model:'Arbeitsmodell', planned:'Geplante Arbeitstage', holidays:'Feiertage auf Arbeitstage', vacationDays:'Urlaubstage', effective:'Effektive Arbeitstage',
+    minCycle:'Dein Rhythmus benötigt mindestens einen Tag.', vacationInvalid:'Das Urlaubsende darf nicht vor dem Urlaubsbeginn liegen.', holiday:'Feiertag', vacation:'Urlaub', holidayAndLeave:'Feiertag und Urlaub',
+    bridgeEnable:'Aktiviere Feiertage und wähle „An Feiertagen frei“, um Brückentag-Vorschläge zu erhalten.', bridgeNone:'In diesem Zeitraum gibt es keine Brückentage für eine längere freie Zeit.', bridgeTake:'Urlaub nehmen am', bridgeDays:'freie Tage am Stück', dateLocale:'de-DE', copied:'Zusammenfassung kopiert.', copyFailed:'Kopieren war nicht möglich. Bitte markiere den Text und kopiere ihn manuell.', period:'Zeitraum', model:'Arbeitsmodell', planned:'Geplante Arbeitstage', holidaysOff:'Feiertage als frei', holidaysMarked:'Feiertage auf geplanten Arbeitstagen', vacationDays:'Urlaubstage', effective:'Effektive Arbeitstage',
     weekdays:['Mo','Di','Mi','Do','Fr','Sa','So'],
     monthLocale:'de-DE'
   };
@@ -25,6 +25,7 @@
   let rotation=['E','E','L','L','N','N','O','O'];
   let calendarYear=0;
   let calendarMonth=0;
+  let hasValidResult=false;
 
   const pad=value=>String(value).padStart(2,'0');
   const formatDate=(year,month,day)=>`${year}-${pad(month+1)}-${pad(day)}`;
@@ -55,10 +56,12 @@
       if(['BW','BY','HE','NW','RP','SL'].includes(state))addEaster(year,60);
       if(['BW','BY','NW','RP','SL'].includes(state))add(year,10,1);
       if(['BE','MV'].includes(state))add(year,2,8);
-      if(['BE','BB','HB','HH','MV','NI','SH','SN','ST','TH'].includes(state))add(year,9,31);
+      if(state==='SL')add(year,7,15);
+      if(state==='BB')addEaster(year,49);
+      if(['BB','HB','HH','MV','NI','SH','SN','ST','TH'].includes(state))add(year,9,31);
       if(state==='SN'){
         const nov23=Date.UTC(year,10,23);
-        dates.add(nov23-((new Date(nov23).getUTCDay()+3)%7)*DAY);
+        dates.add(nov23-((new Date(nov23).getUTCDay()+4)%7)*DAY);
       }
       if(state==='TH')add(year,8,20);
     }
@@ -74,6 +77,20 @@
     const error=q('workdaysError');
     error.textContent=message||'';
     error.classList.toggle('visible',Boolean(message));
+  };
+  const clearResults=()=>{
+    hasValidResult=false;
+    ['total','work','holidays','vacation','effectiveWork','free'].forEach(id=>q(id).textContent='–');
+    q('workdaysCalendar').innerHTML='';
+    q('calendarTitle').textContent='';
+    q('bridgeDaysList').innerHTML='';
+    q('bridgeDaysIntro').textContent='';
+  };
+  const syncHolidaySettings=()=>{
+    const enabled=q('nationwideHolidays').checked;
+    q('state').disabled=!enabled;
+    q('holidayTreatment').disabled=!enabled;
+    q('holidayMetricLabel').textContent=enabled?(q('holidayTreatment').value==='off'?text.holidaysOff:text.holidaysMarked):text.holidaysOff;
   };
   const setWeekdays=days=>{
     q('weekdays').querySelectorAll('input[data-day]').forEach(input=>{input.checked=days.includes(Number(input.dataset.day))});
@@ -105,7 +122,7 @@
     if(resetWeekdays&&!custom)setWeekdays(q('model').value==='6'?[1,2,3,4,5,6]:[1,2,3,4,5]);
     calculate();
   };
-  const renderCalendar=(start,end,holidays,vacationStart,vacationEnd)=>{
+  const renderCalendar=(start,end,holidays,vacationStart,vacationEnd,holidayAsOff)=>{
     const firstMonth=monthKey(new Date(start).getUTCFullYear(),new Date(start).getUTCMonth());
     const lastMonth=monthKey(new Date(end).getUTCFullYear(),new Date(end).getUTCMonth());
     let current=monthKey(calendarYear,calendarMonth);
@@ -126,24 +143,25 @@
       if(time<start||time>end){cell.classList.add('outside');cell.innerHTML=`<strong>${day}</strong>`}
       else{
         const shift=shiftFor(time);
-        const free=shift==='O';
+        const scheduledFree=shift==='O';
         const holiday=holidays.has(time);
-        const vacation=!free&&Number.isFinite(vacationStart)&&time>=vacationStart&&time<=vacationEnd;
-        cell.classList.add(free?'free':'work',`shift-${shift.toLowerCase()}`);
+        const holidayOff=holiday&&holidayAsOff&&!scheduledFree;
+        const vacation=!scheduledFree&&!holidayOff&&Number.isFinite(vacationStart)&&time>=vacationStart&&time<=vacationEnd;
+        cell.classList.add((scheduledFree||holidayOff)?'free':'work',`shift-${shift.toLowerCase()}`);
         if(holiday)cell.classList.add('holiday');
         if(vacation)cell.classList.add('vacation');
-        const name=vacation?text.vacation:holiday?text.holiday:shift==='W'?text.work:labels[shift];
+        const name=holiday&&vacation?text.holidayAndLeave:vacation?text.vacation:holiday?text.holiday:shift==='W'?text.work:labels[shift];
         cell.innerHTML=`<strong>${day}</strong><small>${name}</small>`;
         cell.setAttribute('aria-label',`${formatDate(calendarYear,calendarMonth,day)}: ${name}`);
       }
       grid.append(cell);
     }
   };
-  const renderBridgeDays=(start,end,holidays,vacationStart,vacationEnd)=>{
+  const renderBridgeDays=(start,end,holidays,vacationStart,vacationEnd,holidayAsOff)=>{
     const list=q('bridgeDaysList');
     const intro=q('bridgeDaysIntro');
     list.innerHTML='';
-    if(!q('nationwideHolidays').checked){intro.textContent=text.bridgeEnable;return}
+    if(!q('nationwideHolidays').checked||!holidayAsOff){intro.textContent=text.bridgeEnable;return}
     const isLeave=time=>Number.isFinite(vacationStart)&&time>=vacationStart&&time<=vacationEnd;
     const naturallyFree=time=>shiftFor(time)==='O'||holidays.has(time)||isLeave(time);
     const recommendations=[];
@@ -153,7 +171,10 @@
       for(let cursor=time-DAY;cursor>=start&&naturallyFree(cursor);cursor-=DAY)before++;
       for(let cursor=time+DAY;cursor<=end&&naturallyFree(cursor);cursor+=DAY)after++;
       const total=before+1+after;
-      if(total>=3)recommendations.push({time,total});
+      let touchesHoliday=false;
+      for(let cursor=time-DAY;cursor>=start&&naturallyFree(cursor);cursor-=DAY){if(holidays.has(cursor))touchesHoliday=true}
+      for(let cursor=time+DAY;cursor<=end&&naturallyFree(cursor);cursor+=DAY){if(holidays.has(cursor))touchesHoliday=true}
+      if(total>=3&&touchesHoliday)recommendations.push({time,total});
     }
     recommendations.sort((a,b)=>b.total-a.total||a.time-b.time);
     if(!recommendations.length){intro.textContent=text.bridgeNone;return}
@@ -167,6 +188,7 @@
   };
   const copySummary=async()=>{
     const format=time=>new Intl.DateTimeFormat(text.dateLocale,{day:'2-digit',month:'2-digit',year:'numeric',timeZone:'UTC'}).format(new Date(time));
+    if(!hasValidResult){q('copyStatus').textContent=text.missing;return}
     const start=parseDate(q('start').value),end=parseDate(q('end').value);
     const model=q('model').options[q('model').selectedIndex].text;
     const summary=[
@@ -174,7 +196,7 @@
       `${text.period}: ${format(start)} – ${format(end)}`,
       `${text.model}: ${model}`,
       `${text.planned}: ${q('work').textContent}`,
-      `${text.holidays}: ${q('holidays').textContent}`,
+      `${q('holidayMetricLabel').textContent}: ${q('holidays').textContent}`,
       `${text.vacationDays}: ${q('vacation').textContent}`,
       `${text.effective}: ${q('effectiveWork').textContent}`
     ].join('\n');
@@ -193,16 +215,18 @@
     const reference=parseDate(q('reference').value);
     const vacationStart=parseDate(q('vacationStart').value);
     const vacationEnd=parseDate(q('vacationEnd').value);
-    if(!Number.isFinite(start)||!Number.isFinite(end)||(custom&&!Number.isFinite(reference))){setError(text.missing);return}
-    if(end<start){setError(text.invalid);return}
-    if((Number.isFinite(vacationStart)||Number.isFinite(vacationEnd))&&(!Number.isFinite(vacationStart)||!Number.isFinite(vacationEnd))){setError(text.missing);return}
-    if(Number.isFinite(vacationStart)&&vacationEnd<vacationStart){setError(text.vacationInvalid);return}
+    if(!Number.isFinite(start)||!Number.isFinite(end)||(custom&&!Number.isFinite(reference))){setError(text.missing);clearResults();return}
+    if(end<start){setError(text.invalid);clearResults();return}
+    if((Number.isFinite(vacationStart)||Number.isFinite(vacationEnd))&&(!Number.isFinite(vacationStart)||!Number.isFinite(vacationEnd))){setError(text.missing);clearResults();return}
+    if(Number.isFinite(vacationStart)&&vacationEnd<vacationStart){setError(text.vacationInvalid);clearResults();return}
     const days=Math.round((end-start)/DAY)+1;
-    if(days>3660){setError(text.tooLong);return}
-    if(custom&&!rotation.length){setError(text.minCycle);return}
+    if(days>3660){setError(text.tooLong);clearResults();return}
+    if(custom&&!rotation.length){setError(text.minCycle);clearResults();return}
     setError('');
+    hasValidResult=true;
     const holidays=q('nationwideHolidays').checked?nationwideHolidaySet(start,end):new Set();
     if(q('nationwideHolidays').checked)regionalHolidaySet(start,end,q('state').value).forEach(date=>holidays.add(date));
+    const holidayAsOff=q('nationwideHolidays').checked&&q('holidayTreatment').value==='off';
     let work=0;
     let free=0;
     let holidayDays=0;
@@ -211,18 +235,21 @@
       const isWork=shiftFor(time)!=='O';
       if(!isWork){free+=1;continue}
       work+=1;
-      if(holidays.has(time)){holidayDays+=1;continue}
+      if(holidays.has(time)){
+        holidayDays+=1;
+        if(holidayAsOff)continue;
+      }
       if(Number.isFinite(vacationStart)&&time>=vacationStart&&time<=vacationEnd)vacationDays+=1;
     }
-    const effectiveWork=work-holidayDays-vacationDays;
+    const effectiveWork=work-(holidayAsOff?holidayDays:0)-vacationDays;
     q('total').textContent=String(days);
     q('work').textContent=String(work);
     q('holidays').textContent=String(holidayDays);
     q('vacation').textContent=String(vacationDays);
     q('effectiveWork').textContent=String(effectiveWork);
     q('free').textContent=String(free);
-    renderCalendar(start,end,holidays,vacationStart,vacationEnd);
-    renderBridgeDays(start,end,holidays,vacationStart,vacationEnd);
+    renderCalendar(start,end,holidays,vacationStart,vacationEnd,holidayAsOff);
+    renderBridgeDays(start,end,holidays,vacationStart,vacationEnd,holidayAsOff);
   }
 
   const now=new Date();
@@ -235,8 +262,9 @@
   q('model').addEventListener('change',()=>updateModel(true));
   q('weekdays').querySelectorAll('input').forEach(input=>input.addEventListener('change',calculate));
   ['start','end','reference','vacationStart','vacationEnd'].forEach(id=>q(id).addEventListener('change',()=>{if(id==='start'){const start=parseDate(q('start').value);if(Number.isFinite(start)){calendarYear=new Date(start).getUTCFullYear();calendarMonth=new Date(start).getUTCMonth()}}calculate()}));
-  q('nationwideHolidays').addEventListener('change',calculate);
+  q('nationwideHolidays').addEventListener('change',()=>{syncHolidaySettings();calculate()});
   q('state').addEventListener('change',calculate);
+  q('holidayTreatment').addEventListener('change',()=>{syncHolidaySettings();calculate()});
   q('copySummary').addEventListener('click',copySummary);
   q('printResult').addEventListener('click',()=>window.print());
   q('addCycleDay').addEventListener('click',()=>{if(rotation.length<31){rotation.push('O');renderRotation();calculate()}});
@@ -246,5 +274,6 @@
   q('nextMonth').addEventListener('click',()=>{calendarMonth+=1;if(calendarMonth>11){calendarMonth=0;calendarYear+=1}calculate()});
   renderRotation();
   setWeekdays([1,2,3,4,5]);
+  syncHolidaySettings();
   updateModel(false);
 })();

@@ -592,34 +592,33 @@
         class="brand-logo"
       />
       <nav class="desktop-nav" aria-label="Main navigation">
-        <a href="/en/">Startseite</a>
-        <a href="#planner">Planer</a>
-        <a href="/en/schichtzulagen-rechner.html">Zuschlagsrechner</a>
-        <a class="nav-download" href="/download/android/">App herunterladen</a>
+        <a href="/en/">Home</a>
+        <a href="#planner">Planner</a>
+        <a href="/en/schichtzulagen-rechner.html">Shift allowance</a>
+        <a class="nav-download" href="/download/android/">Download app</a>
       </nav>
-      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileMenu" onclick="toggleMenu(this)">☰ Menü</button>
+      <button class="menu-toggle" type="button" aria-expanded="false" aria-controls="mobileMenu" onclick="toggleMenu(this)">☰ Menu</button>
       <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile Navigation" hidden>
-        <a href="/en/">Startseite</a>
-        <a href="#planner" onclick="closeMenu()">Planer öffnen</a>
-        <a href="/en/schichtzulagen-rechner.html">Zuschlagsrechner</a>
-        <a class="mobile-download" href="/download/android/">App herunterladen</a>
+        <a href="/en/">Home</a>
+        <a href="#planner" onclick="closeMenu()">Open planner</a>
+        <a href="/en/schichtzulagen-rechner.html">Shift allowance</a>
+        <a class="mobile-download" href="/download/android/">Download app</a>
       </nav>
     </div>
 
-    <div class="hero-kicker">Kostenlos · ohne Anmeldung · direkt im Browser</div>
-    <h1>Schichtplaner Online</h1>
+    <div class="hero-kicker">Free · no sign-up · directly in your browser</div>
+    <h1>Online Shift Planner</h1>
 
     <p class="lead">
-      Erstelle kostenlos deinen persönlichen Schichtplan.
-      Startdatum und Schichtrhythmus eingeben – Monats- und Jahresplan
-      werden direkt im Browser berechnet.
+      Create your personal shift plan for free. Enter a start date and your
+      rotation — your monthly and yearly plans are calculated in the browser.
     </p>
 
-    <div class="hero-points"><span>Monatsplan</span><span>Jahresplan</span><span>PDF-Export</span><span>Individuelle Rhythmen</span></div>
+    <div class="hero-points"><span>Monthly plan</span><span>Yearly plan</span><span>PDF export</span><span>Custom rotations</span></div>
 
   </section>
 
-  <div class="trust-strip"><div>Direkt nutzbar</div><div>Eingaben bleiben im Browser</div><div>Für Früh-, Spät- und Nachtschicht</div></div>
+  <div class="trust-strip"><div>Ready to use</div><div>Inputs stay in your browser</div><div>For early, late and night shifts</div></div>
 
   <section class="section" id="planner">
 
@@ -627,15 +626,14 @@
 
     <div class="panel">
 
-      <h2>Schichtplan kostenlos erstellen</h2>
+      <h2>Create a shift plan for free</h2>
 
       <p>
-        Lege fest, an welchem Tag dein Schichtrhythmus beginnt
-        und welche Schichten aufeinander folgen.
+        Set the day your rotation begins and choose the order of your shifts.
       </p>
 
       <label class="form-label" for="startDate">
-        Startdatum deines Rhythmus
+        Rotation start date
       </label>
 
       <input
@@ -644,7 +642,7 @@
         type="date"
       />
 
-      <span class="form-label">Dein Schichtrhythmus</span>
+      <span class="form-label">Your shift rotation</span>
 
       <div
         id="rhythmGrid"
@@ -658,7 +656,7 @@
           type="button"
           id="addDay"
         >
-          + Tag
+          + Day
         </button>
 
         <button
@@ -666,7 +664,7 @@
           type="button"
           id="removeDay"
         >
-          − Tag
+          − Day
         </button>
 
       </div>
@@ -676,12 +674,11 @@
         class="primary-btn"
         id="createPlan"
       >
-        Schichtplan erstellen
+        Create shift plan
       </button>
 
       <p class="tool-note">
-        Deine Eingaben bleiben in deinem Browser.
-        Es ist kein Konto erforderlich.
+        Your inputs stay in your browser. No account is required.
       </p>
 
     </div>
@@ -690,7 +687,7 @@
 
     <div class="panel" id="calendarPanel">
 
-      <h2>Dein Schichtkalender</h2>
+      <h2>Your shift calendar</h2>
 
       <div class="month-controls">
 
@@ -737,10 +734,10 @@
       </div>
 
       <div class="legend">
-        <span class="legend-item shift-frueh">Früh</span>
-        <span class="legend-item shift-spaet">Spät</span>
-        <span class="legend-item shift-nacht">Nacht</span>
-        <span class="legend-item shift-frei">Frei</span>
+        <span class="legend-item shift-frueh">Early</span>
+        <span class="legend-item shift-spaet">Late</span>
+        <span class="legend-item shift-nacht">Night</span>
+        <span class="legend-item shift-frei">Off</span>
       </div>
 
       <button
@@ -748,7 +745,7 @@
         class="primary-btn"
         id="createYearPlan"
       >
-        Jahresplan erstellen
+        Create yearly plan
       </button>
 
     </div>
@@ -760,11 +757,11 @@
     <div class="panel" id="yearPanel">
 
       <div class="year-heading">
-        <h2 id="yearTitle">Jahresplan</h2>
+        <h2 id="yearTitle">Yearly plan</h2>
       </div>
 
       <p>
-        Dein kompletter Schichtplan für das ausgewählte Jahr.
+        Your complete shift plan for the selected year.
       </p>
 
       <div
@@ -779,7 +776,7 @@
           class="download-btn"
           id="downloadPdf"
         >
-          Jahresplan als PDF herunterladen
+          Download yearly plan as PDF
         </button>
 
         <button
@@ -787,7 +784,7 @@
           class="print-btn"
           id="printYear"
         >
-          Drucken
+          Print
         </button>
 
       </div>
@@ -925,6 +922,13 @@
     "Frei"
   ];
 
+  const shiftLabels = {
+    "Früh": "Early",
+    "Spät": "Late",
+    "Nacht": "Night",
+    "Frei": "Off"
+  };
+
   let rhythm = [
     "Früh",
     "Früh",
@@ -1003,7 +1007,7 @@
         element.value = option;
 
         element.textContent =
-          `${index + 1}. ${option}`;
+          `${index + 1}. ${shiftLabels[option]}`;
 
         if (option === shift) {
           element.selected = true;
@@ -1141,11 +1145,11 @@
     activeYear = year;
 
     createYearPlanButton.textContent =
-      `Jahresplan ${year} erstellen`;
+      `Create yearly plan ${year}`;
 
     const formatter =
       new Intl.DateTimeFormat(
-        "de-DE",
+        "en-GB",
         {
           month: "long",
           year: "numeric"
@@ -1232,7 +1236,7 @@
           `shift-badge ${getShiftClass(shift)}`;
 
         badge.textContent =
-          shift;
+          shiftLabels[shift] || shift;
 
         cell.appendChild(badge);
 
@@ -1260,7 +1264,7 @@
 
     title.textContent =
       new Intl.DateTimeFormat(
-        "de-DE",
+        "en-GB",
         {
           month: "long",
           year: "numeric"
@@ -1278,13 +1282,13 @@
       "mini-weekdays";
 
     [
-      "Mo",
-      "Di",
-      "Mi",
-      "Do",
-      "Fr",
-      "Sa",
-      "So"
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
     ].forEach(day => {
 
       const element =
@@ -1380,8 +1384,8 @@
       badge.className =
         `mini-shift ${getShiftClass(shift)}`;
 
-      badge.textContent =
-        shift || "";
+        badge.textContent =
+          shiftLabels[shift] || shift || "";
 
       cell.appendChild(badge);
 
@@ -1400,7 +1404,7 @@
     yearGrid.innerHTML = "";
 
     yearTitle.textContent =
-      `Jahresplan ${activeYear}`;
+      `Yearly plan ${activeYear}`;
 
     for (
       let month = 0;
@@ -1455,7 +1459,7 @@
     const pageWidth = 297;
     const pageHeight = 210;
 
-    const margin = 10;
+    const margin = 20;
     const gap = 7;
 
     const boxWidth =
@@ -1465,28 +1469,28 @@
       (pageHeight - margin * 2 - gap) / 2;
 
     const monthNames = [
-      "Januar",
-      "Februar",
-      "März",
+      "January",
+      "February",
+      "March",
       "April",
-      "Mai",
-      "Juni",
-      "Juli",
+      "May",
+      "June",
+      "July",
       "August",
       "September",
-      "Oktober",
+      "October",
       "November",
-      "Dezember"
+      "December"
     ];
 
     const weekdays = [
-      "Mo",
-      "Di",
-      "Mi",
-      "Do",
-      "Fr",
-      "Sa",
-      "So"
+      "Mon",
+      "Tue",
+      "Wed",
+      "Thu",
+      "Fri",
+      "Sat",
+      "Sun"
     ];
 
     const pdfShiftColors = {
@@ -1495,6 +1499,31 @@
       "Nacht": { fill: [49, 46, 129],  text: [255, 255, 255] },
       "Frei":  { fill: [220, 252, 231], text: [22, 101, 52] }
     };
+
+    function drawPdfHeader() {
+      doc.setFont("helvetica", "bold");
+      doc.setFontSize(12);
+      doc.setTextColor(15, 23, 42);
+      doc.text(`Shift Lion · Shift plan ${activeYear}`, margin, 8);
+      doc.setFont("helvetica", "normal");
+      doc.setFontSize(7);
+      doc.setTextColor(71, 85, 105);
+      doc.text("Legend:", margin, 14);
+      const pdfLegend = [
+        ["Early", pdfShiftColors["Früh"]],
+        ["Late", pdfShiftColors["Spät"]],
+        ["Night", pdfShiftColors["Nacht"]],
+        ["Off", pdfShiftColors["Frei"]]
+      ];
+      let legendX = margin + 17;
+      pdfLegend.forEach(([label, palette]) => {
+        doc.setFillColor(...palette.fill);
+        doc.roundedRect(legendX, 10.5, 12, 5, 1, 1, "F");
+        doc.setTextColor(...palette.text);
+        doc.text(label, legendX + 6, 14, { align: "center" });
+        legendX += 17;
+      });
+    }
 
     function drawMonth(
       month,
@@ -1648,7 +1677,7 @@
         doc.setTextColor(...palette.text);
 
         doc.text(
-          shift || "",
+          shiftLabels[shift] || shift || "",
           cellX + cellWidth / 2,
           cellY + 7,
           {
@@ -1661,6 +1690,8 @@
       doc.setTextColor(15, 23, 42);
 
     }
+
+    drawPdfHeader();
 
     for (
       let month = 0;
@@ -1677,6 +1708,7 @@
           "a4",
           "landscape"
         );
+        drawPdfHeader();
 
       }
 

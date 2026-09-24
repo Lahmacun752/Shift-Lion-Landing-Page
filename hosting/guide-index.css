@@ -1,0 +1,9 @@
+.guide-index-hero{padding-bottom:90px}
+.guide-card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:20px}
+.guide-card-grid article{display:flex;flex-direction:column;background:#fff;border:1px solid var(--line);border-radius:18px;padding:26px;box-shadow:0 14px 38px #0f172a0d}
+.guide-card-grid article span{color:#946700;font-size:.74rem;font-weight:900;letter-spacing:.08em;text-transform:uppercase}
+.guide-card-grid article h2{font-size:1.3rem;line-height:1.25;margin:11px 0}
+.guide-card-grid article p{color:var(--muted);flex:1}
+.guide-card-grid article a{color:#765300;font-weight:900}
+@media(max-width:900px){.guide-card-grid{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media(max-width:600px){.guide-card-grid{grid-template-columns:1fr}}

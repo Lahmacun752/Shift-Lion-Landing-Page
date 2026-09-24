@@ -590,6 +590,8 @@ body { background: #05070d; }
 .mobile-menu a:hover { background: rgba(255,255,255,.1); }
 .mobile-menu .mobile-download { background: #f2be37; color: #111318; text-align: center; margin-top: 5px; }
 .hero-copy { max-width: 860px; padding: 64px 0 24px; }
+.hero-layout { grid-column: 1 / -1; display: block; }
+.hero-layout .hero-copy { max-width: 860px; }
 .eyebrow { color: #f2be37; font-size: 13px; font-weight: 900; letter-spacing: .11em; text-transform: uppercase; margin-bottom: 22px; }
 h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
 .lead { font-size: 20px; max-width: 590px; }
@@ -666,6 +668,7 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
   h1 { font-size: 45px; }
   .hero-actions { display: grid; }
   .btn { width: 100%; }
+  .hero-layout { display: block; }
   .hero-visual { margin-top: 38px; }
   .hero-visual img { max-height: 420px; }
   .campaign-section { width: min(100% - 28px, 680px); grid-template-columns: 1fr; padding: 24px; gap: 28px; margin-bottom: 28px; }
@@ -715,6 +718,19 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
   .quick-stat { padding: 10px 4px; }
 }
     
+    .primary-paths { width:min(1180px,calc(100% - 48px)); margin:-30px auto 64px; position:relative; z-index:3; display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
+    .path-card { display:flex; min-height:190px; flex-direction:column; padding:26px; border:1px solid #e5e7eb; border-radius:20px; background:#fff; color:#17191e; text-decoration:none; box-shadow:0 18px 46px rgba(17,24,39,.1); transition:transform .2s ease,box-shadow .2s ease; }
+    .path-card:hover { transform:translateY(-4px); box-shadow:0 22px 54px rgba(17,24,39,.15); }
+    .path-icon { width:46px; height:46px; display:grid; place-items:center; border-radius:13px; background:#fff4ce; font-size:23px; }
+    .path-card h2 { margin:20px 0 8px; font-size:22px; line-height:1.15; }
+    .path-card p { margin:0 0 18px; color:#626773; line-height:1.55; }
+    .path-card strong { margin-top:auto; color:#9a6900; }
+    .screenshot-item { margin:0; overflow:hidden; border-radius:18px; background:#17191e; box-shadow:0 16px 38px rgba(17,24,39,.13); }
+    .screenshot-item img { display:block; width:100%; border-radius:0; box-shadow:none; }
+    .screenshot-item figcaption { padding:18px 20px 21px; color:#fff; }
+    .screenshot-item figcaption strong { display:block; margin-bottom:5px; color:#f2be37; font-size:18px; }
+    .screenshot-item figcaption span { color:#d3d6dc; line-height:1.5; }
+    @media (max-width:800px) { .primary-paths { width:min(100% - 28px,680px); margin:-18px auto 46px; grid-template-columns:1fr; } .path-card { min-height:0; } }
   </style>
 </head>
 
@@ -738,7 +754,8 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
     <a href="#features">Funktionen</a>
     <a href="/schichten-vergleichen.html">Schichten vergleichen</a>
     <a href="/tools/">Tools</a>
-    <a class="nav-download" href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro" target="_blank" rel="noopener">App herunterladen</a>
+    <a href="/ratgeber/">Ratgeber</a>
+    <a class="nav-download" href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro" target="_blank" rel="noopener">Shift Lion herunterladen</a>
   </nav>
   <div class="language-switch" aria-label="Sprache wählen">
     <a class="active" href="/" lang="de" aria-current="page">DE</a>
@@ -748,12 +765,14 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
   <nav class="mobile-menu" id="mobileMenu" aria-label="Mobile Navigation" hidden>
     <a href="#features" onclick="closeMenu()">Funktionen</a>
     <a href="/tools/">Kostenlose Tools</a>
+    <a href="/ratgeber/">Ratgeber</a>
     <a href="/en/" lang="en">English version</a>
-    <a class="mobile-download" href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro" target="_blank" rel="noopener">App herunterladen</a>
+    <a class="mobile-download" href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro" target="_blank" rel="noopener">Shift Lion herunterladen</a>
   </nav>
 
 </div>
 
+<div class="hero-layout">
 <div class="hero-copy">
   <div class="eyebrow">Schichtplanung, die zu deinem Leben passt</div>
 
@@ -774,9 +793,9 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
         <a
         href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro"
         target="_blank"
-        class="btn btn-primary"
+        class="btn btn-outline"
       >
-       Shift Lion im Play Store herunterladen
+       Shift Lion herunterladen
       </a>
 
       </div>
@@ -788,26 +807,15 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
       </div>
 
     </div>
+</div>
 
     </section>
 
-    <section class="section">
-  <div class="panel" id="features">
-    <h2 class="section-title">Was ist Shift Lion?</h2>
-    <p class="section-copy">
-      Shift Lion ist ein moderner Schichtplaner für Menschen mit Früh-, Spät-,
-      Nacht- und Wechselschichten. Die App hilft dir, Schichten übersichtlich zu
-      planen, freie Tage schneller zu erkennen und deinen Alltag besser zu organisieren.
-    </p>
-
-  <div class="nav">
-  <a href="schichtplaner.html">📅 Mehr über den Schichtplaner</a>
-  <a href="schichtplaner-online.html">🗓️ Schichtplaner online erstellen</a>
-  <a href="schichtzulagen-rechner.html">💶 Schichtzulagen berechnen</a>
-  <a href="#tool">👥 Gemeinsam freie Tage testen</a>
-</div>
-  </div>
-</section>
+    <section class="primary-paths" aria-label="Direkt zum passenden Angebot">
+      <a class="path-card" href="/schichten-vergleichen.html"><span class="path-icon" aria-hidden="true">👥</span><h2>Gemeinsame freie Tage finden</h2><p>Vergleiche zwei Schichtrhythmen und erkenne sofort, wann ihr zusammen frei habt.</p><strong>Schichten vergleichen →</strong></a>
+      <a class="path-card" href="/tools/"><span class="path-icon" aria-hidden="true">🧮</span><h2>Kostenlose Tools nutzen</h2><p>Berechne Arbeitszeit, Zuschläge, Überstunden, Arbeitstage und mehr direkt im Browser.</p><strong>Alle Tools öffnen →</strong></a>
+      <a class="path-card" href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro" target="_blank" rel="noopener"><span class="path-icon" aria-hidden="true">📱</span><h2>App herunterladen</h2><p>Behalte Schichten, Termine und freie Tage unterwegs in deinem persönlichen Kalender.</p><strong>Shift Lion herunterladen →</strong></a>
+    </section>
 
 <section class="campaign-section" aria-labelledby="campaign-title">
   <img
@@ -832,15 +840,16 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
 
   <section class="section">
 
-  <div class="panel">
+  <div class="panel" id="features">
 
     <h2 class="section-title">
-      Warum Shift Lion?
+      Was Shift Lion für dich einfacher macht
     </h2>
 
     <p class="section-copy">
-      Entwickelt für echte Schichtarbeiter.
-      Einfach, modern und auf wechselnde Arbeitszeiten ausgelegt.
+      Shift Lion ist ein moderner Schichtplaner für Früh-, Spät-, Nacht- und
+      Wechselschichten. Plane deine Dienste übersichtlich, erkenne freie Tage
+      schneller und organisiere deinen Alltag rund um wechselnde Arbeitszeiten.
     </p>
 
     <div class="feature-grid">
@@ -899,6 +908,12 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
         </p>
       </div>
 
+    </div>
+
+    <div class="nav">
+      <a href="schichtplaner.html">📅 Mehr über den Schichtplaner</a>
+      <a href="schichtplaner-online.html">🗓️ Schichtplan online erstellen</a>
+      <a href="schichtzulagen-rechner.html">💶 Schichtzulagen berechnen</a>
     </div>
 
   </div>
@@ -1049,13 +1064,11 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
     </p>
 
     <div class="screenshot-grid">
-
-      <img src="kalender.jpg" alt="Shift Lion Kalender">
-      <img src="schichtvergleich.png" alt="Shift Lion Schichtvergleich">
-      <img src="statistik_neu.png" alt="Shift Lion Statistik">
-      <img src="lohnrechner.png" alt="Shift Lion Lohnrechner">
-      <img src="backup.png" alt="Shift Lion Backup">
-
+      <figure class="screenshot-item"><img src="kalender.jpg" alt="Shift Lion Kalender" loading="lazy"><figcaption><strong>Den ganzen Rhythmus im Blick</strong><span>Schichten, freie Tage und Termine übersichtlich in einem Kalender.</span></figcaption></figure>
+      <figure class="screenshot-item"><img src="schichtvergleich.png" alt="Shift Lion Schichtvergleich" loading="lazy"><figcaption><strong>Gemeinsame Zeit schneller finden</strong><span>Vergleiche mehrere Schichtgruppen und erkenne gemeinsame freie Tage.</span></figcaption></figure>
+      <figure class="screenshot-item"><img src="statistik_neu.png" alt="Shift Lion Statistik" loading="lazy"><figcaption><strong>Arbeitszeit verständlich auswerten</strong><span>Erkenne Verteilungen und Muster in deinem Schichtplan.</span></figcaption></figure>
+      <figure class="screenshot-item"><img src="lohnrechner.png" alt="Shift Lion Lohnrechner" loading="lazy"><figcaption><strong>Verdienst besser einschätzen</strong><span>Behalte Arbeitszeiten, Zuschläge und geschätzten Lohn zusammen im Blick.</span></figcaption></figure>
+      <figure class="screenshot-item"><img src="backup.png" alt="Shift Lion Backup" loading="lazy"><figcaption><strong>Deine Planung bleibt bei dir</strong><span>Sichere und übertrage deine lokal gespeicherten Daten selbst.</span></figcaption></figure>
     </div>
 
   </div>
@@ -1094,13 +1107,13 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
       
 
       <h3>
-        Bald direkt in Shift Lion.
+        Mehr Überblick mit Shift Lion.
       </h3>
 
       <p>
-        Die Web-Demo zeigt den Nutzen sofort.
-        In der App sollen Schichtpläne dauerhaft gespeichert,
-        organisiert und direkt verglichen werden.
+        Die Web-Tools geben dir eine schnelle Orientierung.
+        Mit Shift Lion behältst du deine Schichtplanung und freie Zeit
+        zusätzlich im Blick.
       </p>
 
       <a
@@ -1108,7 +1121,7 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
         target="_blank"
         class="btn btn-primary"
       >
-       Shift Lion im Play Store herunterladen
+       Shift Lion herunterladen
       </a>
 
     </section>
@@ -1123,11 +1136,15 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
           <strong>Produkt</strong>
           <a href="#features">Funktionen</a>
           <a href="/tools/">Kostenlose Tools</a>
+          <a href="/ratgeber/">Ratgeber</a>
+          <a href="/methodik.html">So rechnen die Tools</a>
+          <a href="/fuer-schichtarbeiter.html">Für Schichtarbeiter</a>
           <a href="/schichtplaner.html">Schichtplaner-App</a>
         </div>
         <div class="footer-col">
           <strong>Shift Lion</strong>
           <a href="#datenschutz">Datenschutz & lokale Daten</a>
+          <a href="/datenschutz.html">Datenschutzerklärung</a>
           <a href="#faq">Häufige Fragen</a>
           <a href="mailto:masterinpocket@gmail.com">Kontakt</a>
           <a href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro" target="_blank" rel="noopener">Im Play Store öffnen</a>
@@ -1177,7 +1194,9 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
     ];
 
     const defaultA = ['F','F','S','S','N','N','X','X'];
-    const defaultB = ['S','S','N','N','X','X','F','F'];
+    // Bewusst ein anderer Schichtrhythmus mit denselben freien Rhythmustagen:
+    // So zeigt die Demo sofort mehrere gemeinsame freie Tage im Monat.
+    const defaultB = ['N','N','F','F','S','S','X','X'];
 
     let cycleA = [...defaultA];
     let cycleB = [...defaultB];

@@ -4,11 +4,11 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <title>Schichtplaner App für Schichtarbeiter | Shift Lion</title>
+  <title>Schichtplaner-App: Dienstplan & Arbeitszeit im Blick | Shift Lion</title>
 
   <meta
     name="description"
-    content="Schichtplaner App für Früh-, Spät- und Nachtschicht: Plane Schichten, freie Tage, Urlaub, Termine und Arbeitszeiten übersichtlich mit Shift Lion."
+    content="Persönliche Schichtplaner-App für Android: Plane Früh-, Spät- und Nachtschichten, freie Tage und Termine und werte geplante Arbeitszeiten aus."
   />
 
   <meta
@@ -253,7 +253,9 @@
     .feature-grid { grid-template-columns:repeat(3,1fr); gap:15px; }
     .feature { padding:20px; border-radius:16px; }
     .product-shots { display:grid; grid-template-columns:repeat(2,1fr); gap:22px; }
+    .product-shots figure { margin:0; }
     .product-shots img { width:100%; max-height:720px; object-fit:cover; object-position:top; border-radius:18px; box-shadow:0 16px 36px rgba(15,23,42,.14); }
+    .product-shots figcaption { margin-top:10px; color:#475569; font-weight:750; line-height:1.5; }
     .faq-panel h3 { padding-top:18px; border-top:1px solid #e4e8ee; }
     .cta { width:min(1180px,calc(100% - 48px)); margin:10px auto 64px; padding:42px; border-radius:22px; }
     .cta .btn { display:inline-block; width:auto; background:#f2be37; padding:15px 20px; border-radius:12px; }
@@ -301,8 +303,9 @@
       <h1>Schichtplaner App für Früh-, Spät- und Nachtschicht</h1>
 
       <p class="lead">
-        Plane deinen persönlichen Schichtplan übersichtlich, verwalte freie Tage,
-        Urlaub und Termine und behalte auch bei wechselnden Arbeitszeiten den Überblick.
+        Übertrage deinen persönlichen Dienstplan in einen übersichtlichen
+        Schichtkalender, verwalte freie Tage, Urlaub und Termine und werte die
+        aus deinen Schichten geplanten Arbeitszeiten aus.
       </p>
 
       <a
@@ -403,6 +406,14 @@
           </div>
 
           <div class="feature">
+            <h3>Geplante Arbeitszeiten auswerten</h3>
+            <p>
+              Hinterlege Beginn und Ende deiner Schichtarten und behalte die
+              daraus geplanten Arbeitsstunden in deinen Auswertungen im Blick.
+            </p>
+          </div>
+
+          <div class="feature">
             <h3>Lohn und Zuschläge einschätzen</h3>
             <p>
               Nutze die integrierte Lohnberechnung, um deinen voraussichtlichen
@@ -430,13 +441,43 @@
       </div>
 
       <div class="panel">
+        <h2>Schichtplaner, Dienstplan und Zeiterfassung: der Unterschied</h2>
+
+        <div class="feature-grid">
+          <div class="feature">
+            <h3>Persönlicher Schichtplaner</h3>
+            <p>
+              In Shift Lion überträgst du deine eigenen Früh-, Spät-, Nacht-
+              und freien Tage in einen persönlichen Kalender.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Dienstplan vom Arbeitgeber</h3>
+            <p>
+              Den verbindlichen Personaleinsatz erstellt weiterhin dein
+              Arbeitgeber. Shift Lion ersetzt keine betriebliche Dienstplansoftware.
+            </p>
+          </div>
+
+          <div class="feature">
+            <h3>Keine klassische Stempeluhr</h3>
+            <p>
+              Shift Lion ermittelt geplante Arbeitszeiten aus den hinterlegten
+              Schichten. Die App ist keine Live-Zeiterfassung zum Ein- und Ausstempeln.
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div class="panel">
         <h2>Dein Schichtalltag auf einen Blick</h2>
-        <p>Kalender, Schichtvergleich, Statistiken und Lohnübersicht greifen in Shift Lion direkt ineinander.</p>
+        <p>Echte Ansichten aus Shift Lion zeigen, wie Schichtvergleich, Statistiken, Lohnübersicht und lokale Datensicherung ineinandergreifen.</p>
         <div class="product-shots">
-          <img src="schichtvergleich.png" alt="Schichtvergleich in Shift Lion" loading="lazy" />
-          <img src="statistik_neu.png" alt="Schichtstatistik in Shift Lion" loading="lazy" />
-          <img src="lohnrechner.png" alt="Lohnübersicht in Shift Lion" loading="lazy" />
-          <img src="backup.png" alt="Datensicherung in Shift Lion" loading="lazy" />
+          <figure><img src="schichtvergleich.png" alt="Schichtvergleich in Shift Lion" loading="lazy" /><figcaption>Schichtgruppen vergleichen und gemeinsame freie Tage erkennen.</figcaption></figure>
+          <figure><img src="statistik_neu.png" alt="Schichtstatistik in Shift Lion" loading="lazy" /><figcaption>Schichtarten und geplante Arbeitszeiten für Monat und Jahr auswerten.</figcaption></figure>
+          <figure><img src="lohnrechner.png" alt="Lohnübersicht in Shift Lion" loading="lazy" /><figcaption>Voraussichtlichen Lohn und individuell hinterlegte Zuschläge einschätzen.</figcaption></figure>
+          <figure><img src="backup.png" alt="Datensicherung in Shift Lion" loading="lazy" /><figcaption>Lokale Daten selbst sichern und auf ein anderes Gerät übertragen.</figcaption></figure>
         </div>
       </div>
 
@@ -534,6 +575,13 @@
         <p>
           Ja. Mehrere Schichtgruppen können parallel angelegt und miteinander
           verglichen werden.
+        </p>
+
+        <h3>Ist Shift Lion eine Zeiterfassungs-App?</h3>
+        <p>
+          Shift Lion ist keine klassische Stempeluhr. Die App nutzt die bei
+          deinen Schichtarten hinterlegten Zeiten, um geplante Arbeitszeiten
+          übersichtlich darzustellen und auszuwerten.
         </p>
 
         <h3>Kann ich gemeinsame freie Tage finden?</h3>
