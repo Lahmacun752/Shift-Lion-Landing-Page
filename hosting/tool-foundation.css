@@ -29,8 +29,8 @@ body.tool-page .tool-unified-result .tool-primary-result>strong{color:#8a5d00!im
 .tool-more-tools{margin:16px 0 26px;text-align:center}.tool-more-tools a{display:inline-block;padding:11px 15px;border:1px solid #d5dae1;border-radius:10px;background:#fff;color:#172033;font-weight:850;text-decoration:none}.tool-more-tools a:hover{border-color:#d4a31f;background:#fffbeb}
 .tool-utility-status{display:block;min-height:1.25em;margin-top:10px;color:#526071;font-size:.88rem;font-weight:700}
 .tool-method-note{margin:20px 0 0;padding:15px 17px;border-left:4px solid #e6b62f;border-radius:8px;background:#fff8dc;color:#4b5563;line-height:1.6}.tool-method-note a{color:#765100;font-weight:850}
-body.tool-page .footer{line-height:1.9}
-body.tool-page .footer a{display:inline-block}
+body.tool-page .footer{width:100%;margin:0;background:#05070d;color:#aeb6c3;padding:42px max(24px,calc((100vw - 1120px)/2));line-height:1.9}
+body.tool-page .footer a{display:inline-block;color:#d3d8df;margin-right:20px;text-decoration:none;font-weight:750}
 .tool-guide{grid-column:1/-1;background:#fff;border:1px solid #e2e8f0;border-radius:22px;padding:clamp(24px,4vw,42px);box-shadow:0 18px 50px rgba(15,23,42,.08);color:#0f172a}
 .tool-guide-head span{display:block;color:#a36f00;font-size:.78rem;font-weight:900;letter-spacing:.12em;margin-bottom:7px}.tool-guide-head h2{margin:0 0 24px;font-size:clamp(1.55rem,3vw,2.15rem)}
 .tool-guide-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:16px}.tool-guide-grid article{padding:20px;border:1px solid #e2e8f0;border-radius:15px;background:#f8fafc}.tool-guide-grid .tool-example{background:#fffbeb;border-color:#f3d58a}

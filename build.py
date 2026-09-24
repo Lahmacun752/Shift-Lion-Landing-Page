@@ -53,7 +53,8 @@ SEO_TITLES = {
     "schichten-vergleichen.html": "Schichten vergleichen & gemeinsame freie Tage finden | Shift Lion",
     "schichtplaner-online.html": "Schichtplaner online: Monats- & Jahresplan erstellen | Shift Lion",
     "schichtzulagen-rechner.html": "Schichtzulagen-Rechner 2026: Zuschläge berechnen | Shift Lion",
-    "schichtplaner.html": "Schichtplaner-App: Dienstplan & Arbeitszeit im Blick | Shift Lion",
+    "schichtplaner.html": "Schichtplaner-App für den persönlichen Schichtkalender | Shift Lion",
+    "dienstplan-app.html": "Dienstplan-App: Arbeitgeberplan persönlich übertragen | Shift Lion",
     "en/working-time-calculator.html": "Working Time Calculator with Breaks & Overtime | Shift Lion",
     "en/workdays-calculator.html": "Workdays Calculator for Shift Work | Shift Lion",
     "en/holiday-allowance-calculator.html": "Holiday Allowance Calculator for Overnight Shifts | Shift Lion",
@@ -62,6 +63,8 @@ SEO_TITLES = {
     "en/compare-shifts.html": "Compare Shifts & Find Shared Days Off | Shift Lion",
     "en/schichtplaner-online.html": "Online Shift Planner: Create a Free Shift Schedule | Shift Lion",
     "en/schichtzulagen-rechner.html": "Shift Allowance Calculator: Calculate Allowances | Shift Lion",
+    "en/schichtplaner.html": "Personal Shift Calendar App for Shift Workers | Shift Lion",
+    "en/dienstplan-app.html": "Duty Roster App: Transfer Your Employer Schedule | Shift Lion",
 }
 
 SEO_DESCRIPTIONS = {
@@ -75,8 +78,8 @@ SEO_DESCRIPTIONS = {
     "schichten-vergleichen.html": "Vergleiche zwei Schichtrhythmen und finde gemeinsame freie Tage direkt im Monatskalender.",
     "schichtplaner-online.html": "Schichtplan kostenlos online erstellen: Rhythmus eingeben, Monats- und Jahresplan anzeigen, als PDF speichern oder direkt ausdrucken.",
     "schichtzulagen-rechner.html": "Schichtzulagen kostenlos berechnen: Grundlohn, Nacht-, Spät-, Sonntags- und Feiertagszuschläge mit eigenen Arbeitszeiten und Prozentsätzen.",
-    "schichtplaner.html": "Persönliche Schichtplaner-App für Android: Plane Früh-, Spät- und Nachtschichten, freie Tage und Termine und werte geplante Arbeitszeiten aus.",
-    "dienstplan-app.html": "Persönliche Dienstplan-App für Schichtarbeiter: Übertrage Früh-, Spät- und Nachtdienste, ergänze Urlaub und Termine und finde freie Tage.",
+    "schichtplaner.html": "Persönlicher Schichtkalender für Android: Plane eigene Schichtrhythmen, freie Tage, Termine und gemeinsame Zeit in der Shift-Lion-App.",
+    "dienstplan-app.html": "Übertrage den fertigen Dienstplan deines Arbeitgebers in deinen persönlichen Kalender und ergänze Urlaub, Termine und freie Tage.",
     "en/index.html": "Shift Lion helps shift workers plan rotations, compare schedules and find shared days off with family and friends.",
     "en/working-time-calculator.html": "Calculate gross time, paid breaks, net working time and overtime for multiple shifts, including overnight work.",
     "en/workdays-calculator.html": "Calculate workdays and days off for a 5-day week, 6-day week or your individual shift rotation.",
@@ -87,8 +90,8 @@ SEO_DESCRIPTIONS = {
     "en/compare-shifts.html": "Compare two shift rotations and find shared days off directly in the monthly calendar.",
     "en/schichtplaner-online.html": "Create a free online shift schedule: enter your rotation and generate monthly and yearly plans as a PDF.",
     "en/schichtzulagen-rechner.html": "Calculate night, late, Sunday and holiday allowances from your hourly wage, hours and own rates.",
-    "en/schichtplaner.html": "Shift Lion is a shift planner app for early, late, night and rotating shifts, plus shared days off.",
-    "en/dienstplan-app.html": "Shift Lion helps you plan duties, appointments, leave and days off clearly on your phone.",
+    "en/schichtplaner.html": "Create a personal shift calendar for rotating schedules, days off, appointments and shared time in the Shift Lion Android app.",
+    "en/dienstplan-app.html": "Transfer the duty roster created by your employer into a personal calendar and add leave, appointments and days off.",
 }
 
 LANGUAGE_PAIRS = {
@@ -544,6 +547,37 @@ def add_tool_guide(text, rel):
     app_cta = re.search(r'<section class="app-cta"', text, re.I)
     if app_cta:
         return text[:app_cta.start()] + section + text[app_cta.start():]
+    page_cta = re.search(r'<section class="cta"', text, re.I)
+    if page_cta:
+        return text[:page_cta.start()] + section + text[page_cta.start():]
+    main_end = text.lower().rfind("</main>")
+    return text[:main_end] + section + text[main_end:] if main_end != -1 else text
+
+
+def add_tool_article_link(text, rel):
+    key = rel.as_posix()
+    article = TOOL_ARTICLE_LINKS.get(key)
+    if not article or 'class="tool-article-link"' in text:
+        return text
+    label, href = article
+    english = key.startswith("en/")
+    section = (
+        '<section class="tool-article-link" aria-label="'
+        + ("Detailed calculation guide" if english else "Ausführlicher Rechenratgeber")
+        + '"><div><strong>'
+        + ("Want the full calculation explained?" if english else "Du möchtest die Berechnung genau verstehen?")
+        + '</strong><span>'
+        + ("The guide explains the formula, an example and important limitations." if english else "Im Ratgeber findest du Formel, Beispiel und wichtige Einschränkungen.")
+        + '</span></div><a href="'
+        + html.escape(href, quote=True) + '">' + html.escape(label) + ' →</a></section>'
+    )
+    text = re.sub(r"</head>", '<link rel="stylesheet" href="/tool-article-link.css?v=1"></head>', text, count=1, flags=re.I)
+    app_cta = re.search(r'<section class="app-cta"', text, re.I)
+    if app_cta:
+        return text[:app_cta.start()] + section + text[app_cta.start():]
+    page_cta = re.search(r'<section class="cta"', text, re.I)
+    if page_cta:
+        return text[:page_cta.start()] + section + text[page_cta.start():]
     main_end = text.lower().rfind("</main>")
     return text[:main_end] + section + text[main_end:] if main_end != -1 else text
 
@@ -558,6 +592,77 @@ def add_guide_navigation(text, rel):
     for anchor in anchors:
         text = re.sub(re.escape(anchor) + rf'(?!\s*{re.escape(addition)})', anchor + addition, text)
     return text
+
+
+PLANNER_POSITIONING = {
+    "schichtplaner.html": (
+        "Persönlicher Schichtkalender in der App",
+        "Hier planst du deinen eigenen Schichtrhythmus, private Termine, Urlaub und gemeinsame freie Zeit dauerhaft auf dem Smartphone.",
+        (("Arbeitgeber-Dienstplan persönlich übertragen", "/dienstplan-app.html", "Wenn dein Betrieb den Plan vorgibt und du ihn in deinen Alltag übernehmen möchtest."), ("Kostenlosen Grundrhythmus im Browser erstellen", "/schichtplaner-online.html", "Wenn du ohne Installation schnell einen Monats- oder Jahresplan brauchst.")),
+    ),
+    "dienstplan-app.html": (
+        "Den fertigen Arbeitgeberplan persönlich übernehmen",
+        "Diese Seite zeigt, wie du einen bereits erstellten betrieblichen Dienstplan in deinen persönlichen Kalender überträgst und um Urlaub oder Termine ergänzt.",
+        (("Eigenen Schichtrhythmus in der App planen", "/schichtplaner.html", "Wenn du deinen persönlichen Rhythmus und gemeinsame freie Tage langfristig organisieren möchtest."), ("Grundplan kostenlos im Browser erzeugen", "/schichtplaner-online.html", "Wenn du zunächst nur eine wiederkehrende Folge als Monats- oder Jahresplan ausgeben willst.")),
+    ),
+    "schichtplaner-online.html": (
+        "Kostenloser Grundplan direkt im Browser",
+        "Der Online-Planer wiederholt deinen festen Schichtrhythmus und erzeugt ohne Konto einen Monats- oder Jahresplan zum Drucken. Einzelne Termine werden hier bewusst nicht verwaltet.",
+        (("Persönlichen Schichtkalender dauerhaft nutzen", "/schichtplaner.html", "Für einzelne Änderungen, Urlaub, Termine und die mobile Nutzung."), ("Arbeitgeber-Dienstplan in den Alltag übertragen", "/dienstplan-app.html", "Für einen bereits vorgegebenen betrieblichen Plan.")),
+    ),
+    "en/schichtplaner.html": (
+        "Your personal shift calendar in the app",
+        "Plan your own rotation, private appointments, leave and shared days off permanently on your phone.",
+        (("Transfer an employer duty roster", "/en/dienstplan-app.html", "For a schedule that has already been created by your workplace."), ("Create a free base rotation in your browser", "/en/schichtplaner-online.html", "For a quick monthly or yearly plan without installing the app.")),
+    ),
+    "en/dienstplan-app.html": (
+        "Bring your employer roster into your personal calendar",
+        "Transfer a duty roster that your workplace has already created, then add leave, appointments and personal plans.",
+        (("Plan your own rotation in the app", "/en/schichtplaner.html", "For a long-term personal shift calendar and shared days off."), ("Generate a free base plan in your browser", "/en/schichtplaner-online.html", "For a repeating monthly or yearly schedule without an account.")),
+    ),
+    "en/schichtplaner-online.html": (
+        "A free base schedule directly in your browser",
+        "The online planner repeats a fixed rotation and creates a printable monthly or yearly plan without an account. It deliberately does not manage individual appointments.",
+        (("Use a permanent personal shift calendar", "/en/schichtplaner.html", "For individual changes, leave, appointments and mobile planning."), ("Transfer an employer duty roster", "/en/dienstplan-app.html", "For a schedule that has already been set by your workplace.")),
+    ),
+}
+
+PLANNER_CONTENT_REPLACEMENTS = {
+    "en/dienstplan-app.html": (
+        ("Manage early, late and night duties, vacation, appointments and days off on your phone.", "Transfer the duty roster created by your employer to your phone, then add leave, appointments and days off."),
+        ("<h2>Why this matters</h2><p>Changing shifts affect sleep, energy, appointments and time with other people. A clear plan makes the next step easier to see.</p>", "<h2>From workplace roster to personal overview</h2><p>Your employer assigns the duties. Shift Lion gives you a private copy that is easier to combine with leave, appointments and everyday plans.</p>"),
+        ("<h2>Practical tips</h2>", "<h2>Keep the assigned duties useful in everyday life</h2>"),
+        ("<h3>Custom duties</h3><p>Create your own duty names, colors, working times and repeating sequences.</p>", "<h3>Copy assigned duties</h3><p>Transfer early, late, night and custom duties with their times and colours.</p>"),
+        ("<h2>Plan around your real rotation</h2><p>Shift Lion helps you keep shifts, days off and appointments in one place and compare schedules with the people who matter.</p>", "<h2>Personal calendar, not staff scheduling software</h2><p>Shift Lion does not create a company-wide roster or assign employees. It helps one shift worker organise a roster that has already been set.</p>"),
+        ("<h3>Do these tips work for rotating schedules?</h3><p>Yes. Adapt them to your shift sequence, personal health and recovery needs.</p>", "<h3>Does Shift Lion create the employer roster?</h3><p>No. Your workplace remains responsible for staff scheduling; the app is for your personal overview.</p>"),
+    ),
+}
+
+
+def add_planner_positioning(text, rel):
+    item = PLANNER_POSITIONING.get(rel.as_posix())
+    if not item or 'class="planner-positioning"' in text:
+        return text
+    for old, new in PLANNER_CONTENT_REPLACEMENTS.get(rel.as_posix(), ()):
+        text = text.replace(old, new)
+    title, description, choices = item
+    english = rel.as_posix().startswith("en/")
+    cards = "".join(
+        f'<a href="{html.escape(href, quote=True)}">{html.escape(label)} →<span>{html.escape(note)}</span></a>'
+        for label, href, note in choices
+    )
+    section = (
+        '<section class="planner-positioning" aria-labelledby="plannerChoiceTitle">'
+        f'<span>{"Choose the right planner" if english else "Den passenden Planer wählen"}</span>'
+        f'<h2 id="plannerChoiceTitle">{html.escape(title)}</h2><p>{html.escape(description)}</p>'
+        f'<div class="planner-choice-grid">{cards}</div></section>'
+    )
+    text = re.sub(r"</head>", '<link rel="stylesheet" href="/planner-positioning.css?v=1"></head>', text, count=1, flags=re.I)
+    cta = re.search(r'<section class="cta"', text, re.I)
+    if cta:
+        return text[:cta.start()] + section + text[cta.start():]
+    main_end = text.lower().rfind("</main>")
+    return text[:main_end] + section + text[main_end:] if main_end != -1 else text
 
 
 def add_structured_data(text, rel):
@@ -781,7 +886,8 @@ def build():
         text = add_guide_navigation(text, rel)
         text = add_legacy_guide_trust(text, rel)
         text = add_seo_metadata(text, rel)
-        text = add_tool_guide(text, rel)
+        text = add_tool_article_link(text, rel)
+        text = add_planner_positioning(text, rel)
         text = add_structured_data(text, rel)
         text = optimize_content_images(text)
         text = remove_unpublished_legal_links(text)
@@ -805,7 +911,7 @@ def build():
             if body_end != -1:
                 text = (
                     text[:body_end]
-                    + '<script src="/tool-foundation.js?v=9"></script>'
+                    + '<script src="/tool-foundation.js?v=11"></script>'
                     + text[body_end:]
                 )
         target.write_text(text, encoding="utf-8")
@@ -832,7 +938,7 @@ def build():
     for relative, item in STEP9_TOOLS.items():
         target = OUT / relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(render_step9_tool(relative, item).replace("/tool-foundation.css?v=3", "/tool-foundation.css?v=8").replace("/tool-foundation.js?v=4", "/tool-foundation.js?v=9"), encoding="utf-8")
+        target.write_text(render_step9_tool(relative, item).replace("/tool-foundation.css?v=3", "/tool-foundation.css?v=8").replace("/tool-foundation.js?v=4", "/tool-foundation.js?v=11"), encoding="utf-8")
 
     published_trust_pages = [relative for relative in TRUST_PAGES if relative not in {"impressum.html", "en/legal-notice.html"}]
     for relative in published_trust_pages:

@@ -205,11 +205,12 @@
   }
 
   const main=document.querySelector('main');
-  if(main&&!main.querySelector('.app-cta')){
+  if(main&&!main.querySelector('.app-cta,.cta')){
     const cta=document.createElement('section');cta.className='app-cta';cta.innerHTML=`<div><h2>${copy.ctaTitle}</h2><p>${copy.ctaText}</p></div><a href="/download/android/">${copy.download}</a>`;main.append(cta);
   }
 
-  let footer=document.querySelector('footer.footer');
+  let footer=document.querySelector('footer.footer,footer.site-footer');
   if(!footer){footer=document.createElement('footer');footer.className='footer';document.body.append(footer)}
+  footer.className='footer';
   footer.innerHTML=`<a href="${homeHref}">${copy.footerHome}</a><a href="${toolsHref}">${copy.tools}</a><a href="${isEnglish?'/en/for-shift-workers.html':'/fuer-schichtarbeiter.html'}">${isEnglish?'For shift workers':'Für Schichtarbeiter'}</a><a href="${isEnglish?'/en/methodology.html':'/methodik.html'}">${isEnglish?'Methodology':'Methodik'}</a><a href="${isEnglish?'/en/privacy.html':'/datenschutz.html'}">${isEnglish?'Privacy':'Datenschutz'}</a><a href="/download/android/">${copy.download}</a>`;
 })();

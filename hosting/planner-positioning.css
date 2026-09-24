@@ -1,0 +1,8 @@
+.planner-positioning{width:min(1080px,calc(100% - 48px));margin:24px auto;padding:clamp(24px,4vw,38px);background:#fff;border:1px solid #e2e8f0;border-radius:20px;box-shadow:0 12px 32px rgba(15,23,42,.07)}
+.planner-positioning>span{color:#8a6200;font-size:.78rem;font-weight:950;letter-spacing:.1em;text-transform:uppercase}
+.planner-positioning h2{margin:8px 0 10px;font-size:clamp(1.55rem,3vw,2.15rem);line-height:1.2}
+.planner-positioning>p{max-width:760px;color:#475569;line-height:1.7}
+.planner-choice-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px;margin-top:20px}
+.planner-choice-grid a{display:block;padding:18px;border:1px solid #e2e8f0;border-radius:14px;background:#f8fafc;color:#172033;text-decoration:none;font-weight:900}
+.planner-choice-grid a span{display:block;margin-top:6px;color:#64748b;font-size:.9rem;font-weight:600;line-height:1.5}
+@media(max-width:720px){.planner-positioning{width:min(100% - 28px,680px)}.planner-choice-grid{grid-template-columns:1fr}}
