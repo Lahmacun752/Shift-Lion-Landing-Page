@@ -114,6 +114,38 @@ GUIDE_PAGE_NAMES = {
     "schichtarbeit-stress.html",
 }
 
+GUIDE_PUBLISHED = "2026-09-24"
+GUIDE_REVIEWED = "2026-09-24"
+
+
+def guide_trust_signals(en=False, calculation_guide=False):
+    published = "September 24, 2026" if en else "24. September 2026"
+    reviewed = "September 24, 2026" if en else "24. September 2026"
+    if en:
+        links = '<a href="https://www.gesetze-im-internet.de/arbzg/" target="_blank" rel="noopener">German Working Time Act</a>'
+        if calculation_guide:
+            links += '<a href="https://www.gesetze-im-internet.de/estg/__3b.html" target="_blank" rel="noopener">Income Tax Act § 3b</a>'
+        links += '<a href="https://www.baua.de/DE/Themen/Arbeitsgestaltung/Arbeitszeit/Nacht-und-Schichtarbeit" target="_blank" rel="noopener">BAuA: Night and shift work</a>'
+        return f'''<section class="guide-trust" aria-label="Article information"><div class="guide-trust-meta"><div><span>Publisher</span><strong>Shift Lion editorial team</strong></div><div><span>Published</span><strong><time datetime="{GUIDE_PUBLISHED}">{published}</time></strong></div><div><span>Last reviewed</span><strong><time datetime="{GUIDE_REVIEWED}">{reviewed}</time></strong></div></div><div class="guide-trust-sources"><strong>Official sources</strong>{links}</div><p>This article provides general, non-binding guidance. It does not replace medical, legal, tax or professional advice and cannot assess individual agreements.</p></section>'''
+    links = '<a href="https://www.gesetze-im-internet.de/arbzg/" target="_blank" rel="noopener">Arbeitszeitgesetz (ArbZG)</a>'
+    if calculation_guide:
+        links += '<a href="https://www.gesetze-im-internet.de/estg/__3b.html" target="_blank" rel="noopener">Einkommensteuergesetz § 3b</a>'
+    links += '<a href="https://www.baua.de/DE/Themen/Arbeitsgestaltung/Arbeitszeit/Nacht-und-Schichtarbeit" target="_blank" rel="noopener">BAuA: Nacht- und Schichtarbeit</a>'
+    return f'''<section class="guide-trust" aria-label="Angaben zum Ratgeber"><div class="guide-trust-meta"><div><span>Herausgeber</span><strong>Shift Lion Redaktion</strong></div><div><span>Veröffentlicht</span><strong><time datetime="{GUIDE_PUBLISHED}">{published}</time></strong></div><div><span>Zuletzt geprüft</span><strong><time datetime="{GUIDE_REVIEWED}">{reviewed}</time></strong></div></div><div class="guide-trust-sources"><strong>Amtliche Quellen</strong>{links}</div><p>Dieser Ratgeber bietet eine allgemeine, unverbindliche Orientierung. Er ersetzt keine medizinische, rechtliche, steuerliche oder fachliche Beratung und kann individuelle Vereinbarungen nicht prüfen.</p></section>'''
+
+
+def add_legacy_guide_trust(text, rel):
+    if rel.name not in GUIDE_PAGE_NAMES or 'class="guide-trust"' in text:
+        return text
+    hero_start = text.find('<section class="hero')
+    hero_end = text.find('</section>', hero_start)
+    if hero_start == -1 or hero_end == -1:
+        return text
+    hero_end += len('</section>')
+    trust = guide_trust_signals(en=bool(rel.parts and rel.parts[0] == "en"))
+    text = text[:hero_end] + trust + text[hero_end:]
+    return re.sub(r"</head>", '<link rel="stylesheet" href="/guide-trust.css?v=1"></head>', text, count=1, flags=re.I)
+
 TOOL_GUIDES = {
     "arbeitszeitrechner.html": {
         "what": "Der Rechner ermittelt aus Beginn, Ende und Pause die Brutto- und Nettoarbeitszeit mehrerer Schichten. Die Nettozeit wird anschließend mit deiner täglichen Sollzeit verglichen.",
@@ -671,10 +703,10 @@ def render_guide(relative, guide):
     tool_label, tool_href = guide["tool"]
     return f'''<!doctype html><html lang="{guide["lang"]}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(guide["title"])}</title><meta name="description" content="{html.escape(guide["description"], quote=True)}">
-<link rel="canonical" href="{url}"><link rel="alternate" hreflang="{guide["lang"]}" href="{url}"><link rel="alternate" hreflang="{"de" if en else "en"}" href="{pair_url}"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/guide.css?v=1">
+<link rel="canonical" href="{url}"><link rel="alternate" hreflang="{guide["lang"]}" href="{url}"><link rel="alternate" hreflang="{"de" if en else "en"}" href="{pair_url}"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/guide.css?v=1"><link rel="stylesheet" href="/guide-trust.css?v=1">
 <script type="application/ld+json">{json_ld}</script></head><body>
 <header class="guide-hero"><nav><a class="guide-logo" href="/{'en/' if en else ''}"><img src="/Shift-Lion-Logo-groß.png" alt="Shift Lion"></a><div>{nav}<a class="nav-cta" href="/download/android/">{"Download app" if en else "App herunterladen"}</a></div></nav><div class="hero-copy"><span>{html.escape(guide["eyebrow"])}</span><h1>{html.escape(guide["h1"])}</h1><p>{html.escape(guide["intro"])}</p><a class="primary" href="{html.escape(tool_href, quote=True)}">{html.escape(tool_label)} →</a></div></header>
-<main><div class="article-grid"><article>{''.join(sections)}</article><aside><strong>{"Calculate it now" if en else "Direkt ausrechnen"}</strong><p>{"Use the free calculator with your own values." if en else "Nutze den kostenlosen Rechner mit deinen eigenen Werten."}</p><a href="{html.escape(tool_href, quote=True)}">{html.escape(tool_label)} →</a></aside></div>
+<main>{guide_trust_signals(en=en, calculation_guide=True)}<div class="article-grid"><article>{''.join(sections)}</article><aside><strong>{"Calculate it now" if en else "Direkt ausrechnen"}</strong><p>{"Use the free calculator with your own values." if en else "Nutze den kostenlosen Rechner mit deinen eigenen Werten."}</p><a href="{html.escape(tool_href, quote=True)}">{html.escape(tool_label)} →</a></aside></div>
 <section class="guide-faq"><span>{"FAQ" if en else "HÄUFIGE FRAGEN"}</span><h2>{"Questions about this topic" if en else "Fragen zu diesem Thema"}</h2>{faq_html}</section>
 <section class="guide-next"><div><h2>{"Continue with Shift Lion" if en else "Mit Shift Lion weiterplanen"}</h2><p>{"Use another calculator or keep your complete rotation in the app." if en else "Nutze den passenden Rechner oder plane deinen vollständigen Rhythmus in der App."}</p><div class="related">{related_html}</div></div><a class="primary" href="/download/android/">{"Download Shift Lion" if en else "Shift Lion herunterladen"}</a></section></main>
 <footer><a href="/{'en/' if en else ''}">{"Home" if en else "Startseite"}</a><a href="/{'en/' if en else ''}tools/">{"All tools" if en else "Alle Tools"}</a><a href="/{'en/guides/' if en else 'ratgeber/'}">{"Guides" if en else "Ratgeber"}</a><a href="/{'en/methodology.html' if en else 'methodik.html'}">{"Methodology" if en else "Methodik"}</a><a href="/download/android/">{"Download app" if en else "App herunterladen"}</a></footer></body></html>'''
@@ -716,6 +748,7 @@ def build():
         text = text.replace("{{NAV_DE}}", render_nav("nav", "nav"))
         text = text.replace("{{NAV_DE_DARK}}", render_nav("nav nav-dark", "div"))
         text = add_guide_navigation(text, rel)
+        text = add_legacy_guide_trust(text, rel)
         text = add_seo_metadata(text, rel)
         text = add_tool_guide(text, rel)
         text = add_structured_data(text, rel)
