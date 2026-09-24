@@ -68,7 +68,7 @@ SEO_TITLES = {
 }
 
 SEO_DESCRIPTIONS = {
-    "index.html": "Shift Lion helps shift workers plan rotations, compare schedules and find shared days off with family and friends.",
+    "index.html": "Shift Lion hilft Schichtarbeitern, Schichtrhythmen zu planen, Dienstpläne zu vergleichen und gemeinsame freie Tage zu finden.",
     "arbeitszeitrechner.html": "Arbeitszeit kostenlos berechnen: Bruttozeit, Pausen, Nettoarbeitszeit und Überstunden für mehrere Schichten – auch über Mitternacht.",
     "arbeitstage-rechner.html": "Berechne Arbeitstage und freie Tage für 5-Tage-Woche, 6-Tage-Woche oder deinen individuellen Schichtrhythmus.",
     "feiertagszuschlag-rechner.html": "Feiertagszuschlag für Tag- und Nachtschichten berechnen – mit Pausen, Schichtzulage und klarer Aufschlüsselung.",
@@ -344,6 +344,61 @@ def add_seo_metadata(text, rel):
     return text
 
 
+def add_social_metadata(text, rel):
+    """Keep Open Graph and Twitter previews aligned with page SEO metadata."""
+    if re.search(r'<meta\s+name=["\']robots["\'][^>]*noindex', text, re.I):
+        return text
+    head = text.split("</head>", 1)[0]
+    title_match = re.search(r"<title\b[^>]*>(.*?)</title>", head, re.I | re.S)
+    description_match = re.search(
+        r'<meta\s+name=["\']description["\'][^>]*content=["\']([^"\']*)',
+        head,
+        re.I,
+    )
+    canonical_match = re.search(
+        r'<link\s+rel=["\']canonical["\'][^>]*href=["\']([^"\']+)',
+        head,
+        re.I,
+    )
+    if not (title_match and description_match and canonical_match):
+        return text
+
+    title = plain_text(title_match.group(1))
+    description = html.unescape(description_match.group(1)).strip()
+    url = html.unescape(canonical_match.group(1)).strip()
+    english = rel.as_posix().startswith("en/")
+    image_path = "/tools-bild-englisch.png" if english else "/tools-bild-deutsch.png"
+    image_url = CONFIG["site_url"].rstrip("/") + image_path
+    locale = "en_US" if english else "de_DE"
+
+    social_names = (
+        "og:title", "og:description", "og:url", "og:image", "og:type", "og:site_name", "og:locale",
+        "twitter:card", "twitter:title", "twitter:description", "twitter:image",
+    )
+    for name in social_names:
+        text = re.sub(
+            rf'<meta\s+(?:property|name)=["\']{re.escape(name)}["\'][^>]*>',
+            "",
+            text,
+            flags=re.I,
+        )
+    text = re.sub(r"^[ \t]+$", "", text, flags=re.M)
+    tags = (
+        f'<meta property="og:type" content="website">'
+        f'<meta property="og:site_name" content="Shift Lion">'
+        f'<meta property="og:locale" content="{locale}">'
+        f'<meta property="og:title" content="{html.escape(title, quote=True)}">'
+        f'<meta property="og:description" content="{html.escape(description, quote=True)}">'
+        f'<meta property="og:url" content="{html.escape(url, quote=True)}">'
+        f'<meta property="og:image" content="{html.escape(image_url, quote=True)}">'
+        f'<meta name="twitter:card" content="summary_large_image">'
+        f'<meta name="twitter:title" content="{html.escape(title, quote=True)}">'
+        f'<meta name="twitter:description" content="{html.escape(description, quote=True)}">'
+        f'<meta name="twitter:image" content="{html.escape(image_url, quote=True)}">'
+    )
+    return re.sub(r"</head>", tags + "</head>", text, count=1, flags=re.I)
+
+
 def plain_text(value):
     value = re.sub(r"<[^>]+>", " ", value)
     return html.unescape(re.sub(r"\s+", " ", value)).strip()
@@ -461,6 +516,10 @@ def validate_seo_foundation():
         titles = re.findall(r"<title\b[^>]*>(.*?)</title>", head, re.I | re.S)
         descriptions = re.findall(r'<meta\s+name=["\']description["\'][^>]*>', head, re.I)
         canonicals = re.findall(r'<link\s+rel=["\']canonical["\'][^>]*href=["\']([^"\']+)', head, re.I)
+        social_fields = (
+            "og:title", "og:description", "og:url", "og:image",
+            "twitter:card", "twitter:title", "twitter:description", "twitter:image",
+        )
         visible = re.sub(r"<(script|style)\b.*?</\1>", "", page, flags=re.I | re.S)
         headings = re.findall(r"<h1\b", visible, re.I)
         if len(titles) != 1:
@@ -469,6 +528,21 @@ def validate_seo_foundation():
             errors.append(f"{relative}: {len(descriptions)} Meta-Descriptions")
         if len(canonicals) != 1:
             errors.append(f"{relative}: {len(canonicals)} Canonicals")
+        for field in social_fields:
+            count = len(re.findall(
+                rf'<meta\s+(?:property|name)=["\']{re.escape(field)}["\'][^>]*>',
+                head,
+                re.I,
+            ))
+            if count != 1:
+                errors.append(f"{relative}: {count} {field}")
+        social_images = re.findall(
+            r'<meta\s+(?:property|name)=["\'](?:og:image|twitter:image)["\'][^>]*content=["\']([^"\']+)',
+            head,
+            re.I,
+        )
+        if any(not image.startswith("https://shiftlion.app/") for image in social_images):
+            errors.append(f"{relative}: Social-Bild ist nicht absolut")
         if len(headings) != 1:
             errors.append(f"{relative}: {len(headings)} sichtbare H1")
         if len(canonicals) == 1:
@@ -951,11 +1025,13 @@ def build():
         target.parent.mkdir(parents=True, exist_ok=True)
         target.write_text(render_reach_page(relative), encoding="utf-8")
 
-    # Apply keyboard and reduced-motion support after every source and generated
-    # page has been written, so the behavior stays consistent site-wide.
+    # Apply shared metadata and accessibility after every source and generated
+    # page has been written, so generated guides and tools stay consistent too.
     for target in OUT.rglob("*.html"):
         page = target.read_text(encoding="utf-8")
-        target.write_text(add_accessibility_foundation(page), encoding="utf-8")
+        page = add_social_metadata(page, target.relative_to(OUT))
+        page = add_accessibility_foundation(page)
+        target.write_text(page, encoding="utf-8")
 
     # Sitemap from the same config: no manual sitemap maintenance.
     urls = []
