@@ -64,6 +64,19 @@
 
   const calculator=document.querySelector('.calculator,.calculator-layout,#planner .planner-layout');
   if(calculator){
+    calculator.classList.add('tool-workspace');
+    const inputPanel=calculator.querySelector('.panel:not(.result)');
+    if(inputPanel)inputPanel.classList.add('tool-input-panel');
+    const firstInputArea=calculator.querySelector('.settings,.planner-settings,.fields');
+    const firstField=calculator.querySelector('.field');
+    if(firstInputArea){
+      firstInputArea.classList.add('tool-input-area');
+      const inputLabel=document.createElement('div');inputLabel.className='tool-section-label';inputLabel.textContent=isEnglish?'Your inputs':'Deine Eingaben';
+      firstInputArea.before(inputLabel);
+    }else if(firstField){
+      const inputLabel=document.createElement('div');inputLabel.className='tool-section-label';inputLabel.textContent=isEnglish?'Your inputs':'Deine Eingaben';
+      firstField.before(inputLabel);
+    }
     const liveAreas=calculator.querySelectorAll('.summary,[class*="result-summary"],.results');
     liveAreas.forEach(area=>area.setAttribute('aria-live','polite'));
     let feedback=calculator.querySelector('.tool-feedback');
@@ -138,6 +151,11 @@
     const resultArea=calculator.querySelector('.panel.result,.summary,.results,[class*="result-summary"]');
     if(resultArea){
       resultArea.classList.add('tool-unified-result');
+      resultArea.setAttribute('aria-label',isEnglish?'Calculation result':'Berechnungsergebnis');
+      if(!resultArea.matches('.panel.result')&&!resultArea.querySelector('h2')){
+        const resultLabel=document.createElement('div');resultLabel.className='tool-section-label tool-result-label';resultLabel.textContent=isEnglish?'Your result':'Dein Ergebnis';
+        resultArea.before(resultLabel);
+      }
       const resultRows=[...resultArea.querySelectorAll('.metric,.result-row,.result-total')];
       let primaryRows=resultRows.filter(row=>row.matches('.metric-highlight,.balance,.result-total'));
       if(!primaryRows.length&&resultRows.length)primaryRows=[resultRows[resultRows.length-1]];

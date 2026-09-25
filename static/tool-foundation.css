@@ -39,3 +39,22 @@ body.tool-page .footer a{display:inline-block;color:#d3d8df;margin-right:20px;te
 @media(max-width:820px){body.tool-page .topbar{min-height:76px}body.tool-page .topbar :is(.logo,.brand-logo){width:auto!important;height:52px;max-width:124px}body.tool-page .desktop-nav{display:none!important}body.tool-page .menu-toggle{display:block!important}body.tool-page .mobile-menu{right:0;top:68px}body.tool-page .foundation-actions{display:grid;grid-template-columns:1fr}body.tool-page .foundation-actions .button{width:100%}.tool-example-action{align-items:stretch;flex-direction:column}.tool-example-action button{width:100%}.tool-result-actions>div{display:grid}.tool-result-actions button{width:100%}body.tool-page .footer a{margin:0 18px 8px 0}}
 @media print{body.tool-page .hero,body.tool-page .topbar,body.tool-page .tool-guide,body.tool-page .app-cta,body.tool-page .footer,.tool-example-action,.tool-result-actions,.tool-more-tools,body.tool-page .info-card{display:none!important}body.tool-page{background:#fff!important}body.tool-page main,body.tool-page .layout,body.tool-page .calculator,body.tool-page .calculator-layout,body.tool-page .panel.result{display:block!important;width:100%!important;max-width:none!important;margin:0!important;box-shadow:none!important;border-color:#bbb!important}.summary,.results,.panel.result{break-inside:avoid}}
 @media(max-width:680px){.tool-guide-grid{grid-template-columns:1fr}.tool-guide-links{align-items:stretch;flex-direction:column}.tool-guide-app{width:100%}}
+
+/* Step 5: make input, calculation and result visually distinct. */
+body.tool-page .tool-input-panel{border:2px solid #cbd5e1!important;box-shadow:0 16px 42px rgba(15,23,42,.1)!important}
+.tool-section-label{margin:18px 0 9px;color:#475569;font-size:.75rem;font-weight:900;letter-spacing:.1em;text-transform:uppercase}
+.tool-input-area{padding:16px!important;border:1px solid #dfe5ec!important;border-radius:14px!important;background:#f8fafc!important}
+.tool-input-area.settings{margin-bottom:18px}
+.tool-result-label{margin-top:26px;color:#172033}
+body.tool-page .tool-unified-result{border-color:#cbd5e1!important;box-shadow:0 18px 45px rgba(15,23,42,.11)!important}
+body.tool-page .tool-unified-result .tool-primary-result{background:#fff4c7!important;border-color:#d9a915!important;box-shadow:inset 0 0 0 1px rgba(217,169,21,.25)}
+.tool-calculation-path,.tool-limitations{padding:13px 0!important;border:0!important;border-top:1px solid #d8dee7!important;border-radius:0!important;background:transparent!important;color:#64748b!important}
+.tool-result-actions{background:#f8fafc!important}
+.tool-example-action button:hover,.tool-result-actions button:hover,.tool-more-tools a:hover{border-color:#94a3b8!important;background:#f1f5f9!important}
+.tool-method-note{padding:13px 0!important;border:0!important;border-top:1px solid #d8dee7!important;border-radius:0!important;background:transparent!important;color:#64748b!important}
+.tool-method-note a{color:#334155!important}
+.tool-break-note{background:#f1f5f9!important;color:#475569!important}
+.tool-guide-head span{color:#64748b!important}
+.tool-guide-grid .tool-example{background:#f8fafc!important;border-color:#e2e8f0!important}
+.tool-guide-links a{color:#334155!important}
+@media(max-width:820px){.tool-input-area{padding:13px!important}}
