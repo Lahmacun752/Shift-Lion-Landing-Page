@@ -978,6 +978,61 @@ def render_guide_index(language):
     return f'''<!doctype html><html lang="{language}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>{"Shift Work Guides and Calculations | Shift Lion" if en else "Ratgeber für Schichtarbeit und Berechnungen | Shift Lion"}</title><meta name="description" content="{"Practical guides for working time, allowances, overtime and shift planning with examples and free calculators." if en else "Praktische Ratgeber zu Arbeitszeit, Zuschlägen, Überstunden und Schichtplanung mit Beispielen und kostenlosen Rechnern."}"><link rel="canonical" href="{url}"><link rel="alternate" hreflang="{language}" href="{url}"><link rel="alternate" hreflang="{"de" if en else "en"}" href="{other}"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/guide.css?v=1"><script type="application/ld+json">{json_ld}</script></head><body><header class="guide-hero guide-index-hero"><nav><a class="guide-logo" href="/{'en/' if en else ''}"><img src="/Shift-Lion-Logo-groß.png" alt="Shift Lion"></a><div><a href="/{'en/' if en else ''}">{"Home" if en else "Startseite"}</a><a href="/{'en/' if en else ''}tools/">Tools</a><a href="/{'ratgeber/' if en else 'en/guides/'}">{"DE" if en else "EN"}</a><a class="nav-cta" href="/download/android/">{"Download app" if en else "App herunterladen"}</a></div></nav><div class="hero-copy"><span>{"SHIFT WORK KNOWLEDGE" if en else "WISSEN FÜR SCHICHTARBEIT"}</span><h1>{"Guides for calculations and shift planning" if en else "Ratgeber für Berechnungen und Schichtplanung"}</h1><p>{"Clear explanations, practical examples and the matching free calculator for every topic." if en else "Verständliche Erklärungen, konkrete Beispiele und zu jedem Thema der passende kostenlose Rechner."}</p></div></header><main>{controls}<section class="guide-card-grid">{cards}</section><p class="guide-empty" hidden>{"No matching guide found." if en else "Kein passender Ratgeber gefunden."}</p></main><footer><a href="/{'en/' if en else ''}">{"Home" if en else "Startseite"}</a><a href="/{'en/' if en else ''}tools/">{"All tools" if en else "Alle Tools"}</a><a href="/kontakt.html">{"Contact" if en else "Kontakt"}</a><a href="/download/android/">{"Download app" if en else "App herunterladen"}</a></footer><script src="/guide-index.js?v=1"></script></body></html>'''
 
 
+EN_SHIFT_GUIDE_DEPTH = {
+    "en/fruehschicht-tipps.html": {
+        "shift": "early shift", "title": "Early Shift: Hours, Sleep and Daily Routine | Shift Lion",
+        "description": "What is an early shift? Typical hours, examples and practical guidance for sleep, meals, family life, shift changes and planning.",
+        "h1": "Early shift: hours, sleep and daily routine",
+        "times": "Typical examples are 05:00–13:00, 06:00–14:00 or 07:00–15:00. Your actual roster, contract or collective agreement determines the applicable hours.",
+        "routine": ["04:45 — wake up, switch on a bright light and drink water", "05:15 — have a small breakfast and take the prepared work bag", "06:00–14:00 — example early shift including the agreed break", "14:30 — main meal and a short recovery period", "16:00 — movement, family time or appointments", "21:00 — quiet evening and sleep preparation"],
+        "tools": [("Add early shifts to the online shift planner", "/en/schichtplaner-online.html"), ("Calculate working time and breaks", "/en/working-time-calculator.html"), ("Check the statutory minimum break", "/en/break-calculator.html")],
+    },
+    "en/spaetschicht-tipps.html": {
+        "shift": "late shift", "title": "Late Shift: Hours, Sleep and Daily Routine | Shift Lion",
+        "description": "What is a late shift? Typical hours, examples and practical guidance for sleep, meals, family life, shift changes and planning.",
+        "h1": "Late shift: hours, sleep and daily routine",
+        "times": "Typical examples are 13:00–21:00, 14:00–22:00 or 15:00–23:00. Your actual roster, contract or collective agreement determines the applicable hours.",
+        "routine": ["08:00 — get up and have breakfast", "09:00 — exercise, errands or appointments", "11:30 — main meal and preparation", "13:00–21:00 — example late shift including the agreed break", "21:30 — light meal and wind-down routine", "23:30 — quiet sleep routine"],
+        "tools": [("Add late shifts to the online shift planner", "/en/schichtplaner-online.html"), ("Calculate late and other shift allowances", "/en/schichtzulagen-rechner.html"), ("Check rest time during a shift change", "/en/rest-period-calculator.html")],
+    },
+    "en/nachtschicht-tipps.html": {
+        "shift": "night shift", "title": "Night Shift: Hours, Sleep and Daily Routine | Shift Lion",
+        "description": "What is a night shift? Typical hours, examples and practical guidance for sleep, meals, family life, shift changes and planning.",
+        "h1": "Night shift: hours, sleep and daily routine",
+        "times": "Typical examples are 21:00–05:00, 22:00–06:00 or 23:00–07:00. The rules that apply to you determine which hours count as night work and attract an allowance.",
+        "routine": ["14:30 — get up, seek daylight and have the first meal", "17:00 — family time, exercise or appointments", "20:30 — main meal and preparation", "22:00–06:00 — example night shift including the agreed break", "06:30 — light meal and deliberate wind-down", "07:30 — dark and quiet sleep environment"],
+        "tools": [("Add night shifts to the online shift planner", "/en/schichtplaner-online.html"), ("Calculate night hours and night allowance", "/en/night-allowance-calculator.html"), ("Check rest time after the night shift", "/en/rest-period-calculator.html")],
+    },
+}
+
+
+def add_english_shift_guide_depth(text, rel):
+    item = EN_SHIFT_GUIDE_DEPTH.get(rel.as_posix())
+    if not item or 'class="guide-toc"' in text:
+        return text
+    text = re.sub(r"<title>.*?</title>", f'<title>{html.escape(item["title"])}</title>', text, count=1, flags=re.I | re.S)
+    text = re.sub(r'<meta\s+name=["\']description["\'][^>]*>', f'<meta name="description" content="{html.escape(item["description"], quote=True)}">', text, count=1, flags=re.I)
+    text = re.sub(r"<h1\b[^>]*>.*?</h1>", f'<h1>{html.escape(item["h1"])}</h1>', text, count=1, flags=re.I | re.S)
+    text = re.sub(r"</head>", '<link rel="stylesheet" href="/shift-guide-depth.css?v=1"></head>', text, count=1, flags=re.I)
+    shift_name = item["shift"]
+    intro = (
+        f'<div class="panel" id="definition"><h2>What is a {html.escape(shift_name)}?</h2><p>A {html.escape(shift_name)} is a scheduled work period defined by its position in the day. {html.escape(item["times"])}</p></div>'
+        '<div class="panel guide-toc"><h2>In this guide</h2><nav aria-label="Contents">'
+        '<a href="#definition">Definition &amp; hours</a><a href="#sleep">Sleep &amp; shift changes</a><a href="#meals">Meals</a><a href="#family">Family &amp; daily life</a><a href="#tools">Useful tools</a></nav></div>'
+    )
+    text = re.sub(r'(<section class="section">)', r'\1' + intro, text, count=1, flags=re.I)
+    routine = "".join(f"<li>{html.escape(point)}</li>" for point in item["routine"])
+    tools = "".join(f'<a href="{html.escape(href, quote=True)}">{html.escape(label)} →</a>' for label, href in item["tools"])
+    depth = (
+        '<div class="panel" id="sleep"><h2>Sleep and shift changes</h2><p>Keep sleep times as predictable as the rotation allows. Before a change of shift, compare the end of the previous duty with the next start and protect enough recovery time.</p></div>'
+        '<div class="panel" id="meals"><h2>Meals and energy</h2><p>Plan a main meal before work, lighter food during late hours and enough water. Caffeine may help temporarily but should not replace sleep or interfere with recovery afterwards.</p></div>'
+        '<div class="panel" id="family"><h2>Family and daily life</h2><p>Share the rotation early, mark reliable free periods and avoid filling every gap. Sleep and recovery time should remain visible to the people planning with you.</p></div>'
+        f'<div class="panel"><h2>Example daily routine for a {html.escape(shift_name)}</h2><div class="tip"><ul>{routine}</ul></div><p>This is an example. Adjust it to your commute, break arrangements and individual sleep needs.</p></div>'
+        f'<div class="panel" id="tools"><h2>Useful tools for this shift</h2><div class="guide-tool-links">{tools}</div></div>'
+    )
+    return text.replace('</section><section class="cta">', depth + '</section><section class="cta">', 1)
+
+
 def build():
     if OUT.exists():
         shutil.rmtree(OUT)
@@ -990,6 +1045,7 @@ def build():
         target = OUT / rel
         target.parent.mkdir(parents=True, exist_ok=True)
         text = source.read_text(encoding="utf-8")
+        text = add_english_shift_guide_depth(text, rel)
         text = text.replace("{{NAV_DE}}", render_nav("nav", "nav"))
         text = text.replace("{{NAV_DE_DARK}}", render_nav("nav nav-dark", "div"))
         text = add_guide_navigation(text, rel)
