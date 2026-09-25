@@ -1009,7 +1009,7 @@ def build():
         ):
             text = re.sub(
                 r"</head>",
-                '<link rel="stylesheet" href="/tool-foundation.css?v=9">'
+                '<link rel="stylesheet" href="/tool-foundation.css?v=10">'
                 '<style>html.tool-preparing main{visibility:hidden}</style>'
                 '<script>document.documentElement.classList.add("tool-preparing");setTimeout(()=>document.documentElement.classList.remove("tool-preparing"),3000)</script>'
                 '</head>',
@@ -1050,7 +1050,7 @@ def build():
     for relative, item in STEP9_TOOLS.items():
         target = OUT / relative
         target.parent.mkdir(parents=True, exist_ok=True)
-        target.write_text(render_step9_tool(relative, item).replace("/tool-foundation.css?v=3", "/tool-foundation.css?v=9").replace("/tool-foundation.js?v=4", "/tool-foundation.js?v=13"), encoding="utf-8")
+        target.write_text(render_step9_tool(relative, item).replace("/tool-foundation.css?v=3", "/tool-foundation.css?v=10").replace("/tool-foundation.js?v=4", "/tool-foundation.js?v=13"), encoding="utf-8")
 
     published_trust_pages = [relative for relative in TRUST_PAGES if relative not in {"impressum.html", "en/legal-notice.html"}]
     for relative in published_trust_pages:
