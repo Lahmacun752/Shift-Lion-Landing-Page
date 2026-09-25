@@ -37,6 +37,7 @@ a{color:inherit}
 .card-top{display:flex;justify-content:space-between;align-items:start;gap:12px}
 .icon{display:grid;place-items:center;width:48px;height:48px;border-radius:13px;background:#fff6d9;font-size:24px}
 .icon img{display:block;width:25px;height:25px}
+.region-note{max-width:1180px;margin:20px auto 0;padding:13px 16px;border:1px solid #d9dee6;border-radius:12px;background:#f8fafc;color:#526071;line-height:1.55}.region-note strong{color:#172033}
 .badge{font-size:11px;font-weight:900;text-transform:uppercase;letter-spacing:.08em;padding:7px 9px;border-radius:999px;background:#e9f8ef;color:#187543}
 .tool-card h3{font-size:23px;margin:20px 0 9px}
 .tool-card p{color:var(--muted);line-height:1.55;margin:0}

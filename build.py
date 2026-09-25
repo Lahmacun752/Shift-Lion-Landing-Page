@@ -788,8 +788,8 @@ def add_structured_data(text, rel):
             "description": description,
             "inLanguage": "en" if is_english else "de",
             "mainEntityOfPage": {"@type": "WebPage", "@id": url},
-            "author": {"@type": "Organization", "name": "Shift Lion Redaktion"},
-            "publisher": {"@type": "Organization", "name": "Shift Lion Redaktion", "url": f"{site_url}/"},
+            "author": {"@type": "Organization", "name": "Shift Lion editorial team" if is_english else "Shift Lion Redaktion"},
+            "publisher": {"@type": "Organization", "name": "Shift Lion editorial team" if is_english else "Shift Lion Redaktion", "url": f"{site_url}/"},
             "datePublished": GUIDE_PUBLISHED,
             "dateModified": GUIDE_REVIEWED,
         })
@@ -920,7 +920,7 @@ def render_guide(relative, guide):
     data = {
         "@context": "https://schema.org",
         "@graph": [
-            {"@type": "Article", "@id": f"{url}#article", "headline": guide["h1"], "description": guide["description"], "inLanguage": guide["lang"], "mainEntityOfPage": {"@type": "WebPage", "@id": url}, "author": {"@type": "Organization", "name": "Shift Lion Redaktion"}, "publisher": {"@type": "Organization", "name": "Shift Lion Redaktion", "url": f"{site}/"}, "datePublished": GUIDE_PUBLISHED, "dateModified": GUIDE_REVIEWED},
+            {"@type": "Article", "@id": f"{url}#article", "headline": guide["h1"], "description": guide["description"], "inLanguage": guide["lang"], "mainEntityOfPage": {"@type": "WebPage", "@id": url}, "author": {"@type": "Organization", "name": "Shift Lion editorial team" if en else "Shift Lion Redaktion"}, "publisher": {"@type": "Organization", "name": "Shift Lion editorial team" if en else "Shift Lion Redaktion", "url": f"{site}/"}, "datePublished": GUIDE_PUBLISHED, "dateModified": GUIDE_REVIEWED},
             {"@type": "BreadcrumbList", "itemListElement": [
                 {"@type": "ListItem", "position": 1, "name": "Home" if en else "Startseite", "item": f"{site}/en/" if en else f"{site}/"},
                 {"@type": "ListItem", "position": 2, "name": "Guides" if en else "Ratgeber", "item": f"{site}/en/guides/" if en else f"{site}/ratgeber/"},
@@ -983,24 +983,24 @@ EN_SHIFT_GUIDE_DEPTH = {
         "shift": "early shift", "title": "Early Shift: Hours, Sleep and Daily Routine | Shift Lion",
         "description": "What is an early shift? Typical hours, examples and practical guidance for sleep, meals, family life, shift changes and planning.",
         "h1": "Early shift: hours, sleep and daily routine",
-        "times": "Typical examples are 05:00–13:00, 06:00–14:00 or 07:00–15:00. Your actual roster, contract or collective agreement determines the applicable hours.",
-        "routine": ["04:45 — wake up, switch on a bright light and drink water", "05:15 — have a small breakfast and take the prepared work bag", "06:00–14:00 — example early shift including the agreed break", "14:30 — main meal and a short recovery period", "16:00 — movement, family time or appointments", "21:00 — quiet evening and sleep preparation"],
+        "times": "Typical examples are 5:00 a.m.–1:00 p.m. (05:00–13:00), 6:00 a.m.–2:00 p.m. (06:00–14:00) or 7:00 a.m.–3:00 p.m. (07:00–15:00). Your actual roster, contract or collective agreement determines the applicable hours.",
+        "routine": ["4:45 a.m. (04:45) — wake up, switch on a bright light and drink water", "5:15 a.m. (05:15) — have a small breakfast and take the prepared work bag", "6:00 a.m.–2:00 p.m. (06:00–14:00) — example early shift including the agreed break", "2:30 p.m. (14:30) — main meal and a short recovery period", "4:00 p.m. (16:00) — movement, family time or appointments", "9:00 p.m. (21:00) — quiet evening and sleep preparation"],
         "tools": [("Add early shifts to the online shift planner", "/en/schichtplaner-online.html"), ("Calculate working time and breaks", "/en/working-time-calculator.html"), ("Check the statutory minimum break", "/en/break-calculator.html")],
     },
     "en/spaetschicht-tipps.html": {
         "shift": "late shift", "title": "Late Shift: Hours, Sleep and Daily Routine | Shift Lion",
         "description": "What is a late shift? Typical hours, examples and practical guidance for sleep, meals, family life, shift changes and planning.",
         "h1": "Late shift: hours, sleep and daily routine",
-        "times": "Typical examples are 13:00–21:00, 14:00–22:00 or 15:00–23:00. Your actual roster, contract or collective agreement determines the applicable hours.",
-        "routine": ["08:00 — get up and have breakfast", "09:00 — exercise, errands or appointments", "11:30 — main meal and preparation", "13:00–21:00 — example late shift including the agreed break", "21:30 — light meal and wind-down routine", "23:30 — quiet sleep routine"],
+        "times": "Typical examples are 1:00–9:00 p.m. (13:00–21:00), 2:00–10:00 p.m. (14:00–22:00) or 3:00–11:00 p.m. (15:00–23:00). Your actual roster, contract or collective agreement determines the applicable hours.",
+        "routine": ["8:00 a.m. (08:00) — get up and have breakfast", "9:00 a.m. (09:00) — exercise, errands or appointments", "11:30 a.m. (11:30) — main meal and preparation", "1:00–9:00 p.m. (13:00–21:00) — example late shift including the agreed break", "9:30 p.m. (21:30) — light meal and wind-down routine", "11:30 p.m. (23:30) — quiet sleep routine"],
         "tools": [("Add late shifts to the online shift planner", "/en/schichtplaner-online.html"), ("Calculate late and other shift allowances", "/en/schichtzulagen-rechner.html"), ("Check rest time during a shift change", "/en/rest-period-calculator.html")],
     },
     "en/nachtschicht-tipps.html": {
         "shift": "night shift", "title": "Night Shift: Hours, Sleep and Daily Routine | Shift Lion",
         "description": "What is a night shift? Typical hours, examples and practical guidance for sleep, meals, family life, shift changes and planning.",
         "h1": "Night shift: hours, sleep and daily routine",
-        "times": "Typical examples are 21:00–05:00, 22:00–06:00 or 23:00–07:00. The rules that apply to you determine which hours count as night work and attract an allowance.",
-        "routine": ["14:30 — get up, seek daylight and have the first meal", "17:00 — family time, exercise or appointments", "20:30 — main meal and preparation", "22:00–06:00 — example night shift including the agreed break", "06:30 — light meal and deliberate wind-down", "07:30 — dark and quiet sleep environment"],
+        "times": "Typical examples are 9:00 p.m.–5:00 a.m. (21:00–05:00), 10:00 p.m.–6:00 a.m. (22:00–06:00) or 11:00 p.m.–7:00 a.m. (23:00–07:00). The rules that apply to you determine which hours count as night work and attract a premium.",
+        "routine": ["2:30 p.m. (14:30) — get up, seek daylight and have the first meal", "5:00 p.m. (17:00) — family time, exercise or appointments", "8:30 p.m. (20:30) — main meal and preparation", "10:00 p.m.–6:00 a.m. (22:00–06:00) — example night shift including the agreed break", "6:30 a.m. (06:30) — light meal and deliberate wind-down", "7:30 a.m. (07:30) — dark and quiet sleep environment"],
         "tools": [("Add night shifts to the online shift planner", "/en/schichtplaner-online.html"), ("Calculate night hours and night allowance", "/en/night-allowance-calculator.html"), ("Check rest time after the night shift", "/en/rest-period-calculator.html")],
     },
 }
@@ -1015,8 +1015,9 @@ def add_english_shift_guide_depth(text, rel):
     text = re.sub(r"<h1\b[^>]*>.*?</h1>", f'<h1>{html.escape(item["h1"])}</h1>', text, count=1, flags=re.I | re.S)
     text = re.sub(r"</head>", '<link rel="stylesheet" href="/shift-guide-depth.css?v=1"></head>', text, count=1, flags=re.I)
     shift_name = item["shift"]
+    article = "an" if shift_name == "early shift" else "a"
     intro = (
-        f'<div class="panel" id="definition"><h2>What is a {html.escape(shift_name)}?</h2><p>A {html.escape(shift_name)} is a scheduled work period defined by its position in the day. {html.escape(item["times"])}</p></div>'
+        f'<div class="panel" id="definition"><h2>What is {article} {html.escape(shift_name)}?</h2><p>{article.title()} {html.escape(shift_name)} is a scheduled work period defined by its position in the day. {html.escape(item["times"])}</p></div>'
         '<div class="panel guide-toc"><h2>In this guide</h2><nav aria-label="Contents">'
         '<a href="#definition">Definition &amp; hours</a><a href="#sleep">Sleep &amp; shift changes</a><a href="#meals">Meals</a><a href="#family">Family &amp; daily life</a><a href="#tools">Useful tools</a></nav></div>'
     )
@@ -1027,10 +1028,97 @@ def add_english_shift_guide_depth(text, rel):
         '<div class="panel" id="sleep"><h2>Sleep and shift changes</h2><p>Keep sleep times as predictable as the rotation allows. Before a change of shift, compare the end of the previous duty with the next start and protect enough recovery time.</p></div>'
         '<div class="panel" id="meals"><h2>Meals and energy</h2><p>Plan a main meal before work, lighter food during late hours and enough water. Caffeine may help temporarily but should not replace sleep or interfere with recovery afterwards.</p></div>'
         '<div class="panel" id="family"><h2>Family and daily life</h2><p>Share the rotation early, mark reliable free periods and avoid filling every gap. Sleep and recovery time should remain visible to the people planning with you.</p></div>'
-        f'<div class="panel"><h2>Example daily routine for a {html.escape(shift_name)}</h2><div class="tip"><ul>{routine}</ul></div><p>This is an example. Adjust it to your commute, break arrangements and individual sleep needs.</p></div>'
+        f'<div class="panel"><h2>Example daily routine for {article} {html.escape(shift_name)}</h2><div class="tip"><ul>{routine}</ul></div><p>This is an example. Adjust it to your commute, break arrangements and individual sleep needs.</p></div>'
         f'<div class="panel" id="tools"><h2>Useful tools for this shift</h2><div class="guide-tool-links">{tools}</div></div>'
     )
     return text.replace('</section><section class="cta">', depth + '</section><section class="cta">', 1)
+
+
+def localize_english_allowance_calculator(text, rel):
+    if rel.as_posix() != "en/schichtzulagen-rechner.html":
+        return text
+
+    def flexible(old, new):
+        nonlocal text
+        pattern = re.escape(old).replace(r"\ ", r"\s+")
+        text = re.sub(pattern, new, text, flags=re.I)
+
+    replacements = [
+        ("Startseite", "Home"), ("Rechner öffnen", "Open calculator"), ("Online-Planer", "Online planner"),
+        ("App herunterladen", "Download app"), ("Menü", "Menu"), ("Rechner zurücksetzen", "Reset calculator"),
+        ("Kostenlos · flexibel · transparent", "Free · flexible · transparent"),
+        ("Schichtzulagen Rechner", "Shift Premium Calculator"),
+        ("Berechne kostenlos deinen Grundlohn sowie Nacht-, Spät-, Sonntags- und Feiertagszuschläge anhand deiner eigenen Arbeitszeiten und Zuschlagssätze.", "Estimate base pay plus night, late, Sunday and public-holiday premiums using your own hours and rates. In different countries these payments may be called shift premiums, differentials or allowances."),
+        ("Nachtzuschlag", "Night premium"), ("Sonntagszuschlag", "Sunday premium"),
+        ("Feiertagszuschlag", "Public-holiday premium"), ("Eigene Sätze", "Custom rates"),
+        ("Direkt im Browser", "Runs in your browser"), ("Eigene Zuschlagssätze", "Your own premium rates"),
+        ("Unverbindliche Brutto-Schätzung", "Non-binding gross estimate"),
+        ("Schichtzulagen online berechnen", "Estimate shift premiums online"),
+        ("Gib deinen Stundenlohn, deine Gesamtarbeitszeit und die Stunden mit Zuschlägen ein. Die Prozentsätze kannst du an deinen Arbeits- oder Tarifvertrag anpassen.", "Enter your hourly pay, total hours and premium-eligible hours. Use the percentages from the agreement or policy that applies to you."),
+        ("Stundenlohn", "Hourly pay"), ("Gesamte Arbeitsstunden", "Total hours worked"),
+        ("Nachtarbeit", "Night work"), ("Nachtstunden", "Night hours"),
+        ("Nachtzuschlag in Prozent", "Night premium percentage"), ("Spätschicht", "Late shift"),
+        ("Spätschichtstunden", "Late-shift hours"), ("Spätschichtzulage in Prozent", "Late-shift premium percentage"),
+        ("Optional, falls dein Arbeits- oder Tarifvertrag eine Spätschichtzulage vorsieht.", "Optional: use this only when your contract, collective agreement or workplace policy provides a late-shift premium."),
+        ("Sonntagsarbeit", "Sunday work"), ("Sonntagsstunden", "Sunday hours"),
+        ("Sonntagszuschlag in Prozent", "Sunday premium percentage"), ("Feiertagsarbeit", "Public-holiday work"),
+        ("Feiertagsstunden", "Public-holiday hours"), ("Feiertagszuschlag in Prozent", "Public-holiday premium percentage"),
+        ("Weitere Zulage", "Other premium"), ("Stunden mit weiterer Zulage", "Hours with another premium"),
+        ("Weitere Zulage in Prozent", "Other premium percentage"),
+        ("Zum Beispiel für eine individuell vereinbarte zusätzliche Zulage.", "For another premium or differential agreed for your role or workplace."),
+        ("Feste zusätzliche Zulage", "Additional fixed payment"),
+        ("Optional für monatliche oder pauschale Zulagen.", "Optional: add a monthly or flat-rate payment."),
+        ("Schichtzulagen berechnen", "Calculate shift premiums"),
+        ("Die voreingestellten Prozentsätze sind nur Beispielwerte. Welche Zuschläge tatsächlich gelten, hängt unter anderem von Arbeitsvertrag, Tarifvertrag, Arbeitszeit und individuellen Regelungen ab.", "The preset percentages are examples only. Actual eligibility and rates depend on your country, contract, collective agreement and workplace policy."),
+        ("Deine Berechnung", "Your estimate"), ("Grundlohn", "Base pay"),
+        ("Spätschichtzulage", "Late-shift premium"), ("Weitere prozentuale Zulage", "Other percentage premium"),
+        ("Feste Zulage", "Fixed payment"), ("Zuschläge insgesamt", "Total premiums"),
+        ("Brutto inklusive eingegebener Zuschläge", "Gross total including entered premiums"),
+        ("Stunden können sich überschneiden. Wenn beispielsweise dieselbe Stunde sowohl als Nacht-, Spät- oder Sonntagsstunde eingetragen wird, werden die jeweiligen eingegebenen Zuschläge berücksichtigt. Ob Zuschläge tatsächlich nebeneinander gezahlt werden, richtet sich nach den für dich geltenden Regelungen.", "Premium hours can overlap. If the same hour is entered as night, late or Sunday work, the calculator includes each entered rate. Whether premiums may be combined depends on the rules that apply to you."),
+        ("Wie funktioniert der Shift Premium Calculator?", "How does the shift premium calculator work?"),
+        ("Zunächst wird dein Base pay aus Hourly pay und gesamten Arbeitsstunden berechnet.", "The calculator first multiplies hourly pay by total hours to estimate base pay."),
+        ("Beispiel:", "Example:"), ("160 Stunden × 20 € Hourly pay = 3.200 € Base pay.", "160 hours × €20 hourly pay = €3,200 base pay."),
+        ("Für jede Zuschlagsart multipliziert der Rechner anschließend Hourly pay, entsprechende Stunden und deinen eingegebenen Prozentsatz.", "For each premium, it multiplies hourly pay by eligible hours and the rate you entered."),
+        ("Beispiel Night premium:", "Night-premium example:"), ("40 Nachtstunden × 20 € × 25 % = 200 € Night premium.", "40 night hours × €20 × 25% = €200 night premium."),
+        ("Häufige Fragen zu Schichtzulagen", "Frequently asked questions about shift premiums"),
+        ("Sind die Ergebnisse rechtlich verbindlich?", "Are the results legally binding?"),
+        ("Nein. Der Rechner liefert eine unverbindliche mathematische Schätzung anhand deiner Eingaben und ersetzt keine Lohnabrechnung oder Rechtsberatung.", "No. This is a non-binding mathematical estimate based on your entries, not payroll or legal advice."),
+        ("Warum kann ich die Prozentsätze selbst ändern?", "Why can I change every percentage?"),
+        ("Zuschlagssätze können sich je nach Arbeitsvertrag, Tarifvertrag, Branche und konkreter Arbeitszeit unterscheiden.", "Premium rates vary by country, contract, collective agreement, industry and working time."),
+        ("Berechnet der Rechner meinen Nettolohn?", "Does this calculate take-home pay?"),
+        ("Nein. Angezeigt wird der Bruttolohn inklusive der eingegebenen Zuschläge. Steuern und Sozialabgaben werden nicht berechnet.", "No. It shows a gross estimate including entered premiums; taxes and social contributions are not calculated."),
+        ("Können sich Zuschlagsstunden überschneiden?", "Can premium-eligible hours overlap?"),
+        ("Ja. Eingetragene Stunden werden je Kategorie berechnet. Ob mehrere Zuschläge gleichzeitig gezahlt werden, richtet sich nach den für dich geltenden Regelungen.", "Yes. Entered hours are calculated by category, but your applicable rules determine whether several premiums can be paid together."),
+        ("Warum gibt es keine festen Zuschlagssätze?", "Why are there no universal premium rates?"),
+        ("Schichtzulagen können je nach Arbeitgeber, Tarifvertrag, Arbeitsvertrag, Branche und konkreter Arbeitszeit unterschiedlich sein.", "Shift premiums differ across countries, employers, contracts, collective agreements and industries."),
+        ("Deshalb kannst du die Prozentsätze in diesem Rechner selbst eingeben. So lässt sich das Tool beispielsweise mit deinen persönlichen Vertragswerten verwenden, ohne pauschal einen bestimmten Tarif vorauszusetzen.", "That is why every rate is editable: use the values from the agreement or policy relevant to your situation."),
+        ("Brutto-Netto-Rechner mit Schichtzulagen?", "Is this a take-home pay calculator?"),
+        ("Dieser Rechner konzentriert sich bewusst auf deinen Bruttolohn inklusive der eingegebenen Schichtzulagen.", "No. This calculator intentionally focuses on gross pay including the shift premiums you enter."),
+        ("Ein tatsächlicher Nettolohn hängt zusätzlich von zahlreichen persönlichen Faktoren ab. Dazu können beispielsweise Steuermerkmale, Sozialversicherung und die steuerliche Behandlung einzelner Zuschläge gehören.", "Take-home pay depends on jurisdiction, tax status, social contributions and the local tax treatment of each premium."),
+        ("Deshalb wird hier kein pauschaler Nettobetrag ausgegeben, der möglicherweise eine falsche Genauigkeit vermittelt.", "The calculator therefore avoids presenting a misleading universal net figure."),
+        ("Schichten direkt online planen", "Plan shifts online"),
+        ("Wenn du neben deinen Zuschlägen auch deinen Schichtrhythmus berechnen möchtest, kannst du unseren kostenlosen Online-Schichtplaner nutzen.", "Use the online shift planner to map a repeating roster alongside your pay estimate."),
+        ("Schichten und Lohn zusammen im Blick", "Keep your roster and pay estimate together"),
+        ("Mit Shift Lion kannst du deinen Schichtplan auf Android verwalten und deine voraussichtliche Vergütung anhand deiner Schichten übersichtlicher verfolgen.", "Use Shift Lion on Android to manage your roster and keep an estimate of shift-related pay in view."),
+        ("Shift Lion für Android herunterladen", "Download Shift Lion for Android"),
+        ("Schichtplanung und Vergütung übersichtlich an einem Ort.", "Shift planning and estimated pay in one place."),
+        ("Produkt", "Product"), ("Online-Schichtplaner", "Online shift planner"),
+        ("Zuschlagsrechner", "Premium calculator"), ("Kontakt", "Contact"), ("Im Play Store öffnen", "Open in Google Play"),
+        ("Std.", "hrs"),
+    ]
+    for old, new in replacements:
+        flexible(old, new)
+    flexible("Optional, falls dein Arbeits- oder Tarifvertrag eine Late shiftzulage vorsieht.", "Optional: use this only when your contract, collective agreement or workplace policy provides a late-shift premium.")
+    text = text.replace("Late shiftstunden", "Late-shift hours")
+    text = text.replace("Late shiftzulage in Prozent", "Late-shift premium percentage")
+    text = text.replace("Late shiftzulage", "Late-shift premium")
+    text = text.replace("Night premium in Prozent", "Night premium percentage")
+    text = text.replace("40 Night hours × 20 € × 25 % = 200 € Night premium.", "40 night hours × €20 × 25% = €200 night premium.")
+    text = text.replace("Does this calculate take-home pay?", "Does the calculator estimate take-home pay?")
+    text = text.replace('>Rechner</a>', '>Calculator</a>')
+    text = text.replace('"Kostenloser Online-Rechner für Schichtzulagen und Zuschläge."', '"Free online calculator for shift premiums using your own hours and rates."')
+    text = text.replace('"de-DE"', '"en-IE"')
+    return text
 
 
 def build():
@@ -1046,6 +1134,7 @@ def build():
         target.parent.mkdir(parents=True, exist_ok=True)
         text = source.read_text(encoding="utf-8")
         text = add_english_shift_guide_depth(text, rel)
+        text = localize_english_allowance_calculator(text, rel)
         text = text.replace("{{NAV_DE}}", render_nav("nav", "nav"))
         text = text.replace("{{NAV_DE_DARK}}", render_nav("nav nav-dark", "div"))
         text = add_guide_navigation(text, rel)
