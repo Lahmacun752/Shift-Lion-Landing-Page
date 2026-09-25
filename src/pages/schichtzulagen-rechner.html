@@ -376,6 +376,10 @@
     .hero-points span { padding:10px 13px; border-radius:10px; background:rgba(255,255,255,.07); border:1px solid rgba(255,255,255,.1); color:#e1e5eb; font-weight:750; font-size:13px; }
     .trust-strip { width:min(1180px,calc(100% - 48px)); margin:-28px auto 10px; display:grid; grid-template-columns:repeat(3,1fr); gap:12px; }
     .trust-strip div { background:white; border-radius:15px; padding:18px; box-shadow:0 10px 30px rgba(15,23,42,.08); font-weight:850; text-align:center; }
+    .search-intent-note { margin:0 0 24px; padding:18px 20px; border:1px solid #d8dee7; border-radius:16px; background:#fff; color:#475569; line-height:1.6; }
+    .search-intent-note strong { color:#172033; }
+    .search-intent-links { display:flex; flex-wrap:wrap; gap:8px 16px; margin-top:10px; }
+    .search-intent-links a { color:#765100; font-weight:850; }
     .section { width:min(1180px,calc(100% - 48px)); margin:auto; padding:56px 0; }
     .panel { border-radius:22px; padding:clamp(24px,4vw,46px); margin-bottom:24px; box-shadow:0 10px 32px rgba(15,23,42,.07); }
     .calculator-layout { display:grid; grid-template-columns:minmax(360px,.9fr) minmax(0,1.1fr); gap:24px; align-items:start; }
@@ -458,21 +462,32 @@
     </div>
 
     <div class="hero-kicker">Kostenlos · online · eigene Zuschlagssätze</div>
-    <h1>Schichtzulagen Rechner</h1>
+    <h1>Schichtzulagen Rechner: Zuschläge online berechnen</h1>
 
     <p class="lead">
-      Berechne Grundlohn sowie Nacht-, Spät-, Sonntags- und Feiertagszuschläge
+      Berechne Grundlohn sowie Nachtzuschlag, Spätzuschlag, Sonntagszuschlag und Feiertagszuschlag
       kostenlos online mit deinen eigenen Sätzen. Das Ergebnis ist eine
       unverbindliche Brutto-Schätzung – kein Nettolohn.
     </p>
 
-    <div class="hero-points"><span>Nachtzuschlag</span><span>Sonntagszuschlag</span><span>Feiertagszuschlag</span><span>Eigene Sätze</span></div>
+    <div class="hero-points"><span>Nachtzuschlag</span><span>Spätzuschlag</span><span>Sonntagszuschlag</span><span>Feiertagszuschlag</span></div>
 
   </section>
 
   <div class="trust-strip"><div>Direkt im Browser</div><div>Eigene Zuschlagssätze</div><div>Unverbindliche Brutto-Schätzung</div></div>
 
   <section class="section" id="rechner">
+
+    <aside class="search-intent-note" aria-label="Hinweis zum Ergebnis und passende Rechenhilfen">
+      <strong>Wichtig:</strong> Das Ergebnis ist eine unverbindliche Brutto-Schätzung und kein Nettolohn.
+      Steuern, Sozialabgaben und die steuerliche Behandlung einzelner Zuschläge werden nicht berechnet.
+      <div class="search-intent-links">
+        <a href="/schichtzulagen-berechnen.html">Schichtzulagen im Ratgeber verstehen →</a>
+        <a href="/nachtzuschlag-rechner.html">Nur Nachtzuschlag berechnen →</a>
+        <a href="/sonntagszuschlag-rechner.html">Nur Sonntagszuschlag berechnen →</a>
+        <a href="/feiertagszuschlag-rechner.html">Nur Feiertagszuschlag berechnen →</a>
+      </div>
+    </aside>
 
     <div class="calculator-layout">
 
