@@ -689,15 +689,18 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
 }
 
 @media (max-width: 480px) {
-  .topbar { margin-bottom: 36px; }
-  .brand-logo { height: 50px; max-width: 210px; }
+  .hero { padding: 0 16px 38px; }
+  .topbar { height: 68px; margin-bottom: 22px; }
+  .brand-logo { height: 46px; max-width: 190px; }
   .hero-layout, .hero-copy, .hero-actions, .quick-stats { min-width: 0; }
   .hero-copy { padding-top: 0; }
   .eyebrow { overflow-wrap: anywhere; }
-  h1 { font-size: 34px; line-height: 1.04; overflow-wrap: anywhere; }
-  .lead { font-size: 17px; }
-  .quick-stats { grid-template-columns: 1fr; }
-  .quick-stat { padding: 11px 8px; }
+  h1 { margin: 14px 0; font-size: 32px; line-height: 1.04; overflow-wrap: anywhere; }
+  .lead { font-size: 16px; line-height: 1.5; }
+  .hero-actions { gap: 9px; margin-top: 22px; }
+  .btn { min-height: 46px; padding: 12px 15px; }
+  .quick-stats { grid-template-columns: repeat(3,minmax(0,1fr)); gap: 6px; margin-top: 16px; }
+  .quick-stat { min-width: 0; padding: 9px 4px; gap: 4px; font-size: 12px; text-align: center; }
 }
 
     .primary-paths { width:min(1180px,calc(100% - 48px)); margin:-30px auto 64px; position:relative; z-index:3; display:grid; grid-template-columns:repeat(3,1fr); gap:18px; }
@@ -713,6 +716,13 @@ h1 { font-size: clamp(52px, 5vw, 78px); line-height: .98; margin-bottom: 24px; }
     .screenshot-item figcaption strong { display:block; margin-bottom:5px; color:#f2be37; font-size:18px; }
     .screenshot-item figcaption span { color:#d3d6dc; line-height:1.5; }
     @media (max-width:800px) { .primary-paths { width:min(100% - 28px,680px); margin:-18px auto 46px; grid-template-columns:1fr; } .path-card { min-height:0; } }
+    @media (max-width:480px) {
+      .primary-paths { width:calc(100% - 20px); margin:-14px auto 38px; gap:12px; }
+      .path-card { padding:18px; border-radius:16px; }
+      .path-icon { width:40px; height:40px; font-size:20px; }
+      .path-card h2 { margin:14px 0 6px; font-size:20px; }
+      .path-card p { margin-bottom:12px; font-size:14px; line-height:1.45; }
+    }
   </style>
 <meta name="description" content="Shift Lion hilft Schichtarbeitern, Schichtrhythmen zu planen, Dienstpläne zu vergleichen und gemeinsame freie Tage zu finden."><link rel="canonical" href="https://shiftlion.app/"><link rel="alternate" hreflang="de" href="https://shiftlion.app/"><link rel="alternate" hreflang="en" href="https://shiftlion.app/en/index.html"><script type="application/ld+json">{"@context": "https://schema.org", "@graph": [{"@type": "Organization", "@id": "https://shiftlion.app/#organization", "name": "Shift Lion", "url": "https://shiftlion.app/", "logo": {"@type": "ImageObject", "url": "https://shiftlion.app/Shift-Lion-Logo-gro%C3%9F.png"}, "sameAs": ["https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro"]}, {"@type": "SoftwareApplication", "@id": "https://shiftlion.app/#android-app", "name": "Shift Lion", "url": "https://shiftlion.app/", "description": "Schichtplaner für Wechselschichten, gemeinsame freie Tage, Termine und Arbeitszeitübersicht.", "applicationCategory": "ProductivityApplication", "operatingSystem": "Android", "downloadUrl": "https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro", "image": "https://shiftlion.app/kalender.jpg", "publisher": {"@id": "https://shiftlion.app/#organization"}, "offers": {"@type": "Offer", "price": "0", "priceCurrency": "EUR"}}, {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": "Mehr Tipps für deinen Schichtalltag entdecken Seitenübersicht wieder einklappen 🏠 Startseite 📅 Schichtplaner App 📋 Dienstplan App 🌅 Frühschicht Tipps 🌇 Spätschicht Tipps 🌙 Nachtschicht Tipps 😴 Schichtarbeit & Schlaf 💪 Schichtarbeit & Fitness 🍎 Schichtarbeit & Ernährung 📌 Schichtarbeit & Alltag 👨‍👩‍👧 Schichtarbeit & Familie ❤️ Schichtarbeit & Beziehung 🧠 Schichtarbeit & Stress 🗓️ Schichtplaner Online 💶 Schichtzulagen Rechner Ein Blick in Shift Lion Entwickelt für echte Schichtarbeiter. Modern, übersichtlich und auf deinen Alltag ausgelegt. Den ganzen Rhythmus im Blick Schichten, freie Tage und Termine übersichtlich in einem Kalender. Gemeinsame Zeit schneller finden Vergleiche mehrere Schichtgruppen und erkenne gemeinsame freie Tage. Arbeitszeit verständlich auswerten Erkenne Verteilungen und Muster in deinem Schichtplan. Verdienst besser einschätzen Behalte Arbeitszeiten, Zuschläge und geschätzten Lohn zusammen im Blick. Deine Planung bleibt bei dir Sichere und übertrage deine lokal gespeicherten Daten selbst. Deine Daten. Deine Kontrolle. Privat geplant – ohne unnötige Umwege. Shift Lion ist für Menschen gemacht, die ihren Schichtalltag einfach organisieren möchten, ohne dafür ein Benutzerkonto anzulegen. Offline nutzbar Deine wichtigsten Planungsfunktionen stehen dir auch ohne dauerhafte Internetverbindung zur Verfügung. Ohne Konto Du kannst direkt loslegen. Für die Nutzung der App ist kein persönliches Benutzerkonto erforderlich. Lokale Speicherung Schichten, Termine und Einstellungen werden in der aktuellen App-Version lokal auf deinem Gerät gespeichert. Häufige Fragen Das Wichtigste zu Shift Lion Für welche Schichtmodelle eignet sich Shift Lion?", "acceptedAnswer": {"@type": "Answer", "text": "Für Früh-, Spät-, Nacht- und frei definierbare Wechselschichten. Unterschiedliche Rhythmen lassen sich über mehrere Schichtgruppen abbilden."}}, {"@type": "Question", "name": "Kann ich gemeinsame freie Tage finden?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Mit dem Schichtvergleich kannst du zwei Rhythmen gegenüberstellen und gemeinsame freie Tage als Liste und im Monatskalender anzeigen."}}, {"@type": "Question", "name": "Brauche ich ein Benutzerkonto?", "acceptedAnswer": {"@type": "Answer", "text": "Nein. Die aktuelle App-Version lässt sich ohne persönliches Benutzerkonto verwenden."}}, {"@type": "Question", "name": "Wo werden meine Daten gespeichert?", "acceptedAnswer": {"@type": "Answer", "text": "Deine Schicht-, Termin-, Arbeitszeit- und Einstellungsdaten werden in der aktuellen App-Version lokal auf deinem Gerät gespeichert."}}, {"@type": "Question", "name": "Kann ich meinen Schichtplan exportieren?", "acceptedAnswer": {"@type": "Answer", "text": "Ja. Shift Lion unterstützt den Export deines Schichtplans, unter anderem als PDF- und Excel-Datei."}}]}]}</script><meta property="og:type" content="website"><meta property="og:site_name" content="Shift Lion"><meta property="og:locale" content="de_DE"><meta property="og:title" content="Shift Lion – Gemeinsam freie Tage finden"><meta property="og:description" content="Shift Lion hilft Schichtarbeitern, Schichtrhythmen zu planen, Dienstpläne zu vergleichen und gemeinsame freie Tage zu finden."><meta property="og:url" content="https://shiftlion.app/"><meta property="og:image" content="https://shiftlion.app/tools-bild-deutsch.png"><meta name="twitter:card" content="summary_large_image"><meta name="twitter:title" content="Shift Lion – Gemeinsam freie Tage finden"><meta name="twitter:description" content="Shift Lion hilft Schichtarbeitern, Schichtrhythmen zu planen, Dienstpläne zu vergleichen und gemeinsame freie Tage zu finden."><meta name="twitter:image" content="https://shiftlion.app/tools-bild-deutsch.png"><link rel="stylesheet" href="/accessibility.css?v=1"></head>
 
