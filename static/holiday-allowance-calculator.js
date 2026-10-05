@@ -5,7 +5,7 @@
   const E = value => new Intl.NumberFormat(en ? 'en-GB' : 'de-DE', {style: 'currency', currency: 'EUR'}).format(value);
   const O = (a, b, c, d) => Math.max(0, Math.min(b, d) - Math.max(a, c));
   const T = en
-    ? ['Holiday timing', 'Sunday timing', 'No Sunday allowance', 'Starts on the holiday — until midnight', 'Leads into the holiday — from midnight', 'Whole shift is in the holiday period', 'Starts on Sunday — until midnight', 'Leads into Sunday — from midnight', 'Whole shift is on Sunday', 'Include Sunday allowance', 'Sunday allowance (%)', 'If Sunday and holiday overlap', 'Use the higher rate only', 'Add both rates', 'Use my own combined rate', 'Combined allowance (%)', 'Eligible Sunday hours', 'Sunday & holiday overlap', 'Sunday allowance', 'Combined allowance']
+    ? ['Public-holiday timing', 'Sunday timing', 'No Sunday premium', 'Starts on the public holiday — until midnight', 'Leads into the public holiday — from midnight', 'Whole shift is in the public-holiday period', 'Starts on Sunday — until midnight', 'Leads into Sunday — from midnight', 'Whole shift is on Sunday', 'Include Sunday premium', 'Sunday premium (%)', 'If Sunday and the public holiday overlap', 'Use the higher rate only', 'Add both rates', 'Use my own combined rate', 'Combined premium (%)', 'Eligible Sunday hours', 'Sunday & public-holiday overlap', 'Sunday premium', 'Combined premium']
     : ['Feiertagszeit', 'Sonntagszeit', 'Kein Sonntagszuschlag', 'Startet am Feiertag — bis 00:00 Uhr', 'Führt in den Feiertag — ab 00:00 Uhr', 'Gesamte Schicht im Feiertagszeitraum', 'Startet am Sonntag — bis 00:00 Uhr', 'Führt in den Sonntag — ab 00:00 Uhr', 'Gesamte Schicht am Sonntag', 'Sonntagszuschlag einbeziehen', 'Sonntagszuschlag (%)', 'Wenn Sonntag und Feiertag gleichzeitig gelten', 'Nur den höheren Satz verwenden', 'Beide Sätze addieren', 'Eigenen Kombisatz verwenden', 'Kombinierter Zuschlag (%)', 'Sonntagsstunden', 'Sonntag & Feiertag gleichzeitig', 'Sonntagszuschlag', 'Kombinationszuschlag'];
   q('holidayDate')?.closest('.field')?.remove();
   const showError = (message = '') => { q('calculatorError').textContent = message; q('calculatorError').classList.toggle('visible', !!message); };
@@ -24,7 +24,7 @@
   q('pauseType').closest('.field').after(...firstWrapper.children);
   list[0].hm = document.querySelector('.hm'); list[0].sm = document.querySelector('.sm');
   const extra = document.createElement('div'); root.after(extra);
-  const add = document.createElement('button'); add.type = 'button'; add.className = 'button secondary'; add.textContent = en ? '＋ Add another holiday shift' : '＋ Weitere Feiertagsschicht hinzufügen'; extra.after(add);
+  const add = document.createElement('button'); add.type = 'button'; add.className = 'button secondary'; add.textContent = en ? '＋ Add another public-holiday shift' : '＋ Weitere Feiertagsschicht hinzufügen'; extra.after(add);
   add.onclick = () => {
     const row = document.createElement('section'); row.className = 'holiday-shift-row';
     row.innerHTML = `<div class="holiday-shift-fields"><div class="field"><label>${en ? 'Shift starts' : 'Schichtbeginn'}</label><input class="s" type="time" value="22:00"></div><div class="field"><label>${en ? 'Shift ends' : 'Schichtende'}</label><input class="e" type="time" value="06:00"></div><div class="field"><label>${en ? 'Break' : 'Pause'} (Min.)</label><input class="p" type="number" value="30" min="0"></div>${modeFields()}</div>`;
@@ -41,7 +41,7 @@
       const start = M(shift.s.value), endValue = M(shift.e.value), pause = +shift.p.value;
       if ([start, endValue, pause].some(value => !Number.isFinite(value) || value < 0) || start === endValue) { showError(en ? 'Please enter valid shift values.' : 'Bitte gültige Schichtwerte eingeben.'); return; }
       const overnight = endValue < start, end = endValue + (overnight ? 1440 : 0), holiday = span(shift.hm.value, start, end, overnight), sunday = q('sunOn').checked ? span(shift.sm.value, start, end, overnight) : [0, 0];
-      if (!holiday || !sunday) { showError(en ? 'Choose an earlier end time for a shift leading into Sunday or a holiday.' : 'Für eine in Sonntag oder Feiertag führende Schicht ein früheres Ende wählen.'); return; }
+      if (!holiday || !sunday) { showError(en ? 'Choose an earlier end time for a shift leading into Sunday or a public holiday.' : 'Für eine in Sonntag oder Feiertag führende Schicht ein früheres Ende wählen.'); return; }
       if (pause > end - start) { showError(en ? 'The break cannot be longer than the shift.' : 'Die Pause darf nicht länger als die Schicht sein.'); return; }
       const deduction = unpaid ? pause : 0;
       const rawHoliday = holiday[1] - holiday[0], rawSunday = sunday[1] - sunday[0], rawBoth = O(...holiday, ...sunday);
@@ -56,7 +56,7 @@
     const shiftExtra = (q('shiftScope').value === 'holiday' ? holidayHours : paid) / 60 * wage * shiftRate / 100;
     q('hours').textContent = H(paid); q('holidayHours').textContent = H(holidayHours); q('sunH').textContent = H(sundayHours); q('bothH').textContent = H(bothHours);
     q('base').textContent = E(base); q('extra').textContent = E(holidayExtra); q('sunX').textContent = E(sundayExtra); q('bothX').textContent = E(combinedExtra); q('shiftExtra').textContent = E(shiftExtra); q('sum').textContent = E(base + holidayExtra + sundayExtra + combinedExtra + shiftExtra);
-    q('formula').textContent = en ? `${H(paid)} paid hours · ${H(holidayHours)} holiday hours · ${H(sundayHours)} Sunday hours · ${H(bothHours)} overlap` : `${H(paid)} bezahlte Stunden · ${H(holidayHours)} Feiertagsstunden · ${H(sundayHours)} Sonntagsstunden · ${H(bothHours)} Überschneidung`;
+    q('formula').textContent = en ? `${H(paid)} paid hours · ${H(holidayHours)} public-holiday hours · ${H(sundayHours)} Sunday hours · ${H(bothHours)} overlap` : `${H(paid)} bezahlte Stunden · ${H(holidayHours)} Feiertagsstunden · ${H(sundayHours)} Sonntagsstunden · ${H(bothHours)} Überschneidung`;
     showError();
   }
   document.querySelectorAll('.calculator input,.calculator select').forEach(input => input.addEventListener(input.type === 'checkbox' ? 'change' : 'input', calculate));
