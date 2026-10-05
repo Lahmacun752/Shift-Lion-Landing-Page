@@ -943,12 +943,24 @@ def render_guide(relative, guide):
         '<a href="/">Startseite</a><a href="/tools/">Tools</a><a href="/ratgeber/">Ratgeber</a><a href="/' + guide["pair"] + '">EN</a>'
     )
     tool_label, tool_href = guide["tool"]
+    show_tool_aside = guide.get("tool_aside", True)
+    article_grid_attrs = (
+        'class="article-grid"'
+        if show_tool_aside else
+        'class="article-grid" style="grid-template-columns:minmax(0,1fr)"'
+    )
+    tool_aside = (
+        f'<aside><strong>{"Calculate it now" if en else "Direkt ausrechnen"}</strong>'
+        f'<p>{"Use the free calculator with your own values." if en else "Nutze den kostenlosen Rechner mit deinen eigenen Werten."}</p>'
+        f'<a href="{html.escape(tool_href, quote=True)}">{html.escape(tool_label)} →</a></aside>'
+        if show_tool_aside else ""
+    )
     return f'''<!doctype html><html lang="{guide["lang"]}"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
 <title>{html.escape(guide["title"])}</title><meta name="description" content="{html.escape(guide["description"], quote=True)}">
 <link rel="canonical" href="{url}"><link rel="alternate" hreflang="{guide["lang"]}" href="{url}"><link rel="alternate" hreflang="{"de" if en else "en"}" href="{pair_url}"><link rel="icon" href="/favicon.png"><link rel="stylesheet" href="/guide.css?v=1"><link rel="stylesheet" href="/guide-trust.css?v=1">
 <script type="application/ld+json">{json_ld}</script></head><body>
 <header class="guide-hero"><nav><a class="guide-logo" href="/{'en/' if en else ''}"><img src="/Shift-Lion-Logo-groß.png" alt="Shift Lion"></a><div>{nav}<a class="nav-cta" href="/download/android/">{"Download app" if en else "App herunterladen"}</a></div></nav><div class="hero-copy"><span>{html.escape(guide["eyebrow"])}</span><h1>{html.escape(guide["h1"])}</h1><p>{html.escape(guide["intro"])}</p><a class="primary" href="{html.escape(tool_href, quote=True)}">{html.escape(tool_label)} →</a></div></header>
-<main>{guide_trust_signals(en=en, calculation_guide=True)}<div class="article-grid"><article>{''.join(sections)}</article><aside><strong>{"Calculate it now" if en else "Direkt ausrechnen"}</strong><p>{"Use the free calculator with your own values." if en else "Nutze den kostenlosen Rechner mit deinen eigenen Werten."}</p><a href="{html.escape(tool_href, quote=True)}">{html.escape(tool_label)} →</a></aside></div>
+<main>{guide_trust_signals(en=en, calculation_guide=True)}<div {article_grid_attrs}><article>{''.join(sections)}</article>{tool_aside}</div>
 <section class="guide-faq"><span>{"FAQ" if en else "HÄUFIGE FRAGEN"}</span><h2>{"Questions about this topic" if en else "Fragen zu diesem Thema"}</h2>{faq_html}</section>
 <section class="guide-next"><div><h2>{"Continue with Shift Lion" if en else "Mit Shift Lion weiterplanen"}</h2><p>{"Use another calculator or keep your complete rotation in the app." if en else "Nutze den passenden Rechner oder plane deinen vollständigen Rhythmus in der App."}</p><div class="related">{related_html}</div></div><a class="primary" href="/download/android/">{"Download Shift Lion" if en else "Shift Lion herunterladen"}</a></section></main>
 <footer><a href="/{'en/' if en else ''}">{"Home" if en else "Startseite"}</a><a href="/{'en/' if en else ''}tools/">{"All tools" if en else "Alle Tools"}</a><a href="/{'en/guides/' if en else 'ratgeber/'}">{"Guides" if en else "Ratgeber"}</a><a href="/{'en/methodology.html' if en else 'methodik.html'}">{"Methodology" if en else "Methodik"}</a><a href="/download/android/">{"Download app" if en else "App herunterladen"}</a></footer></body></html>'''
