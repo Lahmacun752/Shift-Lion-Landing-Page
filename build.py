@@ -78,7 +78,7 @@ SEO_DESCRIPTIONS = {
     "schichten-vergleichen.html": "Vergleiche zwei Schichtrhythmen und finde gemeinsame freie Tage direkt im Monatskalender.",
     "schichtplaner-online.html": "Schichtplan kostenlos online erstellen: Rhythmus eingeben, Monats- und Jahresplan anzeigen, als PDF speichern oder direkt ausdrucken.",
     "schichtzulagen-rechner.html": "Schichtzulagen kostenlos online berechnen: Nacht-, Spät-, Sonntags- und Feiertagszuschlag mit eigenen Sätzen. Unverbindliches Brutto-Ergebnis.",
-    "schichtplaner.html": "Kostenlose Schichtplaner-App für Android: persönliche Schichten offline und ohne Pflichtkonto planen, Rhythmen vergleichen und Lohnübersicht nutzen.",
+    "schichtplaner.html": "Schichtplaner-App für Android kostenlos installieren: persönliche Schichten offline und ohne Pflichtkonto planen, Rhythmen vergleichen und Lohnübersicht nutzen.",
     "dienstplan-app.html": "Übertrage den fertigen Dienstplan deines Arbeitgebers in deinen persönlichen Kalender und ergänze Urlaub, Termine und freie Tage.",
     "en/index.html": "Shift Lion helps shift workers plan rotations, compare schedules and find shared days off with family and friends.",
     "en/working-time-calculator.html": "Calculate working time with breaks: enter start, end and break minutes to see gross time, net hours and overtime, including overnight shifts.",
@@ -890,18 +890,48 @@ def add_structured_data(text, rel):
         graph.append({
             "@type": "Organization",
             "@id": f"{site_url}/#organization",
-            "name": "Shift Lion",
+            "name": "Master in Pocket",
+            "alternateName": "Shift Lion",
             "url": f"{site_url}/",
+            "email": "masterinpocket@gmail.com",
+            "brand": {"@type": "Brand", "name": "Shift Lion"},
+            "contactPoint": {
+                "@type": "ContactPoint",
+                "contactType": "customer support",
+                "email": "masterinpocket@gmail.com",
+                "availableLanguage": ["de", "en"],
+            },
             "logo": {
                 "@type": "ImageObject",
                 "url": f"{site_url}/Shift-Lion-Logo-gro%C3%9F.png",
             },
             "sameAs": [
-                "https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro"
+                "https://play.google.com/store/apps/developer?id=Master+in+Pocket"
             ],
         })
 
     if key in APP_PAGE_NAMES:
+        feature_list = (
+            [
+                "Plan early, late, night and rotating shifts",
+                "Manage custom rotations and multiple shift groups",
+                "Find shared days off",
+                "Manage leave and appointments",
+                "Review planned working hours and estimated pay",
+                "Use statistics, calendar export and local backup",
+                "Use the app offline without a mandatory account",
+            ]
+            if is_english else
+            [
+                "Früh-, Spät-, Nacht- und Wechselschichten planen",
+                "Eigene Schichtrhythmen und mehrere Schichtgruppen verwalten",
+                "Gemeinsame freie Tage finden",
+                "Urlaub und Termine verwalten",
+                "Arbeitszeiten und voraussichtlichen Lohn einschätzen",
+                "Statistiken, Kalenderexport und lokale Datensicherung",
+                "Offline und ohne Pflichtkonto nutzbar",
+            ]
+        )
         graph.append({
             "@type": "SoftwareApplication",
             "@id": f"{site_url}/#android-app",
@@ -915,12 +945,19 @@ def add_structured_data(text, rel):
             "applicationCategory": "ProductivityApplication",
             "operatingSystem": "Android",
             "downloadUrl": "https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro",
+            "sameAs": "https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro",
+            "featureList": feature_list,
             "image": f"{site_url}/kalender.jpg",
             "publisher": {"@id": f"{site_url}/#organization"},
             "offers": {
                 "@type": "Offer",
                 "price": "0",
                 "priceCurrency": "EUR",
+                "description": (
+                    "Free to install; optional in-app purchases are available."
+                    if is_english else
+                    "Kostenlos installierbar; optionale In-App-Käufe verfügbar."
+                ),
             },
         })
 
