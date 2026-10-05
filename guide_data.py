@@ -79,7 +79,7 @@ GUIDES = {
             ("Planung im Alltag", ["Prüft gemeinsame freie Tage frühzeitig für Termine, Reisen oder Familienzeit.", "Aktualisiert den Vergleich, wenn sich ein Rhythmus dauerhaft verschiebt.", "Kurzfristige Tausche oder Urlaub müssen zusätzlich berücksichtigt werden."]),
         ],
         "faqs": [("Müssen beide Schichtfolgen gleich lang sein?", "Nein. Unterschiedlich lange Rhythmen können miteinander verglichen werden."), ("Was bedeutet das Startdatum?", "Es ist der Kalendertag, an dem Tag 1 der jeweiligen Schichtfolge beginnt."), ("Kann ich Urlaub eintragen?", "Der einfache Web-Vergleich nutzt den Grundrhythmus. Individuelle Termine und Urlaub lassen sich besser in der App planen.")],
-        "related": [("Kostenlos zwei Schichten vergleichen", "/schichten-vergleichen.html"), ("Schichtplaner-App für dauerhaft gespeicherte Pläne", "/schichtplaner.html"), ("Online-Schichtplan erstellen", "/schichtplaner-online.html"), ("Arbeitstage berechnen", "/arbeitstage-schichtrhythmus-berechnen.html")],
+        "related": [("Familienzeit trotz Schichtarbeit planen", "/schichtarbeit-familie.html"), ("Kostenlos zwei Schichten vergleichen", "/schichten-vergleichen.html"), ("Pläne dauerhaft in der App speichern", "/schichtplaner.html")],
     },
     "arbeitstage-schichtrhythmus-berechnen.html": {
         "lang": "de", "pair": "en/calculate-workdays-shift-rotation.html",

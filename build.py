@@ -693,6 +693,98 @@ def add_guide_navigation(text, rel):
     return text
 
 
+TOPIC_PATHS = {
+    "schichtplaner.html": ("Planung", [
+        ("Schichtplan kostenlos im Browser erstellen", "/schichtplaner-online.html"),
+        ("Zwei Schichtrhythmen vergleichen", "/schichten-vergleichen.html"),
+    ]),
+    "schichtplaner-online.html": ("Planung", [
+        ("Persönlichen Plan dauerhaft in der App verwalten", "/schichtplaner.html"),
+        ("Gemeinsame freie Tage finden", "/schichten-vergleichen.html"),
+    ]),
+    "schichten-vergleichen.html": ("Planung", [
+        ("Eigenen Schichtplan online erstellen", "/schichtplaner-online.html"),
+        ("Umfangreichere Pläne in der App verwalten", "/schichtplaner.html"),
+    ]),
+    "schichtzulagen-rechner.html": ("Geld", [
+        ("Nachtzuschlag einzeln berechnen", "/nachtzuschlag-rechner.html"),
+        ("Sonntagszuschlag einzeln berechnen", "/sonntagszuschlag-rechner.html"),
+        ("Feiertagszuschlag einzeln berechnen", "/feiertagszuschlag-rechner.html"),
+    ]),
+    "nachtzuschlag-rechner.html": ("Geld", [
+        ("Alle Schichtzulagen zusammen berechnen", "/schichtzulagen-rechner.html"),
+        ("Weiter zum Sonntagszuschlag", "/sonntagszuschlag-rechner.html"),
+    ]),
+    "sonntagszuschlag-rechner.html": ("Geld", [
+        ("Zurück zum Nachtzuschlag", "/nachtzuschlag-rechner.html"),
+        ("Weiter zum Feiertagszuschlag", "/feiertagszuschlag-rechner.html"),
+    ]),
+    "feiertagszuschlag-rechner.html": ("Geld", [
+        ("Zurück zum Sonntagszuschlag", "/sonntagszuschlag-rechner.html"),
+        ("Überstunden berechnen", "/ueberstunden-rechner.html"),
+    ]),
+    "ueberstunden-rechner.html": ("Geld", [
+        ("Alle Schichtzulagen berechnen", "/schichtzulagen-rechner.html"),
+        ("Feiertagszuschlag berechnen", "/feiertagszuschlag-rechner.html"),
+    ]),
+    "spaetschicht-tipps.html": ("Alltag", [
+        ("Frühschicht besser organisieren", "/fruehschicht-tipps.html"),
+        ("Nachtschicht besser bewältigen", "/nachtschicht-tipps.html"),
+        ("Schlaf bei Schichtarbeit verbessern", "/schichtarbeit-schlaf.html"),
+    ]),
+    "fruehschicht-tipps.html": ("Alltag", [
+        ("Spätschicht besser organisieren", "/spaetschicht-tipps.html"),
+        ("Nachtschicht besser bewältigen", "/nachtschicht-tipps.html"),
+        ("Schlaf bei Schichtarbeit verbessern", "/schichtarbeit-schlaf.html"),
+    ]),
+    "nachtschicht-tipps.html": ("Alltag", [
+        ("Spätschicht besser organisieren", "/spaetschicht-tipps.html"),
+        ("Schlaf bei Schichtarbeit verbessern", "/schichtarbeit-schlaf.html"),
+        ("Familienzeit trotz Schichtarbeit planen", "/schichtarbeit-familie.html"),
+    ]),
+    "schichtarbeit-schlaf.html": ("Alltag", [
+        ("Tipps für die Nachtschicht", "/nachtschicht-tipps.html"),
+        ("Familienzeit besser planen", "/schichtarbeit-familie.html"),
+    ]),
+    "schichtarbeit-familie.html": ("Alltag", [
+        ("Schlaf und Erholung verbessern", "/schichtarbeit-schlaf.html"),
+        ("Gemeinsame freie Tage finden", "/gemeinsame-freie-tage-schichtplan.html"),
+    ]),
+}
+
+
+def add_topic_path(text, rel):
+    topic_path = TOPIC_PATHS.get(rel.as_posix())
+    if not topic_path or 'class="topic-path"' in text:
+        return text
+    topic, links = topic_path
+    link_html = "".join(
+        f'<a href="{html.escape(href, quote=True)}">{html.escape(label)} <span aria-hidden="true">→</span></a>'
+        for label, href in links
+    )
+    section = (
+        f'<nav class="topic-path" aria-label="Themenpfad {html.escape(topic, quote=True)}">'
+        f'<div><span>THEMENPFAD {html.escape(topic.upper())}</span>'
+        f'<strong>Passend weiterlesen und weiterrechnen</strong></div>'
+        f'<div class="topic-path-links">{link_html}</div></nav>'
+    )
+    text = re.sub(
+        r"</head>",
+        '<link rel="stylesheet" href="/topic-path.css?v=1"></head>',
+        text,
+        count=1,
+        flags=re.I,
+    )
+    app_cta = re.search(r'<section class="app-cta"', text, re.I)
+    if app_cta:
+        return text[:app_cta.start()] + section + text[app_cta.start():]
+    page_cta = re.search(r'<section class="cta"', text, re.I)
+    if page_cta:
+        return text[:page_cta.start()] + section + text[page_cta.start():]
+    main_end = text.lower().rfind("</main>")
+    return text[:main_end] + section + text[main_end:] if main_end != -1 else text
+
+
 PLANNER_POSITIONING = {
     "schichtplaner.html": (
         "Persönlicher Schichtkalender in der App",
@@ -1245,6 +1337,7 @@ def build():
             page = add_structured_data(page, target.relative_to(OUT))
         page = add_social_metadata(page, target.relative_to(OUT))
         page = integrate_contact_page(page, target.relative_to(OUT))
+        page = add_topic_path(page, target.relative_to(OUT))
         page = add_accessibility_foundation(page)
         target.write_text(page, encoding="utf-8")
 
