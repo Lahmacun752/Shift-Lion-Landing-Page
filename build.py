@@ -62,7 +62,7 @@ SEO_TITLES = {
     "en/hourly-wage-calculator.html": "Hourly Wage Calculator: Convert Your Salary | Shift Lion",
     "en/compare-shifts.html": "Compare Shifts & Find Shared Days Off | Shift Lion",
     "en/schichtplaner-online.html": "Online Shift Planner: Create a Free Shift Schedule | Shift Lion",
-    "en/schichtzulagen-rechner.html": "Shift Allowance Calculator: Calculate Allowances | Shift Lion",
+    "en/schichtzulagen-rechner.html": "Shift Premium Calculator – Custom Rates | Shift Lion",
     "en/schichtplaner.html": "Personal Shift Calendar App for Shift Workers | Shift Lion",
     "en/dienstplan-app.html": "Duty Roster App: Transfer Your Employer Schedule | Shift Lion",
 }
@@ -89,7 +89,7 @@ SEO_DESCRIPTIONS = {
     "en/hourly-wage-calculator.html": "Convert a monthly or annual salary into a comparable hourly wage for free.",
     "en/compare-shifts.html": "Compare two shift rotations and find shared days off directly in the monthly calendar.",
     "en/schichtplaner-online.html": "Create a free online shift schedule: enter your rotation and generate monthly and yearly plans as a PDF.",
-    "en/schichtzulagen-rechner.html": "Calculate night, late, Sunday and public holiday premiums from your hourly wage, hours and own rates.",
+    "en/schichtzulagen-rechner.html": "Estimate gross pay with night, late, Sunday and public holiday premiums using your own hours and rates. Not a take-home pay calculator.",
     "en/schichtplaner.html": "Create a personal shift calendar for rotating schedules, days off, appointments and shared time in the Shift Lion Android app.",
     "en/dienstplan-app.html": "Transfer the duty roster created by your employer into a personal calendar and add leave, appointments and days off.",
 }
@@ -247,12 +247,12 @@ TOOL_GUIDES.update({
         "related": [("Calculate workdays", "/en/workdays-calculator.html"), ("Compare rotations", "/en/compare-shifts.html")],
     },
     "en/schichtzulagen-rechner.html": {
-        "what": "The calculator combines base pay with editable night, late, Sunday, holiday and additional allowances.",
-        "example": "40 night hours at €20 and a 25% night rate add a €200 night allowance to base pay.",
-        "formula": "Total hours × hourly wage = base pay. For each allowance: eligible hours × hourly wage × percentage.",
+        "what": "The calculator combines base pay with editable night, late, Sunday, public holiday and additional premiums. Depending on the country or employer, these payments may also be called shift differentials or allowances.",
+        "example": "40 night hours at €20 and a 25% night rate add a €200 night premium to base pay.",
+        "formula": "Total hours × hourly wage = base pay. For each premium: eligible hours × hourly wage × percentage.",
         "limits": "This is a gross estimate. Tax exemptions, social contributions, collective agreements and overlap rules are not assessed legally.",
-        "faqs": [("Can I use my own allowance rates?", "Yes. Every percentage and the optional fixed allowance can be adjusted."), ("Are allowances treated as tax-free?", "No. The calculator shows gross values and does not make a tax classification."), ("Can allowance hours overlap?", "The calculation permits it, but whether rates may be combined depends on your applicable rules.")],
-        "related": [("Calculate night allowance", "/en/night-allowance-calculator.html"), ("Calculate a public holiday premium", "/en/holiday-allowance-calculator.html")],
+        "faqs": [("Can I use my own premium rates?", "Yes. Every percentage and the optional fixed payment can be adjusted."), ("Are premiums treated as tax-free?", "No. The calculator shows gross values and does not make a tax classification."), ("Can premium hours overlap?", "The calculation permits it, but whether rates may be combined depends on your applicable rules.")],
+        "related": [("Calculate a night premium", "/en/night-allowance-calculator.html"), ("Calculate a public holiday premium", "/en/holiday-allowance-calculator.html")],
     },
 })
 
@@ -274,7 +274,7 @@ TOOL_ARTICLE_LINKS = {
     "en/workdays-calculator.html": ("Workdays and shift rotations", "/en/calculate-workdays-shift-rotation.html"),
     "en/compare-shifts.html": ("Plan shared days off", "/en/find-shared-days-off-shift-plan.html"),
     "en/schichtplaner-online.html": ("Create an online shift plan", "/en/create-shift-plan-online.html"),
-    "en/schichtzulagen-rechner.html": ("Shift allowances explained", "/en/calculate-shift-allowances.html"),
+    "en/schichtzulagen-rechner.html": ("Shift premiums explained", "/en/calculate-shift-allowances.html"),
 }
 
 TOOL_APP_BENEFITS = {
@@ -1059,7 +1059,7 @@ def localize_english_allowance_calculator(text, rel):
         ("Nachtzuschlag", "Night premium"), ("Sonntagszuschlag", "Sunday premium"),
         ("Feiertagszuschlag", "Public-holiday premium"), ("Eigene Sätze", "Custom rates"),
         ("Direkt im Browser", "Runs in your browser"), ("Eigene Zuschlagssätze", "Your own premium rates"),
-        ("Unverbindliche Brutto-Schätzung", "Non-binding gross estimate"),
+        ("Unverbindliche Brutto-Schätzung", "Gross estimate — not take-home pay"),
         ("Schichtzulagen online berechnen", "Estimate shift premiums online"),
         ("Gib deinen Stundenlohn, deine Gesamtarbeitszeit und die Stunden mit Zuschlägen ein. Die Prozentsätze kannst du an deinen Arbeits- oder Tarifvertrag anpassen.", "Enter your hourly pay, total hours and premium-eligible hours. Use the percentages from the agreement or policy that applies to you."),
         ("Stundenlohn", "Hourly pay"), ("Gesamte Arbeitsstunden", "Total hours worked"),
@@ -1120,6 +1120,9 @@ def localize_english_allowance_calculator(text, rel):
     text = text.replace("Late shiftzulage in Prozent", "Late-shift premium percentage")
     text = text.replace("Late shiftzulage", "Late-shift premium")
     text = text.replace("Night premium in Prozent", "Night premium percentage")
+    text = text.replace("Sunday premium in Prozent", "Sunday premium percentage")
+    text = text.replace("Public-holiday premium in Prozent", "Public-holiday premium percentage")
+    text = text.replace("Other premium in Prozent", "Other premium percentage")
     text = text.replace("40 Night hours × 20 € × 25 % = 200 € Night premium.", "40 night hours × €20 × 25% = €200 night premium.")
     text = text.replace("Does this calculate take-home pay?", "Does the calculator estimate take-home pay?")
     text = text.replace('>Rechner</a>', '>Calculator</a>')
