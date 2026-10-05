@@ -52,7 +52,7 @@ SEO_TITLES = {
     "stundenlohn-rechner.html": "Stundenlohn-Rechner: Gehalt umrechnen | Shift Lion",
     "schichten-vergleichen.html": "Schichten vergleichen & gemeinsame freie Tage finden | Shift Lion",
     "schichtplaner-online.html": "Schichtplaner online: Monats- & Jahresplan erstellen | Shift Lion",
-    "schichtzulagen-rechner.html": "Schichtzulagen Rechner 2026 | Kostenlos online | Shift Lion",
+    "schichtzulagen-rechner.html": "Schichtzulagen Rechner online 2026 | Shift Lion",
     "schichtplaner.html": "Schichtplaner-App für den persönlichen Schichtkalender | Shift Lion",
     "dienstplan-app.html": "Dienstplan-App: Arbeitgeberplan persönlich übertragen | Shift Lion",
     "en/working-time-calculator.html": "Working Time Calculator with Breaks & Overtime | Shift Lion",
