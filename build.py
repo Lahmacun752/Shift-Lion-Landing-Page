@@ -864,12 +864,19 @@ def add_structured_data(text, rel):
         graph.append({"@type": "BreadcrumbList", "itemListElement": items})
 
     questions = []
-    faq_pattern = re.compile(
-        r"<details[^>]*>\s*<summary[^>]*>(.*?)</summary>\s*<p[^>]*>(.*?)</p>\s*</details>",
-        re.I | re.S,
-    )
-    for question, answer in faq_pattern.findall(text):
-        question_text, answer_text = plain_text(question), plain_text(answer)
+    # Inspect each details block separately. Matching from an unrelated summary
+    # to the first later summary followed by a paragraph can otherwise turn a
+    # whole page section into a single malformed FAQ question.
+    details_pattern = re.compile(r"<details\b[^>]*>(.*?)</details>", re.I | re.S)
+    summary_pattern = re.compile(r"<summary\b[^>]*>(.*?)</summary>", re.I | re.S)
+    paragraph_pattern = re.compile(r"<p\b[^>]*>(.*?)</p>", re.I | re.S)
+    for details_content in details_pattern.findall(text):
+        summary_match = summary_pattern.search(details_content)
+        answer_match = paragraph_pattern.search(details_content)
+        if not summary_match or not answer_match:
+            continue
+        question_text = plain_text(summary_match.group(1))
+        answer_text = plain_text(answer_match.group(1))
         if question_text and answer_text:
             questions.append({
                 "@type": "Question",
