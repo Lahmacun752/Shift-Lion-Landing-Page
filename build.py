@@ -78,7 +78,7 @@ SEO_DESCRIPTIONS = {
     "schichten-vergleichen.html": "Vergleiche zwei Schichtrhythmen und finde gemeinsame freie Tage direkt im Monatskalender.",
     "schichtplaner-online.html": "Schichtplan kostenlos online erstellen: Rhythmus eingeben, Monats- und Jahresplan anzeigen, als PDF speichern oder direkt ausdrucken.",
     "schichtzulagen-rechner.html": "Schichtzulagen kostenlos online berechnen: Nacht-, Spät-, Sonntags- und Feiertagszuschlag mit eigenen Sätzen. Unverbindliches Brutto-Ergebnis.",
-    "schichtplaner.html": "Persönlicher Schichtkalender für Android: Plane eigene Schichtrhythmen, freie Tage, Termine und gemeinsame Zeit in der Shift-Lion-App.",
+    "schichtplaner.html": "Kostenlose Schichtplaner-App für Android: persönliche Schichten offline und ohne Pflichtkonto planen, Rhythmen vergleichen und Lohnübersicht nutzen.",
     "dienstplan-app.html": "Übertrage den fertigen Dienstplan deines Arbeitgebers in deinen persönlichen Kalender und ergänze Urlaub, Termine und freie Tage.",
     "en/index.html": "Shift Lion helps shift workers plan rotations, compare schedules and find shared days off with family and friends.",
     "en/working-time-calculator.html": "Calculate working time with breaks: enter start, end and break minutes to see gross time, net hours and overtime, including overnight shifts.",

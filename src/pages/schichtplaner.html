@@ -8,7 +8,7 @@
 
   <meta
     name="description"
-    content="Persönliche Schichtplaner-App für Android: Plane Früh-, Spät- und Nachtschichten, freie Tage und Termine und werte geplante Arbeitszeiten aus."
+    content="Kostenlose Schichtplaner-App für Android: persönliche Schichten offline und ohne Pflichtkonto planen, Rhythmen vergleichen und Lohnübersicht nutzen."
   />
 
   <meta
@@ -225,6 +225,30 @@
       font-size: 13px;
       color: #64748b;
     }
+    .fit-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 16px;
+      margin-top: 20px;
+    }
+    .fit-card {
+      padding: 20px;
+      border: 1px solid #e2e8f0;
+      border-radius: 16px;
+      background: #f8fafc;
+    }
+    .fit-card ul { margin-bottom: 0; }
+    .fit-card.not-for { background: #fffaf0; border-color: #ead28c; }
+    .comparison-scroll { overflow-x: auto; margin-top: 20px; }
+    .planner-comparison { width: 100%; min-width: 760px; border-collapse: collapse; }
+    .planner-comparison th,
+    .planner-comparison td { padding: 14px; border: 1px solid #e2e8f0; text-align: left; vertical-align: top; }
+    .planner-comparison th { background: #0f172a; color: #fff; }
+    .planner-comparison td:first-child { font-weight: 850; background: #f8fafc; }
+    .planner-comparison caption { text-align: left; margin-bottom: 10px; color: #475569; line-height: 1.6; }
+    @media (max-width: 720px) {
+      .fit-grid { grid-template-columns: 1fr; }
+    }
     /* Shift Lion website design system */
     body { background:#f4f6f8; }
     .app { max-width:none; box-shadow:none; background:#f4f6f8; }
@@ -303,9 +327,11 @@
       <h1>Schichtplaner App für Früh-, Spät- und Nachtschicht</h1>
 
       <p class="lead">
-        Übertrage deinen persönlichen Dienstplan in einen übersichtlichen
-        Schichtkalender, verwalte freie Tage, Urlaub und Termine und werte die
-        aus deinen Schichten geplanten Arbeitszeiten aus.
+        Shift Lion ist eine kostenlose Android-Schichtplaner-App für die
+        persönliche Nutzung. Sie funktioniert offline und ohne Pflichtkonto.
+        Plane eigene Rhythmen, finde gemeinsame freie Tage und behalte deine
+        geplanten Arbeitszeiten sowie die Lohnübersicht im Blick. Die App
+        erstellt keine betrieblichen Dienstpläne für Arbeitgeber.
       </p>
 
       <a
@@ -320,9 +346,9 @@
     </section>
 
     <div class="trust-strip" aria-label="Vorteile von Shift Lion">
+      <div>✓ Kostenlos für Android</div>
       <div>✓ Offline nutzbar</div>
       <div>✓ Ohne Pflichtkonto</div>
-      <div>✓ Für deinen Schichtrhythmus</div>
     </div>
 
     <section class="section">
@@ -481,64 +507,60 @@
         </div>
       </div>
 
-      <div class="panel">
-        <h2>Für welche Schichtsysteme eignet sich Shift Lion?</h2>
-
+      <div class="panel" id="geeignet">
+        <h2>Geeignet für – und nicht geeignet für</h2>
         <p>
-          Shift Lion eignet sich für verschiedene Modelle der Schichtarbeit.
-          Dazu gehören klassische Systeme mit Frühschicht, Spätschicht und
-          Nachtschicht ebenso wie individuelle oder regelmäßig rotierende
-          Schichtrhythmen.
+          Shift Lion ist bewusst ein persönlicher Schichtplaner. Diese klare
+          Abgrenzung hilft dir zu entscheiden, ob die App zu deinem Zweck passt.
         </p>
-
-        <ul>
-          <li>Frühschicht</li>
-          <li>Spätschicht</li>
-          <li>Nachtschicht</li>
-          <li>Wechselschicht</li>
-          <li>eigene Schichtfolgen</li>
-          <li>individuelle Arbeitszeiten</li>
-          <li>mehrere Schichtgruppen</li>
-        </ul>
+        <div class="fit-grid">
+          <section class="fit-card" aria-labelledby="suitableTitle">
+            <h3 id="suitableTitle">Shift Lion eignet sich für</h3>
+            <ul>
+              <li>einzelne Schichtarbeiter auf Android</li>
+              <li>Früh-, Spät-, Nacht- und Wechselschichten</li>
+              <li>eigene und frei definierbare Schichtrhythmen</li>
+              <li>Urlaub, Termine und persönliche Abweichungen</li>
+              <li>den Vergleich mehrerer Schichtgruppen</li>
+              <li>gemeinsame freie Tage mit Partnern oder Freunden</li>
+              <li>eine persönliche Arbeitszeit- und Lohnübersicht</li>
+            </ul>
+          </section>
+          <section class="fit-card not-for" aria-labelledby="notSuitableTitle">
+            <h3 id="notSuitableTitle">Shift Lion ist nicht gedacht für</h3>
+            <ul>
+              <li>betriebliche Personaleinsatzplanung</li>
+              <li>automatische Dienstverteilung an Belegschaften</li>
+              <li>Freigabeprozesse zwischen Arbeitgebern und Beschäftigten</li>
+              <li>Live-Zeiterfassung zum Ein- und Ausstempeln</li>
+              <li>iPhone oder iPad, solange keine iOS-Version verfügbar ist</li>
+            </ul>
+          </section>
+        </div>
       </div>
 
-      <div class="panel">
-        <h2>Für wen eignet sich die Schichtplaner App?</h2>
-
+      <div class="panel" id="vergleich">
+        <h2>App, Browserplaner oder betriebliche Dienstplansoftware?</h2>
         <p>
-          Shift Lion richtet sich an Menschen, die selbst im Schichtdienst arbeiten
-          und ihren persönlichen Dienstplan übersichtlich organisieren möchten.
+          Die drei Lösungen erfüllen unterschiedliche Aufgaben. Der Vergleich
+          bezieht sich auf den Einsatzzweck und nicht auf einzelne Anbieter.
         </p>
-
-        <p>
-          Dazu gehören zum Beispiel Beschäftigte in:
-        </p>
-
-        <ul>
-          <li>Pflege und Krankenhaus</li>
-          <li>Rettungsdienst und Feuerwehr</li>
-          <li>Industrie und Produktion</li>
-          <li>Logistik und Lager</li>
-          <li>Polizei und Sicherheitsdienst</li>
-          <li>weiteren Berufen mit wechselnden Arbeitszeiten</li>
-        </ul>
-      </div>
-
-      <div class="panel">
-        <h2>Schichtplaner statt Unternehmens-Dienstplan-Software</h2>
-
-        <p>
-          Shift Lion ist keine komplexe Personalplanungssoftware für Arbeitgeber.
-          Der Schwerpunkt liegt auf dem einzelnen Schichtarbeiter und seinem
-          persönlichen Alltag.
-        </p>
-
-        <p>
-          Wenn dein Arbeitgeber deinen Dienstplan bereits erstellt hat,
-          kannst du deine eigenen Schichten in Shift Lion organisieren und
-          dadurch freie Tage, Termine, Statistiken und weitere Informationen
-          übersichtlicher verwalten.
-        </p>
+        <div class="comparison-scroll" tabindex="0" aria-label="Vergleich der Planungsarten, horizontal scrollbar">
+          <table class="planner-comparison">
+            <caption>Welche Planungsart passt zu welchem Zweck?</caption>
+            <thead><tr><th scope="col">Merkmal</th><th scope="col">Shift-Lion-App</th><th scope="col">Online-Schichtplaner</th><th scope="col">Betriebliche Dienstplansoftware</th></tr></thead>
+            <tbody>
+              <tr><td>Hauptzweck</td><td>Persönlichen Schichtalltag dauerhaft organisieren</td><td>Einen Grundrhythmus schnell im Browser darstellen</td><td>Personal und Dienste eines Betriebs verwalten</td></tr>
+              <tr><td>Nutzung</td><td>Android-App</td><td>Browser auf Smartphone oder Computer</td><td>Je nach Anbieter Web, App oder Unternehmenssystem</td></tr>
+              <tr><td>Pflichtkonto</td><td>Nein</td><td>Nein</td><td>Je nach Anbieter und Betrieb</td></tr>
+              <tr><td>Offline nutzbar</td><td>Ja, persönliche Planung lokal</td><td>Nein, Website erforderlich</td><td>Je nach Anbieter</td></tr>
+              <tr><td>Eigene Schichtrhythmen</td><td>Ja, dauerhaft mit persönlichen Anpassungen</td><td>Ja, als wiederkehrender Monats- oder Jahresplan</td><td>Je nach betrieblichem System</td></tr>
+              <tr><td>Gemeinsame freie Tage</td><td>Ja, durch den Vergleich von Schichtgruppen</td><td>Über den separaten kostenlosen Schichtvergleich</td><td>Nicht der persönliche Schwerpunkt</td></tr>
+              <tr><td>Lohnübersicht</td><td>Persönliche Orientierung anhand der Schichten</td><td>Nicht Bestandteil des Online-Planers</td><td>Je nach Lohn- oder Abrechnungssystem</td></tr>
+              <tr><td>Mitarbeiter einteilen</td><td>Nein</td><td>Nein</td><td>Ja, dafür vorgesehen</td></tr>
+            </tbody>
+          </table>
+        </div>
       </div>
 
       <div class="panel">
