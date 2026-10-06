@@ -90,7 +90,7 @@ SEO_DESCRIPTIONS = {
     "en/compare-shifts.html": "Compare two shift rotations and find shared days off directly in the monthly calendar.",
     "en/schichtplaner-online.html": "Create a free online shift schedule: enter your rotation and generate monthly and yearly plans as a PDF.",
     "en/schichtzulagen-rechner.html": "Estimate gross pay with night, late, Sunday and public holiday premiums using your own hours and rates. Not a take-home pay calculator.",
-    "en/schichtplaner.html": "Create a personal shift calendar for rotating schedules, days off, appointments and shared time in the Shift Lion Android app.",
+    "en/schichtplaner.html": "Install the Shift Lion Android shift planner for free: plan personal rotations offline without a mandatory account, compare schedules and review estimated pay.",
     "en/dienstplan-app.html": "Transfer the duty roster created by your employer into a personal calendar and add leave, appointments and days off.",
 }
 
