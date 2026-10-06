@@ -555,18 +555,17 @@
     <section class="hero">
 
       <div class="topbar">
-
-        <div class="language-switch">
-          <a href="/">DE</a>
-          <a href="/en/" class="active">EN</a>
-        </div>
-
         <div class="brand">
           <img
             src="../Shift-Lion-Logo-groß.png"
             alt="Shift Lion Logo"
             class="brand-logo"
           />
+        </div>
+
+        <div class="language-switch" aria-label="Choose language">
+          <a href="/" lang="de">DE</a>
+          <a href="/en/" class="active" lang="en" aria-current="page">EN</a>
         </div>
 
       </div>
@@ -609,41 +608,6 @@
       <a class="path-card" href="/en/compare-shifts.html"><span class="path-icon" aria-hidden="true">👥</span><h2>Find shared days off</h2><p>Compare two shift rotations and instantly see when you are both off.</p><strong>Compare shifts →</strong></a>
       <a class="path-card" href="/en/schichtzulagen-rechner.html"><span class="path-icon" aria-hidden="true">🧮</span><h2>Estimate shift premiums</h2><p>Compare base pay with night, late, Sunday and public-holiday premiums using your own rates.</p><strong>Open the shift premium calculator →</strong></a>
       <a class="path-card" href="https://play.google.com/store/apps/details?id=com.masterinpocket.shiftmaestro" target="_blank" rel="noopener"><span class="path-icon" aria-hidden="true">📱</span><h2>Download the app</h2><p>Keep shifts, appointments and days off in your personal calendar wherever you go.</p><strong>Download Shift Lion →</strong></a>
-    </section>
-
-    <section class="preview-card">
-
-      <div class="phone-top">
-        <div class="speaker"></div>
-      </div>
-
-      <div class="preview-body">
-
-        <div class="preview-head">
-          <div>
-            <div class="tiny">Demo result</div>
-            <h2 id="phoneMonth">May 2026</h2>
-          </div>
-
-          <div class="count">
-            <strong id="phoneCount">0</strong>
-            <span>shared days off</span>
-          </div>
-        </div>
-
-        <div class="weekdays">
-          <div>Mon</div>
-          <div>Tue</div>
-          <div>Wed</div>
-          <div>Thu</div>
-          <div>Fri</div>
-          <div>Sat</div>
-          <div>Sun</div>
-        </div>
-
-        <div class="calendar" id="phoneCalendar"></div>
-
-      </div>
     </section>
 
     <section class="section" id="features">
@@ -801,50 +765,17 @@
 
     </section>
 
-    <section class="section">
-
-      <div class="panel">
-
-        <h2 class="section-title">
-          Built for real shift work
-        </h2>
-
-        <p class="section-copy">
-          Shift work affects more than your job. It affects your family, your
-          free time, your sleep and your planning. Shift Lion helps you keep
-          everything in one clear place.
-        </p>
-
-        <div class="feature-grid">
-
-          <div class="feature-card">
-            <div class="feature-icon">🌙</div>
-            <h3>For night shifts</h3>
-            <p>
-              Keep track of night shifts, recovery days and changing schedules.
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">🌴</div>
-            <h3>Vacation & days off</h3>
-            <p>
-              Plan vacation, free days and appointments around your shift routine.
-            </p>
-          </div>
-
-          <div class="feature-card">
-            <div class="feature-icon">🔒</div>
-            <h3>Private by design</h3>
-            <p>
-              No account, no ads and no cloud requirement. Your data stays local.
-            </p>
-          </div>
-
+    <section class="preview-card" aria-labelledby="calendar-result-title">
+      <div class="phone-top"><div class="speaker"></div></div>
+      <div class="preview-body">
+        <div class="preview-head">
+          <div><div class="tiny">Calendar result</div><h2 id="phoneMonth">May 2026</h2></div>
+          <div class="count"><strong id="phoneCount">0</strong><span>shared days off</span></div>
         </div>
-
+        <h2 id="calendar-result-title" class="section-title" style="font-size:clamp(24px,3vw,36px);margin-bottom:18px;">Your shared days off at a glance</h2>
+        <div class="weekdays"><div>Mon</div><div>Tue</div><div>Wed</div><div>Thu</div><div>Fri</div><div>Sat</div><div>Sun</div></div>
+        <div class="calendar" id="phoneCalendar"></div>
       </div>
-
     </section>
 
     <section class="section">
@@ -874,18 +805,27 @@
 
     <section class="section" id="privacy">
       <div class="panel">
+        <div class="eyebrow" style="color:#a87500">Your data. Your control.</div>
         <h2 class="section-title">Private planning, without unnecessary steps.</h2>
-        <p>Your personal shift plan can be used locally without a mandatory account.</p>
+        <p class="section-copy">Shift Lion is made for people who want to organize shift work simply, without creating a personal account first.</p>
+        <div class="trust-grid">
+          <div class="trust-card"><strong>Works offline</strong><p>Your essential planning features remain available without a permanent internet connection.</p></div>
+          <div class="trust-card"><strong>No account required</strong><p>Start planning straight away. The app does not require a personal user account.</p></div>
+          <div class="trust-card"><strong>Stored locally</strong><p>In the current app version, shifts, appointments and settings are stored locally on your device.</p></div>
+        </div>
       </div>
     </section>
 
     <section class="section" id="faq">
       <div class="panel">
+        <div class="eyebrow" style="color:#a87500">Frequently asked questions</div>
         <h2 class="section-title">The essentials about Shift Lion</h2>
         <div class="faq-list">
-          <details><summary>Can I compare different rotations?</summary><p>Yes. Compare shift groups and identify shared days off.</p></details>
-          <details><summary>Does Shift Lion work offline?</summary><p>Yes. Core personal planning works locally.</p></details>
-          <details><summary>Is Shift Lion an employer scheduling system?</summary><p>No. It is a personal planner for individual shift workers.</p></details>
+          <details><summary>Which shift patterns does Shift Lion support?</summary><p>Early, late, night and freely defined rotating shifts. You can represent different schedules with multiple shift groups.</p></details>
+          <details><summary>Can I find shared days off?</summary><p>Yes. Compare two rotations and view shared days off as a list and in a monthly calendar.</p></details>
+          <details><summary>Do I need a user account?</summary><p>No. You can use the current app version without creating a personal account.</p></details>
+          <details><summary>Where is my data stored?</summary><p>In the current app version, your shifts, appointments, working times and settings are stored locally on your device.</p></details>
+          <details><summary>Can I export my shift plan?</summary><p>Yes. Shift Lion supports exporting your shift plan, including PDF and Excel files.</p></details>
         </div>
       </div>
     </section>
@@ -913,6 +853,7 @@
     </section>
 
     <section class="section"><div class="panel"><h2 class="section-title">Transparent calculations and clear limits</h2><p class="section-copy">See the formulas, assumptions, official sources and limitations behind the Shift Lion calculators.</p><div class="nav"><a href="/en/methodology.html">How the tools calculate</a><a href="/en/privacy.html">Privacy</a><a href="/kontakt.html">Contact</a></div></div></section>
+
   </main>
 
   <script>
@@ -1182,6 +1123,6 @@
     calculate();
   </script>
 
-  <script src="en-site.js?v=7"></script>
+  <script src="en-site.js?v=9"></script>
 </body>
 </html>

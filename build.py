@@ -336,7 +336,7 @@ def add_seo_metadata(text, rel):
         text = re.sub(r'<link\s+rel=["\']alternate["\'][^>]*hreflang=[^>]*>', '', text, flags=re.I)
         language = "en" if key.startswith("en/") else "de"
         other_language = "de" if language == "en" else "en"
-        other_url = CONFIG["site_url"].rstrip("/") + "/" + pair
+        other_url = CONFIG["site_url"].rstrip("/") + public_path(Path(pair))
         tags.append(f'<link rel="alternate" hreflang="{language}" href="{html.escape(url, quote=True)}">')
         tags.append(f'<link rel="alternate" hreflang="{other_language}" href="{html.escape(other_url, quote=True)}">')
     if tags:

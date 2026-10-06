@@ -9,6 +9,11 @@
     ],
     "redirects": [
       {
+        "source": "/en/index.html",
+        "destination": "/en/",
+        "type": 301
+      },
+      {
         "source": "/en/fruehschicht-tipps-englisch.html",
         "destination": "/en/fruehschicht-tipps.html",
         "type": 301
