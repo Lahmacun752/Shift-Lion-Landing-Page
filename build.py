@@ -222,6 +222,96 @@ for english_name, values in EN_TOOL_GUIDES.items():
     TOOL_GUIDES[f"en/{english_name}"] = dict(zip(("what", "example", "formula", "limits", "faqs", "related"), values))
 
 TOOL_GUIDES.update({
+    "monats-schichtlohn-rechner.html": {
+        "what": "Der Rechner fasst Früh-, Spät-, Nacht-, Sonn- und Feiertagsstunden zusammen und schätzt daraus Grundlohn, einzelne Zuschläge und die Bruttosumme des Monats.",
+        "example": "Bei 160 Stunden zu 20 € entstehen 3.200 € Grundlohn. 40 Nachtstunden mit 25 % Zuschlag erhöhen die Schätzung um 200 €; weitere Zuschläge werden getrennt addiert.",
+        "formula": "Alle Stunden × Stundenlohn = Grundlohn. Für jede Zuschlagsart gilt: zuschlagsfähige Stunden × Stundenlohn × Prozentsatz. Grundlohn plus alle Zuschläge ergibt die geschätzte Bruttosumme.",
+        "limits": "Der Rechner prüft weder Tarifverträge noch Steuerfreiheit, Sozialabgaben oder Regeln zur Kombination überlappender Zuschläge. Verwende die tatsächlich für dich vereinbarten Sätze.",
+        "faqs": [("Kann ich eigene Zuschlagssätze eingeben?", "Ja. Die Prozentsätze für Spät-, Nacht-, Sonn- und Feiertagsarbeit sind frei anpassbar."), ("Ist das Ergebnis mein Nettolohn?", "Nein. Angezeigt wird eine unverbindliche Brutto-Schätzung vor Steuern und Sozialabgaben."), ("Dürfen Stunden mehreren Zuschlagsarten zugeordnet werden?", "Rechnerisch ja. Ob Zuschläge kombiniert werden dürfen, hängt von deinem Vertrag oder Tarifvertrag ab."), ("Was gehört nicht in die Stundenfelder?", "Unbezahlte Pausen sollten nicht als vergütete Arbeitszeit eingetragen werden.")],
+        "related": [("Alle Schichtzulagen berechnen", "/schichtzulagen-rechner.html"), ("Nachtzuschlag einzeln prüfen", "/nachtzuschlag-rechner.html"), ("Sonntagszuschlag berechnen", "/sonntagszuschlag-rechner.html")],
+    },
+    "pausenrechner.html": {
+        "what": "Der Rechner ordnet deine Arbeitszeit den allgemeinen Pausenstufen des deutschen Arbeitszeitgesetzes zu und zeigt zusätzlich die Anwesenheitszeit einschließlich Mindestpause.",
+        "example": "Bei 8 Stunden Arbeitszeit beträgt die allgemeine Mindestpause 30 Minuten. Damit ergibt sich eine Anwesenheitszeit von 8 Stunden und 30 Minuten.",
+        "formula": "Bis einschließlich 6 Stunden: keine gesetzliche Mindestpause. Über 6 bis einschließlich 9 Stunden: 30 Minuten. Über 9 Stunden: 45 Minuten.",
+        "limits": "Für Jugendliche, bestimmte Branchen, Tarifverträge oder betriebliche Regelungen können andere Vorgaben gelten. Der Rechner ersetzt keine Prüfung deines konkreten Arbeitsverhältnisses.",
+        "faqs": [("Zählt die Pause zur Arbeitszeit?", "Eine unbezahlte Ruhepause zählt üblicherweise nicht zur Arbeitszeit und verlängert deshalb die Anwesenheit."), ("Darf die Pause aufgeteilt werden?", "Nach dem allgemeinen Arbeitszeitgesetz können Ruhepausen in Abschnitte von jeweils mindestens 15 Minuten aufgeteilt werden."), ("Brauche ich bei genau sechs Stunden eine Pause?", "Nach der allgemeinen Stufenregel entsteht die Mindestpause erst bei mehr als sechs Stunden Arbeitszeit."), ("Gilt der Rechner für Minderjährige?", "Nein. Für Jugendliche gelten besondere Regeln des Jugendarbeitsschutzgesetzes.")],
+        "related": [("Arbeitszeit mit Pause berechnen", "/arbeitszeitrechner.html"), ("Ruhezeit zwischen Schichten prüfen", "/ruhezeit-rechner.html"), ("Ratgeber zu Arbeitszeit und Pausen", "/arbeitszeit-mit-pause-berechnen.html")],
+    },
+    "sonntagszuschlag-rechner.html": {
+        "what": "Der Rechner multipliziert deine Sonntagsstunden mit dem Stundenlohn und einem frei wählbaren Zuschlagssatz. Grundlohn, Zuschlag und Bruttosumme werden getrennt ausgewiesen.",
+        "example": "8 Sonntagsstunden zu 20 € ergeben 160 € Grundlohn. Bei 50 % Zuschlag kommen 80 € hinzu; die geschätzte Bruttosumme beträgt 240 €.",
+        "formula": "Sonntagsstunden × Stundenlohn = Grundlohn. Grundlohn × Zuschlagssatz = Sonntagszuschlag. Beide Beträge zusammen ergeben die Bruttosumme.",
+        "limits": "Ein Sonntagszuschlag ist nicht automatisch in jeder Höhe gesetzlich garantiert. Anspruch, Satz, Ersatzruhetag und steuerliche Behandlung richten sich nach den geltenden Vereinbarungen und Vorschriften.",
+        "faqs": [("Kann ich meinen eigenen Prozentsatz verwenden?", "Ja. Trage den Satz aus Arbeitsvertrag, Tarifvertrag oder Betriebsvereinbarung ein."), ("Ist der Zuschlag automatisch steuerfrei?", "Nein. Der Rechner nimmt keine steuerliche Prüfung vor und zeigt lediglich Bruttowerte."), ("Wie behandle ich unbezahlte Pausen?", "Trage nur die tatsächlich vergüteten Sonntagsstunden ein."), ("Kann zusätzlich ein Nachtzuschlag gelten?", "Das ist möglich, hängt aber von den für dich geltenden Regeln zur Kombination von Zuschlägen ab.")],
+        "related": [("Alle Schichtzulagen berechnen", "/schichtzulagen-rechner.html"), ("Nachtzuschlag berechnen", "/nachtzuschlag-rechner.html"), ("Monatlichen Schichtlohn schätzen", "/monats-schichtlohn-rechner.html")],
+    },
+    "ruhezeit-rechner.html": {
+        "what": "Der Rechner misst den Abstand zwischen dem Ende einer Schicht und dem Beginn der nächsten und vergleicht ihn mit der allgemeinen Ruhezeit von elf Stunden.",
+        "example": "Endet eine Schicht um 22:00 Uhr und beginnt die nächste um 09:00 Uhr, liegen genau 11 Stunden Ruhezeit dazwischen.",
+        "formula": "Beginn der nächsten Schicht minus Ende der vorherigen Schicht = Ruhezeit. Das Ergebnis wird mit dem allgemeinen Richtwert von elf Stunden verglichen.",
+        "limits": "Das Arbeitszeitgesetz kennt branchenspezifische Ausnahmen und Ausgleichsregelungen. Bereitschaftsdienst, Tarifverträge und individuelle Sonderfälle werden nicht automatisch bewertet.",
+        "faqs": [("Was passiert bei weniger als elf Stunden?", "Der Rechner weist die Differenz aus. Ob eine zulässige Ausnahme vorliegt, musst du anhand der geltenden Regelung prüfen."), ("Funktioniert die Berechnung über Mitternacht?", "Ja. Da vollständige Datums- und Uhrzeitangaben verwendet werden, werden unterschiedliche Kalendertage berücksichtigt."), ("Zählt der Arbeitsweg zur Ruhezeit?", "Der Rechner bewertet nur den eingegebenen zeitlichen Abstand und trifft keine rechtliche Einordnung des Arbeitswegs."), ("Ist elf Stunden immer zwingend?", "Elf Stunden sind die allgemeine Regel; für bestimmte Bereiche bestehen gesetzliche oder tarifliche Abweichungsmöglichkeiten.")],
+        "related": [("Arbeitszeit berechnen", "/arbeitszeitrechner.html"), ("Pausenregel prüfen", "/pausenrechner.html"), ("Schichtplan online erstellen", "/schichtplaner-online.html")],
+    },
+    "urlaubsanspruch-rechner.html": {
+        "what": "Der Rechner überträgt einen Jahresurlaubsanspruch aus einem Referenzmodell auf deine tatsächlichen Arbeitstage pro Woche und berücksichtigt auf Wunsch anteilige Beschäftigungsmonate.",
+        "example": "30 Urlaubstage bei einer 5-Tage-Woche entsprechen bei 3 Arbeitstagen pro Woche rechnerisch 18 Urlaubstagen für ein volles Jahr.",
+        "formula": "Jahresurlaub im Referenzmodell ÷ Referenztage pro Woche × tatsächliche Arbeitstage pro Woche. Für Teiljahre wird das Ergebnis zusätzlich mit den Beschäftigungsmonaten gewichtet.",
+        "limits": "Arbeits- und Tarifverträge, Eintritts- und Austrittsdatum, Wartezeit, Rundungsregeln und bereits genommener Urlaub können das tatsächliche Ergebnis verändern.",
+        "faqs": [("Warum wird nach Arbeitstagen pro Woche umgerechnet?", "Urlaub soll unabhängig vom Arbeitszeitmodell eine vergleichbare Zahl freier Wochen ermöglichen."), ("Wie gebe ich wechselnde Schichten ein?", "Nutze den durchschnittlichen Wert deiner regelmäßigen Arbeitstage pro Woche."), ("Wird ein Teilurlaub automatisch rechtssicher berechnet?", "Nein. Die Monatsangabe ist eine Rechenhilfe und ersetzt keine Prüfung des konkreten Anspruchs."), ("Sind Feiertage Urlaubstage?", "Der Rechner bewertet Feiertage nicht automatisch; maßgeblich sind Dienstplan und geltende Regelungen.")],
+        "related": [("Arbeitstage berechnen", "/arbeitstage-rechner.html"), ("Schichtplan online erstellen", "/schichtplaner-online.html"), ("Methodik der Rechner", "/methodik.html")],
+    },
+    "en/monthly-shift-pay-calculator.html": {
+        "what": "The calculator combines early, late, night, Sunday and public-holiday hours to estimate monthly base pay, separate premiums and gross total.",
+        "example": "At €20 per hour, 160 hours produce €3,200 base pay. Forty night hours with a 25% premium add €200 before any other premiums.",
+        "formula": "Total hours × hourly wage = base pay. For each premium: eligible hours × hourly wage × entered percentage. Base pay plus all premiums gives the estimated gross total.",
+        "limits": "The tool does not verify contracts, collective agreements, tax exemptions, social contributions or whether overlapping premiums may be combined.",
+        "faqs": [("Can I enter my own rates?", "Yes. Every premium percentage can be adjusted to match your applicable agreement."), ("Is the result take-home pay?", "No. It is a non-binding gross estimate before deductions."), ("Can hours belong to more than one premium category?", "The calculation permits it, but your contract or collective agreement determines whether premiums may be combined."), ("Should unpaid breaks be included?", "No. Enter only hours that count as paid working time.")],
+        "related": [("Calculate all shift premiums", "/en/schichtzulagen-rechner.html"), ("Calculate a night premium", "/en/night-allowance-calculator.html"), ("Calculate a Sunday premium", "/en/sunday-allowance-calculator.html")],
+    },
+    "en/break-calculator.html": {
+        "what": "The calculator maps entered working time to the general break thresholds under the German Working Time Act and shows total attendance including the minimum break.",
+        "example": "For 8 hours of working time, the general minimum break is 30 minutes, resulting in 8 hours 30 minutes of attendance.",
+        "formula": "Up to and including 6 hours: no statutory minimum break. More than 6 up to 9 hours: 30 minutes. More than 9 hours: 45 minutes.",
+        "limits": "Special rules can apply to young workers, particular sectors, collective agreements and company policies. This tool does not assess an individual employment arrangement.",
+        "faqs": [("Does a break count as working time?", "An unpaid rest break generally does not count as working time and therefore extends attendance."), ("Can the break be split?", "Under the general German rule, breaks may be split into periods of at least 15 minutes each."), ("Is a break required at exactly six hours?", "Under the general threshold, the statutory minimum begins only when working time exceeds six hours."), ("Does this apply to minors?", "No. Young workers are subject to separate German youth-employment rules.")],
+        "related": [("Calculate working time and breaks", "/en/working-time-calculator.html"), ("Check rest time between shifts", "/en/rest-period-calculator.html"), ("Read the working-time guide", "/en/calculate-working-time-with-break.html")],
+    },
+    "en/sunday-allowance-calculator.html": {
+        "what": "The calculator multiplies paid Sunday hours by hourly wage and your own premium rate, showing base pay, Sunday premium and estimated gross total separately.",
+        "example": "Eight Sunday hours at €20 produce €160 base pay. A 50% premium adds €80, resulting in an estimated €240 gross total.",
+        "formula": "Sunday hours × hourly wage = base pay. Base pay × premium rate = Sunday premium. Adding both values gives the estimated gross total.",
+        "limits": "A Sunday premium is not automatically guaranteed at a particular rate. Entitlement, compensatory rest and tax treatment depend on the applicable rules.",
+        "faqs": [("Can I use my own percentage?", "Yes. Enter the rate from your contract, collective agreement or company policy."), ("Is the premium automatically tax-free?", "No. The calculator does not assess tax treatment and displays gross values only."), ("How should unpaid breaks be handled?", "Enter only the Sunday hours that are actually paid."), ("Can a night premium apply as well?", "Possibly, but whether premiums may be combined depends on your applicable agreement.")],
+        "related": [("Calculate all shift premiums", "/en/schichtzulagen-rechner.html"), ("Calculate a night premium", "/en/night-allowance-calculator.html"), ("Estimate monthly shift pay", "/en/monthly-shift-pay-calculator.html")],
+    },
+    "en/leave-entitlement-calculator.html": {
+        "what": "The calculator converts annual leave from a reference workweek to your actual regular workdays per week and can estimate a proportion for full months employed.",
+        "example": "Thirty days of leave in a five-day reference week correspond to 18 days when you regularly work three days per week for a full year.",
+        "formula": "Reference annual leave ÷ reference workdays per week × actual workdays per week. For a partial year, the result is additionally weighted by full months employed.",
+        "limits": "Contracts, collective agreements, statutory waiting periods, start and end dates, rounding and leave already taken can change the actual entitlement.",
+        "faqs": [("Why is leave converted by workdays?", "The conversion aims to preserve a comparable number of weeks away from work across schedules."), ("How do I enter a rotating schedule?", "Use the average number of regular workdays per week across the rotation."), ("Is the partial-year result legally binding?", "No. The month field is a planning estimate and does not assess every statutory exception."), ("Are public holidays deducted as leave?", "The calculator does not make that determination; applicable local rules and the roster must be checked separately.")],
+        "related": [("Calculate workdays", "/en/workdays-calculator.html"), ("Create an online shift plan", "/en/schichtplaner-online.html"), ("Read the methodology", "/en/methodology.html")],
+    },
+})
+
+INDEXING_CONTENT_EXPANSIONS = {
+    "pausenrechner.html",
+    "sonntagszuschlag-rechner.html",
+    "stundenlohn-rechner.html",
+    "ruhezeit-rechner.html",
+    "urlaubsanspruch-rechner.html",
+    "monats-schichtlohn-rechner.html",
+    "nachtzuschlag-rechner.html",
+    "ueberstunden-rechner.html",
+    "en/break-calculator.html",
+    "en/leave-entitlement-calculator.html",
+    "en/monthly-shift-pay-calculator.html",
+    "en/sunday-allowance-calculator.html",
+}
+
+TOOL_GUIDES.update({
     "schichtplaner-online.html": {
         "what": "Der Online-Schichtplaner überträgt einen wiederkehrenden Rhythmus ab deinem Startdatum in einen Monats- oder Jahreskalender.",
         "example": "Ein Rhythmus aus zwei Früh-, zwei Spät-, zwei Nacht- und zwei freien Tagen wird fortlaufend wiederholt und für jeden Kalendertag eingezeichnet.",
@@ -1363,6 +1453,9 @@ def build():
     # page has been written, so generated guides and tools stay consistent too.
     for target in OUT.rglob("*.html"):
         page = target.read_text(encoding="utf-8")
+        relative = target.relative_to(OUT)
+        if relative.as_posix() in INDEXING_CONTENT_EXPANSIONS:
+            page = add_tool_guide(page, relative)
         has_json_ld = re.search(
             r'<script\b[^>]*type=["\']application/ld\+json["\']', page, re.I
         )
@@ -1371,10 +1464,10 @@ def build():
             r'<meta\s+name=["\']robots["\'][^>]*noindex', page, re.I
         )
         if not has_json_ld and has_canonical and not is_noindex:
-            page = add_structured_data(page, target.relative_to(OUT))
-        page = add_social_metadata(page, target.relative_to(OUT))
-        page = integrate_contact_page(page, target.relative_to(OUT))
-        page = add_topic_path(page, target.relative_to(OUT))
+            page = add_structured_data(page, relative)
+        page = add_social_metadata(page, relative)
+        page = integrate_contact_page(page, relative)
+        page = add_topic_path(page, relative)
         page = add_accessibility_foundation(page)
         target.write_text(page, encoding="utf-8")
 
