@@ -294,22 +294,15 @@ TOOL_GUIDES.update({
         "faqs": [("Why is leave converted by workdays?", "The conversion aims to preserve a comparable number of weeks away from work across schedules."), ("How do I enter a rotating schedule?", "Use the average number of regular workdays per week across the rotation."), ("Is the partial-year result legally binding?", "No. The month field is a planning estimate and does not assess every statutory exception."), ("Are public holidays deducted as leave?", "The calculator does not make that determination; applicable local rules and the roster must be checked separately.")],
         "related": [("Calculate workdays", "/en/workdays-calculator.html"), ("Create an online shift plan", "/en/schichtplaner-online.html"), ("Read the methodology", "/en/methodology.html")],
     },
+    "en/rest-period-calculator.html": {
+        "what": "The calculator measures the time between the end of one shift and the start of the next and compares it with Germany's general eleven-hour rest rule.",
+        "example": "If one shift ends at 22:00 and the next begins at 09:00 the following day, the rest period is exactly 11 hours.",
+        "formula": "Start of the next shift minus end of the previous shift = rest period. The result is compared with the general eleven-hour reference.",
+        "limits": "German working-time law includes sector-specific exceptions and compensation rules. On-call duty, collective agreements and individual cases are not assessed automatically.",
+        "faqs": [("What if the result is below eleven hours?", "The calculator shows the shortfall. You still need to check whether a permitted exception applies."), ("Does it work across midnight?", "Yes. Full dates and times are used, so different calendar days are handled correctly."), ("Does commuting count as rest time?", "The tool only measures the entered interval and does not make a legal assessment of commuting time."), ("Is eleven hours always mandatory?", "It is the general German rule, but legislation and collective agreements allow exceptions in certain sectors.")],
+        "related": [("Calculate working time", "/en/working-time-calculator.html"), ("Check minimum breaks", "/en/break-calculator.html"), ("Create an online shift plan", "/en/schichtplaner-online.html")],
+    },
 })
-
-INDEXING_CONTENT_EXPANSIONS = {
-    "pausenrechner.html",
-    "sonntagszuschlag-rechner.html",
-    "stundenlohn-rechner.html",
-    "ruhezeit-rechner.html",
-    "urlaubsanspruch-rechner.html",
-    "monats-schichtlohn-rechner.html",
-    "nachtzuschlag-rechner.html",
-    "ueberstunden-rechner.html",
-    "en/break-calculator.html",
-    "en/leave-entitlement-calculator.html",
-    "en/monthly-shift-pay-calculator.html",
-    "en/sunday-allowance-calculator.html",
-}
 
 TOOL_GUIDES.update({
     "schichtplaner-online.html": {
@@ -1454,7 +1447,7 @@ def build():
     for target in OUT.rglob("*.html"):
         page = target.read_text(encoding="utf-8")
         relative = target.relative_to(OUT)
-        if relative.as_posix() in INDEXING_CONTENT_EXPANSIONS:
+        if relative.as_posix() in TOOL_GUIDES and "<details" not in page.lower():
             page = add_tool_guide(page, relative)
         has_json_ld = re.search(
             r'<script\b[^>]*type=["\']application/ld\+json["\']', page, re.I
