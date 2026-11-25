@@ -39,6 +39,24 @@
         ]
       },
       {
+        "source": "/en/",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=0, must-revalidate"
+          }
+        ]
+      },
+      {
+        "source": "/en/index.html",
+        "headers": [
+          {
+            "key": "Cache-Control",
+            "value": "public, max-age=0, must-revalidate"
+          }
+        ]
+      },
+      {
         "source": "**/*.@(webp|png|jpg|jpeg|gif|svg|woff|woff2)",
         "headers": [
           {
